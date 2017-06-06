@@ -13,4 +13,10 @@
     <string name="title_activity_settings">Settings</string>
     <string name="register">Register</string>
     <string name="enable_master_for_user">Enable Master Mode for Current User</string>
+
+    <string-array name="floor_list">
+        <item>Floor 1</item>
+        <item>Floor 2</item>
+        <item>Floor 3</item>
+    </string-array>
 </resources>

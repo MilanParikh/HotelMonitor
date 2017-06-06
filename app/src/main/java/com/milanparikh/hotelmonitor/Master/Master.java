@@ -1,9 +1,16 @@
 package com.milanparikh.hotelmonitor.Master;
 
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.milanparikh.hotelmonitor.R;
 import com.parse.Parse;
@@ -15,6 +22,10 @@ import com.parse.SubscriptionHandling;
 
 public class Master extends AppCompatActivity {
     ParseQuery query;
+    Spinner spinner;
+    ParseQueryAdapter<ParseObject> adapter;
+    ParseLiveQueryClient parseLiveQueryClient;
+    SubscriptionHandling<ParseObject> subscriptionHandling;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,18 +34,19 @@ public class Master extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.master_toolbar);
         setSupportActionBar(toolbar);
 
-        ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
+        parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
 
-        final ParseQueryAdapter<ParseObject> adapter = new ParseQueryAdapter<ParseObject>(this, new ParseQueryAdapter.QueryFactory<ParseObject>() {
+        adapter = new ParseQueryAdapter<ParseObject>(this, new ParseQueryAdapter.QueryFactory<ParseObject>() {
             @Override
             public ParseQuery<ParseObject> create() {
                 query = new ParseQuery("RoomList");
-                query.orderByDescending("room");
+                query.orderByAscending("room");
+                query.whereContains("room", "R1");
                 return query;
             }
         });
 
-        SubscriptionHandling<ParseObject> subscriptionHandling = parseLiveQueryClient.subscribe(query);
+        subscriptionHandling = parseLiveQueryClient.subscribe(query);
         subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseObject>() {
             @Override
             public void onEvents(ParseQuery<ParseObject> query, SubscriptionHandling.Event event, ParseObject object) {
@@ -47,5 +59,37 @@ public class Master extends AppCompatActivity {
 
         ListView listView = (ListView) findViewById(R.id.master_room_list);
         listView.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.master_menu, menu);
+        MenuItem menuSpinner = menu.findItem(R.id.floor_spinner);
+        spinner = (Spinner) MenuItemCompat.getActionView(menuSpinner);
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.floor_list, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                parseLiveQueryClient.unsubscribe(query);
+                query.whereContains("room","R"+Integer.toString(position+1));
+                adapter.loadObjects();
+                subscriptionHandling = parseLiveQueryClient.subscribe(query);
+                subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseObject>() {
+                    @Override
+                    public void onEvents(ParseQuery<ParseObject> query, SubscriptionHandling.Event event, ParseObject object) {
+                        adapter.loadObjects();
+                    }
+                });
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        return true;
     }
 }
