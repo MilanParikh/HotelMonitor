@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -27,20 +28,27 @@ import com.parse.SubscriptionHandling;
 public class Master extends AppCompatActivity {
     ParseQuery query;
     Spinner spinner;
-    ParseQueryAdapter<ParseObject> adapter;
+    MasterRoomListAdapter adapter;
+    //ParseQueryAdapter<ParseObject> adapter;
     ParseLiveQueryClient parseLiveQueryClient;
     SubscriptionHandling<ParseObject> subscriptionHandling;
+    Bundle mBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            this.mBundle = savedInstanceState;
+        }
+
         setContentView(R.layout.activity_master);
         Toolbar toolbar = (Toolbar) findViewById(R.id.master_toolbar);
         setSupportActionBar(toolbar);
 
         parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
 
-        adapter = new ParseQueryAdapter<ParseObject>(this, new ParseQueryAdapter.QueryFactory<ParseObject>() {
+        adapter = new MasterRoomListAdapter(this, new ParseQueryAdapter.QueryFactory<ParseObject>() {
             @Override
             public ParseQuery<ParseObject> create() {
                 query = new ParseQuery("RoomList");
@@ -58,7 +66,7 @@ public class Master extends AppCompatActivity {
             }
         });
 
-        adapter.setTextKey("room");
+        //adapter.setTextKey("room");
         adapter.setObjectsPerPage(60);
 
         ListView listView = (ListView) findViewById(R.id.master_room_list);
@@ -73,6 +81,9 @@ public class Master extends AppCompatActivity {
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.floor_list, android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
+        if (this.mBundle != null) {
+            spinner.setSelection(mBundle.getInt("spinner_position"));
+        }
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -113,5 +124,10 @@ public class Master extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("spinner_position",spinner.getSelectedItemPosition());
     }
 }
