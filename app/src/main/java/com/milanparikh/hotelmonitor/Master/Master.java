@@ -1,5 +1,6 @@
 package com.milanparikh.hotelmonitor.Master;
 
+import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,12 +13,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.milanparikh.hotelmonitor.MainActivity;
 import com.milanparikh.hotelmonitor.R;
+import com.milanparikh.hotelmonitor.SettingsActivity;
 import com.parse.Parse;
 import com.parse.ParseLiveQueryClient;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.parse.ParseUser;
 import com.parse.SubscriptionHandling;
 
 public class Master extends AppCompatActivity {
@@ -91,5 +95,23 @@ public class Master extends AppCompatActivity {
             }
         });
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_settings:
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+            case R.id.master_setup:
+                Intent masterSetupIntent = new Intent(this, MasterSetup.class);
+                startActivity(masterSetupIntent);
+            case R.id.logout_item:
+                ParseUser.logOut();
+                finish();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
