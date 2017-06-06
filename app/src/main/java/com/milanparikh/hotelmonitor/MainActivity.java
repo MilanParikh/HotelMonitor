@@ -15,10 +15,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.milanparikh.hotelmonitor.Master.Master;
+import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
@@ -58,6 +61,14 @@ public class MainActivity extends AppCompatActivity {
                     public void done(ParseUser user, ParseException e) {
                         if (user != null) {
                             Toast.makeText(MainActivity.this, user.getUsername()+ " successfully logged In", Toast.LENGTH_SHORT).show();
+                            int masterMode = user.getInt("MasterMode");
+                            if (masterMode==1) {
+                                Intent launchMaster = new Intent(getApplicationContext(), Master.class);
+                                startActivity(launchMaster);
+                            }
+                            else {
+                                //launch Client mode
+                            }
                         }
                         else {
                             Toast.makeText(MainActivity.this, "Log in failed: " + e.toString(), Toast.LENGTH_SHORT).show();
@@ -82,11 +93,13 @@ public class MainActivity extends AppCompatActivity {
                 ParseUser user = new ParseUser();
                 user.setUsername(usernameEditText.getText().toString());
                 user.setPassword(passwordEditText.getText().toString());
+                user.put("MasterMode", 0);
 
                 user.signUpInBackground(new SignUpCallback() {
                     @Override
                     public void done(ParseException e) {
                         if (e==null) {
+
                             Toast.makeText(MainActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
                         }
                         else {
@@ -111,6 +124,9 @@ public class MainActivity extends AppCompatActivity {
                 Intent settingsIntent = new Intent(this, SettingsActivity.class);
                 startActivity(settingsIntent);
                 return true;
+            case R.id.master_setup:
+                Intent masterSetupIntent = new Intent(this, MasterSetup.class);
+                startActivity(masterSetupIntent);
 
             default:
                 return super.onOptionsItemSelected(item);

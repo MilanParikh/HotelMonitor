@@ -24,6 +24,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.milanparikh.hotelmonitor.MainActivity" />
         </activity>
+        <activity android:name=".Master.MasterSetup" />
+        <activity android:name=".Master.Master"></activity>
     </application>
 
 </manifest>
