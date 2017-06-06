@@ -29,7 +29,6 @@ public class Master extends AppCompatActivity {
     ParseQuery query;
     Spinner spinner;
     MasterRoomListAdapter adapter;
-    //ParseQueryAdapter<ParseObject> adapter;
     ParseLiveQueryClient parseLiveQueryClient;
     SubscriptionHandling<ParseObject> subscriptionHandling;
     Bundle mBundle;
