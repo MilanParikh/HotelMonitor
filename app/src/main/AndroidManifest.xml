@@ -25,7 +25,8 @@
                 android:value="com.milanparikh.hotelmonitor.MainActivity" />
         </activity>
         <activity android:name=".Master.MasterSetup" />
-        <activity android:name=".Master.Master"></activity>
+        <activity android:name=".Master.Master" />
+        <activity android:name=".Client.Client"></activity>
     </application>
 
 </manifest>

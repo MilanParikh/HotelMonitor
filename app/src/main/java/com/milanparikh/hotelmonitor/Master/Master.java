@@ -129,4 +129,13 @@ public class Master extends AppCompatActivity {
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt("spinner_position",spinner.getSelectedItemPosition());
     }
+
+    @Override
+    public void onBackPressed() {
+        ParseUser user = ParseUser.getCurrentUser();
+        if (user!=null) {
+            user.logOutInBackground();
+        }
+        finish();
+    }
 }

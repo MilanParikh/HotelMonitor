@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.milanparikh.hotelmonitor.Client.Client;
 import com.milanparikh.hotelmonitor.Master.Master;
 import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.parse.LogInCallback;
@@ -22,6 +23,7 @@ import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseSession;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     String appID;
     EditText usernameEditText;
     EditText passwordEditText;
+    public ParseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,18 +59,24 @@ public class MainActivity extends AppCompatActivity {
                         .server(serverURL)
                         .build()
                 );
+                ParseUser cUser = ParseUser.getCurrentUser();
+                if (cUser!=null) {
+                    cUser.logOutInBackground();
+                }
+
                 ParseUser.logInInBackground(usernameEditText.getText().toString(), passwordEditText.getText().toString(), new LogInCallback() {
                     @Override
-                    public void done(ParseUser user, ParseException e) {
-                        if (user != null) {
-                            Toast.makeText(MainActivity.this, user.getUsername()+ " successfully logged In", Toast.LENGTH_SHORT).show();
-                            int masterMode = user.getInt("MasterMode");
+                    public void done(ParseUser pUser, ParseException e) {
+                        if (pUser != null) {
+                            Toast.makeText(MainActivity.this, pUser.getUsername()+ " successfully logged In", Toast.LENGTH_SHORT).show();
+                            int masterMode = pUser.getInt("MasterMode");
                             if (masterMode==1) {
                                 Intent launchMaster = new Intent(getApplicationContext(), Master.class);
                                 startActivity(launchMaster);
                             }
                             else {
-                                //launch Client mode
+                                Intent launchClient = new Intent(getApplicationContext(), Client.class);
+                                startActivity(launchClient);
                             }
                         }
                         else {
@@ -90,7 +99,11 @@ public class MainActivity extends AppCompatActivity {
                         .server(serverURL)
                         .build()
                 );
-                ParseUser user = new ParseUser();
+                ParseUser cUser = ParseUser.getCurrentUser();
+                if (cUser!=null) {
+                    cUser.logOutInBackground();
+                }
+                user = new ParseUser();
                 user.setUsername(usernameEditText.getText().toString());
                 user.setPassword(passwordEditText.getText().toString());
                 user.put("MasterMode", 0);
@@ -99,8 +112,16 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void done(ParseException e) {
                         if (e==null) {
-
                             Toast.makeText(MainActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                            int masterMode = user.getInt("MasterMode");
+                            if (masterMode==1) {
+                                Intent launchMaster = new Intent(getApplicationContext(), Master.class);
+                                startActivity(launchMaster);
+                            }
+                            else {
+                                Intent launchClient = new Intent(getApplicationContext(), Client.class);
+                                startActivity(launchClient);
+                            }
                         }
                         else {
                             Toast.makeText(MainActivity.this, "Registration failed: " + e.toString(), Toast.LENGTH_SHORT).show();
@@ -131,5 +152,11 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onResume() {
+        passwordEditText.setText("");
+        super.onResume();
     }
 }
