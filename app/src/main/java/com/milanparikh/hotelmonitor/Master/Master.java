@@ -64,8 +64,6 @@ public class Master extends AppCompatActivity {
                 adapter.loadObjects();
             }
         });
-
-        //adapter.setTextKey("room");
         adapter.setObjectsPerPage(60);
 
         ListView listView = (ListView) findViewById(R.id.master_room_list);

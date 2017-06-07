@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="master_preference"
-        android:summary="@string/master_mode_summary"
-        android:title="@string/master_mode" />
     <EditTextPreference
-        android:defaultValue="http://10.0.2.2:1337/parse"
+        android:defaultValue="@string/default_server_url"
         android:key="server_preference"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:summary="@string/server_preference_summary"
         android:title="@string/server_preference" />
     <EditTextPreference
-        android:defaultValue="HotelMonitor"
+        android:defaultValue="@string/default_app_id"
         android:key="app_id_preference"
         android:selectAllOnFocus="true"
         android:singleLine="true"
