@@ -1,13 +1,11 @@
 package com.milanparikh.hotelmonitor;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,11 +19,7 @@ import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseSession;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 public class MainActivity extends AppCompatActivity {
@@ -148,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.master_setup:
                 Intent masterSetupIntent = new Intent(this, MasterSetup.class);
                 startActivity(masterSetupIntent);
-
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -3,10 +3,12 @@ package com.milanparikh.hotelmonitor.Client;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.IdRes;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.milanparikh.hotelmonitor.R;
 import com.parse.ParseObject;
@@ -32,6 +34,27 @@ public class ClientRoomListAdapter extends ParseQueryAdapter {
 
         TextView roomNum = (TextView)v.findViewById(R.id.room_num);
         roomNum.setText(object.getString("room"));
+
+        int status = object.getInt("status");
+        TextView roomStatus = (TextView)v.findViewById(R.id.room_status);
+        switch (status) {
+            case 0:
+                roomStatus.setText("Due Out");
+                break;
+            case 1:
+                roomStatus.setText("Stay Over");
+                break;
+            default:
+                roomStatus.setText("Unknown");
+        }
+
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                object.put("clean",1);
+                object.saveInBackground();
+            }
+        });
 
         return v;
     }

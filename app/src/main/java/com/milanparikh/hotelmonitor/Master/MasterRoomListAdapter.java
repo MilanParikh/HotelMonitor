@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.IdRes;
 import android.support.annotation.IntegerRes;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
@@ -35,12 +37,17 @@ public class MasterRoomListAdapter extends ParseQueryAdapter {
         TextView roomNum = (TextView)v.findViewById(R.id.room_num);
         roomNum.setText(object.getString("room"));
 
-        Boolean clean = object.getBoolean("clean");
-        if (clean) {
-            v.setBackgroundColor(Color.GREEN);
-        }
-        else {
-            v.setBackgroundColor(Color.RED);
+        int clean = object.getInt("clean");
+        switch (clean) {
+            case 0:
+                v.setBackgroundColor(getContext().getColor(R.color.roomListRed));
+                break;
+            case 1:
+                v.setBackgroundColor(getContext().getColor(R.color.roomListYellow));
+                break;
+            case 2:
+                v.setBackgroundColor(getContext().getColor(R.color.roomListGreen));
+                break;
         }
 
         RadioGroup statusGroup = (RadioGroup)v.findViewById(R.id.room_status_group);
@@ -69,5 +76,7 @@ public class MasterRoomListAdapter extends ParseQueryAdapter {
 
         return v;
     }
+
+
 
 }

@@ -13,8 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import com.milanparikh.hotelmonitor.Master.MasterRoomListAdapter;
-import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.milanparikh.hotelmonitor.R;
 import com.milanparikh.hotelmonitor.SettingsActivity;
 import com.parse.ParseLiveQueryClient;
@@ -51,7 +49,7 @@ public class Client extends AppCompatActivity {
                 query = new ParseQuery("RoomList");
                 query.orderByAscending("room");
                 query.whereContains("room", "R1");
-                query.whereEqualTo("clean",false);
+                query.whereEqualTo("clean",0);
                 return query;
             }
         });
@@ -115,6 +113,7 @@ public class Client extends AppCompatActivity {
             case R.id.logout_item:
                 ParseUser.logOut();
                 finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

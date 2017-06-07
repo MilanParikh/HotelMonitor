@@ -8,16 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import com.milanparikh.hotelmonitor.MainActivity;
 import com.milanparikh.hotelmonitor.R;
 import com.milanparikh.hotelmonitor.SettingsActivity;
-import com.parse.Parse;
 import com.parse.ParseLiveQueryClient;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -115,9 +112,11 @@ public class Master extends AppCompatActivity {
             case R.id.master_setup:
                 Intent masterSetupIntent = new Intent(this, MasterSetup.class);
                 startActivity(masterSetupIntent);
+                return true;
             case R.id.logout_item:
                 ParseUser.logOut();
                 finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
