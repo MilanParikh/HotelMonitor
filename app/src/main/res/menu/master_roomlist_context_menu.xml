@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/guest_status_group"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/set_due_out"
+            android:title="Set Due Out" />
+        <item
+            android:id="@+id/set_stay_over"
+            android:title="Set Stay Over" />
+    </group>
+    <group
+        android:id="@+id/room_status_group"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/set_dirty"
+            android:title="Set Dirty" />
+        <item
+            android:id="@+id/set_in_progress"
+            android:title="Set In Progress" />
+        <item
+            android:id="@+id/set_clean"
+            android:title="Set Clean" />
+    </group>
+</menu>

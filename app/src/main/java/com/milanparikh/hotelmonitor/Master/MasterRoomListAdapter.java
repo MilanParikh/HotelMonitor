@@ -2,28 +2,34 @@ package com.milanparikh.hotelmonitor.Master;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.provider.MediaStore;
 import android.support.annotation.IdRes;
 import android.support.annotation.IntegerRes;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.milanparikh.hotelmonitor.R;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.parse.SaveCallback;
 
 /**
  * Created by milan on 6/6/2017.
  */
 
-public class MasterRoomListAdapter extends ParseQueryAdapter {
+public class MasterRoomListAdapter<T extends ParseObject> extends ParseQueryAdapter {
 
-    public MasterRoomListAdapter(Context context, QueryFactory<ParseObject> queryFactory) {
+    public MasterRoomListAdapter(Context context, QueryFactory<T> queryFactory) {
         super(context, queryFactory);
+
     }
 
     @Override
@@ -50,14 +56,30 @@ public class MasterRoomListAdapter extends ParseQueryAdapter {
                 break;
         }
 
-        RadioGroup statusGroup = (RadioGroup)v.findViewById(R.id.room_status_group);
-        /*int status = object.getInt("status");
+        TextView guestStatusText = (TextView)v.findViewById(R.id.guest_status_text);
+        int guestStatus = object.getInt("status");
+        switch (guestStatus) {
+            case 0:
+                guestStatusText.setText("Due Out");
+                break;
+            case 1:
+                guestStatusText.setText("Stay Over");
+                break;
+            default:
+                guestStatusText.setText("Status Unknown");
+                break;
+        }
+
+
+        /*RadioGroup statusGroup = (RadioGroup)v.findViewById(R.id.room_status_group);
+
+        int status = object.getInt("status");
         if (status==0) {
             statusGroup.check(R.id.due_out_button);
         }
         else if (status==1) {
             statusGroup.check(R.id.stay_over_button);
-        }*/
+        }
 
         statusGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -72,10 +94,11 @@ public class MasterRoomListAdapter extends ParseQueryAdapter {
                 }
                 object.saveInBackground();
             }
-        });
+        });*/
 
         return v;
     }
+
 
 
 
