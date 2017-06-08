@@ -11,6 +11,10 @@
         android:title="@string/action_settings"
         app:showAsAction="never"/>
     <item
+        android:id="@+id/master_setup"
+        android:title="Master Setup"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/logout_item"
         android:title="Logout"
         app:showAsAction="never"/>

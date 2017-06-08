@@ -54,13 +54,6 @@ public class Master extends AppCompatActivity {
             }
         });
 
-        subscriptionHandling = parseLiveQueryClient.subscribe(query);
-        subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseObject>() {
-            @Override
-            public void onEvents(ParseQuery<ParseObject> query, SubscriptionHandling.Event event, ParseObject object) {
-                adapter.loadObjects();
-            }
-        });
         adapter.setObjectsPerPage(60);
 
         ListView listView = (ListView) findViewById(R.id.master_room_list);

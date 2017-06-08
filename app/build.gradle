@@ -31,5 +31,6 @@ dependencies {
     compile 'com.parse:parseui-login-android:0.0.2'
     compile 'com.parse:parseui-widget-android:0.0.2'
     compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:design:25.3.1'
     testCompile 'junit:junit:4.12'
 }

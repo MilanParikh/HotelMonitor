@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:theme="@style/AppTheme" />
+        android:theme="@style/AppTheme"
+        app:titleTextColor="@android:color/white"/>
 
     <FrameLayout
         android:id="@+id/settings_container"

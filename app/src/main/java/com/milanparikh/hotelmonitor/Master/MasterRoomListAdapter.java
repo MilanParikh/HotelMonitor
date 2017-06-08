@@ -51,13 +51,13 @@ public class MasterRoomListAdapter extends ParseQueryAdapter {
         }
 
         RadioGroup statusGroup = (RadioGroup)v.findViewById(R.id.room_status_group);
-        int status = object.getInt("status");
+        /*int status = object.getInt("status");
         if (status==0) {
             statusGroup.check(R.id.due_out_button);
         }
         else if (status==1) {
             statusGroup.check(R.id.stay_over_button);
-        }
+        }*/
 
         statusGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -65,12 +65,12 @@ public class MasterRoomListAdapter extends ParseQueryAdapter {
                 switch (checkedId) {
                     case R.id.due_out_button:
                         object.put("status", 0);
-                        object.saveInBackground();
                         break;
                     case R.id.stay_over_button:
                         object.put("status",1);
-                        object.saveInBackground();
+                        break;
                 }
+                object.saveInBackground();
             }
         });
 

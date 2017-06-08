@@ -75,7 +75,13 @@ public class MasterSetup extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                currentUser.put("MasterMode", 1);
+                int masterMode = currentUser.getInt("MasterMode");
+                if (masterMode==0) {
+                    currentUser.put("MasterMode", 1);
+                }
+                else {
+                    currentUser.put("MasterMode", 0);
+                }
                 currentUser.saveInBackground();
             }
         });

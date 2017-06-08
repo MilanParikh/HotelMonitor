@@ -139,10 +139,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent settingsIntent = new Intent(this, SettingsActivity.class);
                 startActivity(settingsIntent);
                 return true;
-            case R.id.master_setup:
-                Intent masterSetupIntent = new Intent(this, MasterSetup.class);
-                startActivity(masterSetupIntent);
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

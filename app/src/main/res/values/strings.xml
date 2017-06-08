@@ -14,7 +14,7 @@
     <string name="app_id__preference_summary">This is the App ID that Parse uses to identify this application</string>
     <string name="title_activity_settings">Settings</string>
     <string name="register">Register</string>
-    <string name="enable_master_for_user">Enable Master Mode for Current User</string>
+    <string name="toggle_master_for_user">Toggle Master Mode for Current User</string>
     <string name="stay_over">Stay Over</string>
     <string name="due_out">Due Out</string>
 
@@ -23,4 +23,6 @@
         <item>Floor 2</item>
         <item>Floor 3</item>
     </string-array>
+    <string name="title_activity_client_check_list">Room Checklist</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

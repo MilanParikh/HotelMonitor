@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.milanparikh.hotelmonitor.R;
 import com.milanparikh.hotelmonitor.SettingsActivity;
 import com.parse.ParseLiveQueryClient;
@@ -109,6 +110,10 @@ public class Client extends AppCompatActivity {
             case R.id.action_settings:
                 Intent settingsIntent = new Intent(this, SettingsActivity.class);
                 startActivity(settingsIntent);
+                return true;
+            case R.id.master_setup:
+                Intent masterSetupIntent = new Intent(this, MasterSetup.class);
+                startActivity(masterSetupIntent);
                 return true;
             case R.id.logout_item:
                 ParseUser.logOut();
