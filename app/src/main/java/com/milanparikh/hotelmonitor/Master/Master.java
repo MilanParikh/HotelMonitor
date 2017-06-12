@@ -184,6 +184,10 @@ public class Master extends AppCompatActivity {
                 Intent masterSetupIntent = new Intent(this, MasterSetup.class);
                 startActivity(masterSetupIntent);
                 return true;
+            case R.id.master_export:
+                Intent masterExportIntent = new Intent(this, MasterExport.class);
+                startActivity(masterExportIntent);
+                return true;
             case R.id.logout_item:
                 ParseUser.logOut();
                 finish();
