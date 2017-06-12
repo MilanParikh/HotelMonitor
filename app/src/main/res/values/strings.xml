@@ -57,7 +57,4 @@
     <string name="maintenance_carpet">Is the carpet unstained/undamaged?</string>
     <string name="maintenance_room_lock">Is the room lock working?</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
 </resources>
