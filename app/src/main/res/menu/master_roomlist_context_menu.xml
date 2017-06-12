@@ -12,6 +12,10 @@
             android:id="@+id/set_stay_over"
             android:title="Set Stay Over" />
     </group>
+    <item
+        android:id="@+id/divider_item"
+        android:title=""
+        android:enabled="false"/>
     <group
         android:id="@+id/room_status_group"
         android:checkableBehavior="single">

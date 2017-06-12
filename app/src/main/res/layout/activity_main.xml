@@ -37,10 +37,11 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/username"
+        android:singleLine="true"
         app:layout_constraintBottom_toTopOf="@+id/password_edittext"
-        app:layout_constraintTop_toBottomOf="@+id/hampton_logo"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/hampton_logo" />
 
     <EditText
         android:id="@+id/password_edittext"
@@ -49,10 +50,11 @@
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
+        android:singleLine="true"
         app:layout_constraintBottom_toTopOf="@+id/login_button"
-        app:layout_constraintTop_toBottomOf="@+id/username_edittext"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/username_edittext" />
 
     <Button
         android:id="@+id/login_button"

@@ -1,6 +1,8 @@
 package com.milanparikh.hotelmonitor.Client;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.v4.content.ParallelExecutorCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.milanparikh.hotelmonitor.R;
@@ -30,6 +33,7 @@ public class Client extends AppCompatActivity {
     ParseLiveQueryClient parseLiveQueryClient;
     SubscriptionHandling<ParseObject> subscriptionHandling;
     Bundle mBundle;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,12 @@ public class Client extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.client_toolbar);
         setSupportActionBar(toolbar);
+
+        ParseUser user = ParseUser.getCurrentUser();
+        username = user.getUsername();
+
+        TextView toolbarUsername = (TextView)findViewById(R.id.toolbar_username);
+        toolbarUsername.setText(username);
 
         parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
 
@@ -74,7 +84,8 @@ public class Client extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.client_menu, menu);
         MenuItem menuSpinner = menu.findItem(R.id.floor_spinner);
         spinner = (Spinner) MenuItemCompat.getActionView(menuSpinner);
-        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.floor_list, android.R.layout.simple_spinner_item);
+        spinner.setBackgroundTintList(getColorStateList(R.color.white));
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.floor_list, R.layout.custom_simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
         if (this.mBundle != null) {

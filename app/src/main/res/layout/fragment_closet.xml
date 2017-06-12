@@ -1,0 +1,65 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.milanparikh.hotelmonitor.Client.CheckListFragments.ClosetFragment"
+    tools:layout_editor_absoluteY="25dp"
+    tools:layout_editor_absoluteX="0dp">
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/walls"
+        android:id="@+id/closet_walls"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toTopOf="@+id/closet_doors"
+        card_view:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="8dp"
+        card_view:layout_constraintLeft_toLeftOf="parent" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/closet_doors"
+        android:id="@+id/closet_doors"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toTopOf="@+id/closet_iron_board"
+        card_view:layout_constraintTop_toBottomOf="@+id/closet_walls"
+        card_view:layout_constraintLeft_toLeftOf="@+id/closet_walls"
+        android:layout_marginLeft="2dp" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/iron_board"
+        android:id="@+id/closet_iron_board"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toTopOf="@+id/closet_shelves_rod"
+        card_view:layout_constraintTop_toBottomOf="@+id/closet_doors"
+        card_view:layout_constraintLeft_toLeftOf="@+id/closet_doors"
+        android:layout_marginLeft="-2dp" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/shelves_rod"
+        android:id="@+id/closet_shelves_rod"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toTopOf="@+id/closet_carpet_floor"
+        card_view:layout_constraintTop_toBottomOf="@+id/closet_iron_board"
+        card_view:layout_constraintLeft_toLeftOf="@+id/closet_iron_board"
+        android:layout_marginLeft="-2dp" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/carpet_floor"
+        android:id="@+id/closet_carpet_floor"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toBottomOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@+id/closet_shelves_rod"
+        card_view:layout_constraintLeft_toLeftOf="@+id/closet_shelves_rod"
+        android:layout_marginLeft="-2dp" />
+
+</android.support.constraint.ConstraintLayout>

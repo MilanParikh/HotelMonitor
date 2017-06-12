@@ -24,5 +24,40 @@
         <item>Floor 3</item>
     </string-array>
     <string name="title_activity_client_check_list">Room Checklist</string>
-    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="section_format">Hello World from section: </string>
+
+    <string name="walls">walls - scuff marks/stains/mildew</string>
+    <string name="closet_doors">closet doors - cleaned top to bottom</string>
+    <string name="iron_board">iron board - cover, caddie, iron</string>
+    <string name="shelves_rod">shelves/rod - all surfaces</string>
+    <string name="carpet_floor">carpet/floor - cleaned/vacuumed</string>
+    <string name="dresser">dresser/drawers - cleaned top to bottom</string>
+    <string name="coffee_station">coffee station - basket, tray, coffee, maker, bucket</string>
+    <string name="windows_sills">windows/sills - cleaned top to bottom</string>
+    <string name="blanket_linen">blanket/linen - cleaned</string>
+    <string name="bedspread">bedspread - cleaned</string>
+    <string name="under_bed">under bed - cleaned</string>
+    <string name="phones">phones - cleaned top to bottom</string>
+    <string name="pictures_mirrors">pictures/mirrors - top to bottom</string>
+    <string name="entrance_door">entrance door - threshold, frame, door, hinges, exit sign</string>
+    <string name="light_fixtures">light fixtures - cleaned</string>
+    <string name="vanity">vanity - cleaned top to bottom</string>
+    <string name="hair_dryer">hair dryer - cleaned top to bottom/intake dust free</string>
+    <string name="toilet">toilet - rim/base/seat cover/underneath/piping</string>
+    <string name="tub_walls">tub walls - bleached</string>
+    <string name="tub_base">tub base - 32 scidoo</string>
+    <string name="shower_head">shower head - porcelain cleaner</string>
+    <string name="maintenance_toilet">Is the toilet flushing?</string>
+    <string name="maintenance_shower_drain">Is water draining in the shower?</string>
+    <string name="maintenance_shower_curtain">Is the shower curtain undamaged?</string>
+    <string name="maintenance_air_conditioning">Is the air conditioning working?</string>
+    <string name="maintenance_television">Is the television working/undamaged?</string>
+    <string name="maintenance_remote">Is the television remote working/undamaged?</string>
+    <string name="maintenance_window_curtain">Is the window curtain undamaged?</string>
+    <string name="maintenance_carpet">Is the carpet unstained/undamaged?</string>
+    <string name="maintenance_room_lock">Is the room lock working?</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

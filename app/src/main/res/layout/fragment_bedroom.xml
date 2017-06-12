@@ -1,0 +1,111 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.milanparikh.hotelmonitor.Client.CheckListFragments.BedroomFragment"
+    tools:layout_editor_absoluteY="25dp"
+    tools:layout_editor_absoluteX="0dp">
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dresser"
+        android:id="@+id/bedroom_dresser"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toTopOf="@+id/bedroom_coffee_station"
+        card_view:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="8dp"
+        card_view:layout_constraintLeft_toLeftOf="parent" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/coffee_station"
+        android:id="@+id/bedroom_coffee_station"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toTopOf="@+id/bedroom_carpet_floor"
+        card_view:layout_constraintTop_toBottomOf="@+id/bedroom_dresser"
+        card_view:layout_constraintLeft_toLeftOf="@+id/bedroom_dresser" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/carpet_floor"
+        android:id="@+id/bedroom_carpet_floor"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toTopOf="@+id/bedroom_windows_sills"
+        card_view:layout_constraintTop_toBottomOf="@+id/bedroom_coffee_station"
+        card_view:layout_constraintLeft_toLeftOf="@+id/bedroom_coffee_station" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/windows_sills"
+        android:id="@+id/bedroom_windows_sills"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toTopOf="@+id/bedroom_blanket_linen"
+        card_view:layout_constraintTop_toBottomOf="@+id/bedroom_carpet_floor"
+        card_view:layout_constraintLeft_toLeftOf="@+id/bedroom_carpet_floor" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/blanket_linen"
+        android:id="@+id/bedroom_blanket_linen"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toTopOf="@+id/bedroom_bedspread"
+        card_view:layout_constraintTop_toBottomOf="@+id/bedroom_windows_sills"
+        card_view:layout_constraintLeft_toLeftOf="@+id/bedroom_windows_sills" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bedspread"
+        android:id="@+id/bedroom_bedspread"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toTopOf="@+id/bedroom_under_bed"
+        card_view:layout_constraintTop_toBottomOf="@+id/bedroom_blanket_linen"
+        card_view:layout_constraintLeft_toLeftOf="@+id/bedroom_blanket_linen" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/under_bed"
+        android:id="@+id/bedroom_under_bed"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toTopOf="@+id/bedroom_phones"
+        card_view:layout_constraintTop_toBottomOf="@+id/bedroom_bedspread"
+        card_view:layout_constraintLeft_toLeftOf="@+id/bedroom_bedspread" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/phones"
+        android:id="@+id/bedroom_phones"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toTopOf="@+id/bedroom_pictures_mirrors"
+        card_view:layout_constraintTop_toBottomOf="@+id/bedroom_under_bed"
+        card_view:layout_constraintLeft_toLeftOf="@+id/bedroom_under_bed" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pictures_mirrors"
+        android:id="@+id/bedroom_pictures_mirrors"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toTopOf="@+id/bedroom_entrance_door"
+        card_view:layout_constraintTop_toBottomOf="@+id/bedroom_phones"
+        card_view:layout_constraintLeft_toLeftOf="@+id/bedroom_phones" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/entrance_door"
+        android:id="@+id/bedroom_entrance_door"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toBottomOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@+id/bedroom_pictures_mirrors"
+        card_view:layout_constraintLeft_toLeftOf="@+id/bedroom_pictures_mirrors" />
+
+</android.support.constraint.ConstraintLayout>

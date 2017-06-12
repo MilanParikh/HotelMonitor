@@ -142,7 +142,8 @@ public class Master extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.master_menu, menu);
         MenuItem menuSpinner = menu.findItem(R.id.floor_spinner);
         spinner = (Spinner) MenuItemCompat.getActionView(menuSpinner);
-        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.floor_list, android.R.layout.simple_spinner_item);
+        spinner.setBackgroundTintList(getColorStateList(R.color.white));
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.floor_list, R.layout.custom_simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
         if (this.mBundle != null) {

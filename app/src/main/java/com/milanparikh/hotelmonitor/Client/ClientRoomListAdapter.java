@@ -3,6 +3,7 @@ package com.milanparikh.hotelmonitor.Client;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -55,6 +56,9 @@ public class ClientRoomListAdapter extends ParseQueryAdapter {
                 object.put("clean",1);
                 object.saveInBackground();
                 Intent checklistIntent = new Intent(getContext(),ClientCheckList.class);
+                Bundle extras = new Bundle();
+                extras.putString("objectID",object.getObjectId());
+                checklistIntent.putExtras(extras);
                 getContext().startActivity(checklistIntent);
             }
         });

@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
         usernameEditText = (EditText)findViewById(R.id.username_edittext);
         passwordEditText = (EditText)findViewById(R.id.password_edittext);
-        Button loginButton = (Button)findViewById(R.id.login_button);
+
+        final Button loginButton = (Button)findViewById(R.id.login_button);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +124,16 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+            }
+        });
+        passwordEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction()==KeyEvent.ACTION_DOWN) && (keyCode==KeyEvent.KEYCODE_ENTER)) {
+                    loginButton.performClick();
+                }
+
+                return false;
             }
         });
     }

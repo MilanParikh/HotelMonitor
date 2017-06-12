@@ -8,40 +8,128 @@
     android:fitsSystemWindows="true"
     tools:context="com.milanparikh.hotelmonitor.Client.ClientCheckList">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/appbar_padding_top"
-        android:theme="@style/AppBarOverlay">
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/appbar_padding_top"
+            android:theme="@style/AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/checklist_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:theme="@style/AppTheme"
+                app:titleTextColor="@android:color/white"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/PopupOverlay">
+
+                <TextView
+                    android:id="@+id/toolbar_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Username"
+                    android:textSize="18sp"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center"/>
+
+            </android.support.v7.widget.Toolbar>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:theme="@style/AppTheme"
+                app:tabTextColor="@color/unfocusedTabText"
+                app:tabSelectedTextColor="@android:color/white"/>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bottom_checklist_toolbar"
+            android:layout_below="@+id/appbar"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/checklist_toolbar"
+            android:id="@+id/bottom_checklist_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
             android:background="?attr/colorPrimary"
             android:theme="@style/AppTheme"
-            app:titleTextColor="@android:color/white"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/PopupOverlay">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/bottom_back_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:drawableLeft="@drawable/ic_arrow_back_white_24dp"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical|left"
+                    android:text="Back"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/checklist_progress_bar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:indeterminate="false" />
+
+                <TextView
+                    android:id="@+id/bottom_next_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:drawablePadding="8dp"
+                    android:drawableRight="@drawable/ic_arrow_forward_white_24dp"
+                    android:gravity="center_vertical"
+                    android:text="Next"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/bottom_submit_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="right"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:text="Submit"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
         </android.support.v7.widget.Toolbar>
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/AppTheme"
-            app:tabTextColor="@color/unfocusedTabText"
-            app:tabSelectedTextColor="@android:color/white"/>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
