@@ -91,11 +91,12 @@ public class MasterExport extends AppCompatActivity {
             array = jsObj.getJSONArray("results");
             csv = CDL.toString(array);
 
-            ParseFile parseFile = new ParseFile("RoomData.csv", csv.getBytes());
+            //This code puts the CSV file into a CSVfiles class on the ParseServer, disabled for now as it seems unneeded and cleanup is difficult
+            /*ParseFile parseFile = new ParseFile("RoomData.csv", csv.getBytes());
             parseFile.saveInBackground();
             ParseObject parseObject = new ParseObject("CSVfiles");
             parseObject.put("RoomDataCSV",parseFile);
-            parseObject.saveInBackground();
+            parseObject.saveInBackground();*/
 
             if (file != null) {
                 file.createNewFile();

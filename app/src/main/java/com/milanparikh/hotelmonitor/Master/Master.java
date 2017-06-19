@@ -204,6 +204,7 @@ public class Master extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        parseLiveQueryClient.unsubscribe(query);
         ParseUser user = ParseUser.getCurrentUser();
         if (user!=null) {
             user.logOutInBackground();
