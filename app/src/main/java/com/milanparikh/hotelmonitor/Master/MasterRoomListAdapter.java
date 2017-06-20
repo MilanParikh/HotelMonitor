@@ -54,6 +54,9 @@ public class MasterRoomListAdapter<T extends ParseObject> extends ParseQueryAdap
             case 2:
                 v.setBackgroundColor(getContext().getColor(R.color.roomListGreen));
                 break;
+            case 3:
+                v.setBackgroundColor(getContext().getColor(R.color.roomListBlue));
+                break;
         }
 
         TextView guestStatusText = (TextView)v.findViewById(R.id.guest_status_text);

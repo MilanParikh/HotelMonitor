@@ -3,6 +3,7 @@ package com.milanparikh.hotelmonitor.Client;
 import android.net.Uri;
 import android.os.SystemClock;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -59,11 +60,13 @@ public class ClientCheckList extends AppCompatActivity
     TextView backButton;
     TextView nextButton;
     TextView submitButton;
+    TextView privacyButton;
     ProgressBar progressBar;
     ParseObject roomDataObject;
     ParseUser user;
     Long startTime;
     Long endTime;
+    Boolean privacy=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +115,7 @@ public class ClientCheckList extends AppCompatActivity
         nextButton = (TextView) findViewById(R.id.bottom_next_button);
         backButton = (TextView) findViewById(R.id.bottom_back_button);
         submitButton = (TextView) findViewById(R.id.bottom_submit_button);
+        privacyButton = (TextView)findViewById(R.id.bottom_private_button);
         progressBar = (ProgressBar)findViewById(R.id.checklist_progress_bar);
         progressBar.setProgress(25);
 
@@ -124,21 +128,25 @@ public class ClientCheckList extends AppCompatActivity
                         backButton.setVisibility(View.GONE);
                         nextButton.setVisibility(View.VISIBLE);
                         submitButton.setVisibility(View.GONE);
+                        privacyButton.setVisibility(View.VISIBLE);
                         break;
                     case 1:
                         backButton.setVisibility(View.VISIBLE);
                         nextButton.setVisibility(View.VISIBLE);
                         submitButton.setVisibility(View.GONE);
+                        privacyButton.setVisibility(View.GONE);
                         break;
                     case 2:
                         backButton.setVisibility(View.VISIBLE);
                         nextButton.setVisibility(View.VISIBLE);
                         submitButton.setVisibility(View.GONE);
+                        privacyButton.setVisibility(View.GONE);
                         break;
                     case 3:
                         backButton.setVisibility(View.VISIBLE);
                         nextButton.setVisibility(View.GONE);
                         submitButton.setVisibility(View.VISIBLE);
+                        privacyButton.setVisibility(View.GONE);
                         break;
                 }
             }
@@ -151,21 +159,25 @@ public class ClientCheckList extends AppCompatActivity
                         backButton.setVisibility(View.GONE);
                         nextButton.setVisibility(View.VISIBLE);
                         submitButton.setVisibility(View.GONE);
+                        privacyButton.setVisibility(View.VISIBLE);
                         break;
                     case 1:
                         backButton.setVisibility(View.VISIBLE);
                         nextButton.setVisibility(View.VISIBLE);
                         submitButton.setVisibility(View.GONE);
+                        privacyButton.setVisibility(View.GONE);
                         break;
                     case 2:
                         backButton.setVisibility(View.VISIBLE);
                         nextButton.setVisibility(View.VISIBLE);
                         submitButton.setVisibility(View.GONE);
+                        privacyButton.setVisibility(View.GONE);
                         break;
                     case 3:
                         backButton.setVisibility(View.VISIBLE);
                         nextButton.setVisibility(View.GONE);
                         submitButton.setVisibility(View.VISIBLE);
+                        privacyButton.setVisibility(View.GONE);
                         break;
                 }
             }
@@ -188,10 +200,30 @@ public class ClientCheckList extends AppCompatActivity
                 previousFragment(mViewPager);
             }
         });
+        privacyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(privacy==false){
+                    privacy = true;
+                    privacyButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+                }
+                else if (privacy) {
+                    privacy = false;
+                    privacyButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+                }
+            }
+        });
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                parseObject.put("clean",2);
+                if(privacy==true){
+                    parseObject.put("clean",3);
+                    roomDataObject.put("privacy", 1);
+                }
+                else if (privacy==false){
+                    parseObject.put("clean",2);
+                    roomDataObject.put("privacy", 0);
+                }
                 parseObject.saveInBackground();
                 getClosetFragmentValues();
                 getBedroomFragmentValues();

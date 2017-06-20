@@ -28,5 +28,8 @@
         <item
             android:id="@+id/set_clean"
             android:title="Set Clean" />
+        <item
+            android:id="@+id/set_private"
+            android:title="Set Private" />
     </group>
 </menu>

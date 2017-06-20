@@ -21,8 +21,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.milanparikh.hotelmonitor.R;
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import org.apache.commons.io.FileUtils;
 import org.json.CDL;
@@ -36,6 +40,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MasterExport extends AppCompatActivity {
@@ -64,7 +69,8 @@ public class MasterExport extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         js2csv(response);
-                        Log.d("TAG", "Response:" + response);
+                        //deleteRoomData();
+                        //Log.d("TAG", "Response:" + response);
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -116,6 +122,20 @@ public class MasterExport extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    public void deleteRoomData() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("RoomData");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                int i=0;
+                while(i<objects.size()) {
+                    objects.get(i).deleteInBackground();
+                    i++;
+                }
+            }
+        });
     }
 
     public static void verifyStoragePermissions(Activity activity) {

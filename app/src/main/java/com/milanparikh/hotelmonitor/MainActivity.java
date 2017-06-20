@@ -159,6 +159,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void updateFunction() {
+
+    }
+
     @Override
     public void onResume() {
         passwordEditText.setText("");

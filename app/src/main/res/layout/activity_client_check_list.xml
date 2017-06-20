@@ -90,6 +90,20 @@
                     android:textColor="@color/white"
                     android:visibility="gone" />
 
+                <TextView
+                    android:id="@+id/bottom_private_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical|left"
+                    android:text="Privacy Sign"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:visibility="visible" />
+
                 <ProgressBar
                     android:id="@+id/checklist_progress_bar"
                     style="?android:attr/progressBarStyleHorizontal"

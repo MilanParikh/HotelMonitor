@@ -7,5 +7,6 @@
     <color name="roomListRed">#96d50000</color>
     <color name="roomListGreen">#9664dd17</color>
     <color name="roomListYellow">#96ffea00</color>
+    <color name="roomListBlue">#a000b0ff</color>
     <color name="unfocusedTabText">#b3ffffff</color>
 </resources>

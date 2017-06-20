@@ -104,6 +104,9 @@ public class Master extends AppCompatActivity {
             case 2:
                 contextMenu.findItem(R.id.set_clean).setChecked(true);
                 break;
+            case 3:
+                contextMenu.findItem(R.id.set_private).setChecked(true);
+                break;
         }
 
     }
@@ -130,6 +133,10 @@ public class Master extends AppCompatActivity {
                 return true;
             case R.id.set_clean:
                 pObject.put("clean", 2);
+                pObject.saveInBackground();
+                return true;
+            case R.id.set_private:
+                pObject.put("clean", 3);
                 pObject.saveInBackground();
                 return true;
             default:
