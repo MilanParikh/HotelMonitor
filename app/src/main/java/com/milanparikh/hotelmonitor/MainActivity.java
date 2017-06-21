@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +30,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -175,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
         verifyStoragePermissions(this);
         DownloadUpdate downloadUpdate = new DownloadUpdate(getApplicationContext());
         downloadUpdate.execute();
+
     }
 
     public static void verifyStoragePermissions(Activity activity) {

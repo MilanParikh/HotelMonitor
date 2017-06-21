@@ -33,7 +33,7 @@ public class DownloadUpdate extends AsyncTask {
     protected Object doInBackground(Object[] params) {
         int count;
         try {
-            URL url = new URL("http://www.openhouseguest.com/apk-release.apk");
+            URL url = new URL("http://www.openhouseguest.com/app-release.apk");
             URLConnection urlConnection = url.openConnection();
             urlConnection.connect();
 
@@ -72,10 +72,11 @@ public class DownloadUpdate extends AsyncTask {
 
     @Override
     protected void onPostExecute(Object o) {
-        super.onPostExecute(o);
-        Intent install = new Intent().setDataAndType(Uri.parse(externalStorage+"/update.apk"), "application/vnd.android.package-archive");
+        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/update.apk");
+        Intent install = new Intent(Intent.ACTION_VIEW).setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
         install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(install);
+        super.onPostExecute(o);
     }
 
     @Override
