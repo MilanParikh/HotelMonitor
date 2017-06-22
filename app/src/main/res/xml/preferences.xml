@@ -15,4 +15,9 @@
         android:singleLine="true"
         android:summary="@string/app_id__preference_summary"
         android:title="@string/app_id_preference" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="kiosk_mode"
+        android:title="Kiosk Mode"
+        android:visibility="invisible" />
 </PreferenceScreen>

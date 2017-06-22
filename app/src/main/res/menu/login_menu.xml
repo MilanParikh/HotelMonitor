@@ -9,4 +9,14 @@
         android:id="@+id/action_update"
         android:title="Update"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_kiosk"
+        android:checkable="true"
+        android:checked="true"
+        android:title="Kiosk Mode"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_disable_admin"
+        android:title="Disable Device Admin"
+        app:showAsAction="never"/>
 </menu>

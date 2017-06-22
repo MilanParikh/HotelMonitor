@@ -1,6 +1,7 @@
 package com.milanparikh.hotelmonitor;
 
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -31,6 +32,10 @@ public class SettingsActivity extends AppCompatActivity {
         {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
+
+            Preference kiosk = findPreference("kiosk_mode");
+            getPreferenceScreen().removePreference(kiosk);
+
         }
     }
 

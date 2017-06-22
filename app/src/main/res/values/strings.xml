@@ -2,6 +2,8 @@
     <string name="app_name">Hotel Monitor</string>
     <string name="default_server_url">https://hotelmonitor-3096.nodechef.com/parse</string>
     <string name="default_app_id">HotelMonitor</string>
+    <string name="default_settings_password">password</string>
+    <string name="admin_description">Allows for locking the device into kiosk mode</string>
     <string name="login">Login</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -12,6 +14,8 @@
     <string name="server_preference_summary">The URL for the Parse Server that stores all data</string>
     <string name="app_id_preference">Parse App ID</string>
     <string name="app_id__preference_summary">This is the App ID that Parse uses to identify this application</string>
+    <string name="settings_password_preference_summary">Change settings password and master setup password</string>
+    <string name="settings_password_preference">Settings Password</string>
     <string name="title_activity_settings">Settings</string>
     <string name="register">Register</string>
     <string name="toggle_master_for_user">Toggle Master Mode for Current User</string>
