@@ -214,6 +214,7 @@ public class MainActivity extends AppCompatActivity {
                     startLockTask();
                     prefEditor.putBoolean("kiosk_mode",true);
                     prefEditor.commit();
+                    kioskItem.setChecked(true);
                 } else {
                     Toast.makeText(this, "Kiosk mode not allowed", Toast.LENGTH_SHORT).show();
                 }
@@ -221,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
                 stopLockTask();
                 prefEditor.putBoolean("kiosk_mode",false);
                 prefEditor.commit();
+                kioskItem.setChecked(false);
             }
         } catch (Exception e) {
             e.printStackTrace();

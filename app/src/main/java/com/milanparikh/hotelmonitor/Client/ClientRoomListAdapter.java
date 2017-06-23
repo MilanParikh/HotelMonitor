@@ -16,11 +16,16 @@ import com.milanparikh.hotelmonitor.R;
 import com.parse.ParseObject;
 import com.parse.ParseQueryAdapter;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by milan on 6/7/2017.
  */
 
 public class ClientRoomListAdapter extends ParseQueryAdapter {
+    Date outDate;
+    Date currentDate;
 
     public ClientRoomListAdapter(Context context, QueryFactory<ParseObject> queryFactory) {
         super(context, queryFactory);
@@ -37,17 +42,29 @@ public class ClientRoomListAdapter extends ParseQueryAdapter {
         TextView roomNum = (TextView)v.findViewById(R.id.room_num);
         roomNum.setText(object.getString("room"));
 
-        int status = object.getInt("status");
         TextView roomStatus = (TextView)v.findViewById(R.id.room_status);
-        switch (status) {
-            case 0:
-                roomStatus.setText("Due Out");
-                break;
-            case 1:
-                roomStatus.setText("Stay Over");
-                break;
-            default:
-                roomStatus.setText("Unknown");
+
+        String checkin = object.getString("checkindate");
+        String checkout = object.getString("checkoutdate");
+
+        if(checkin==null || checkout==null) {
+            roomStatus.setText("Vacant");
+        }else{
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            try{
+                outDate = sdf.parse(checkout);
+                currentDate = sdf.parse(sdf.format(new Date()));
+            }catch (java.text.ParseException e){
+                e.printStackTrace();
+            }
+            if(currentDate.equals(outDate)){
+                roomStatus.setText(R.string.due_out);
+            }else if(currentDate.before(outDate)){
+                roomStatus.setText(R.string.stay_over);
+            }else if(currentDate.after(outDate)){
+                roomStatus.setText(R.string.overstayed);
+            }
+
         }
 
         v.setOnClickListener(new View.OnClickListener() {

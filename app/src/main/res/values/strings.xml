@@ -21,6 +21,7 @@
     <string name="toggle_master_for_user">Toggle Master Mode for Current User</string>
     <string name="stay_over">Stay Over</string>
     <string name="due_out">Due Out</string>
+    <string name="overstayed">Overstayed</string>
 
     <string-array name="floor_list">
         <item>Floor 1</item>

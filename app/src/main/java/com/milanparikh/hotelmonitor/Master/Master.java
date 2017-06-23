@@ -1,6 +1,9 @@
 package com.milanparikh.hotelmonitor.Master;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,12 +15,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.milanparikh.hotelmonitor.R;
 import com.milanparikh.hotelmonitor.SettingsActivity;
+import com.parse.GetCallback;
+import com.parse.ParseException;
 import com.parse.ParseLiveQueryClient;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -25,6 +32,7 @@ import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.parse.SubscriptionHandling;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,6 +45,7 @@ public class Master extends AppCompatActivity {
     Bundle mBundle;
     ListView listView;
     ParseObject pObject;
+    String pObjectID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,16 +93,8 @@ public class Master extends AppCompatActivity {
         ListView lv = (ListView) v;
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) contextMenuInfo;
         pObject = (ParseObject) lv.getAdapter().getItem(info.position);
+        pObjectID = pObject.getObjectId();
         int cleanStatus = pObject.getInt("clean");
-        int guestStatus = pObject.getInt("status");
-        switch (guestStatus) {
-            case 0:
-                contextMenu.findItem(R.id.set_due_out).setChecked(true);
-                break;
-            case 1:
-                contextMenu.findItem(R.id.set_stay_over).setChecked(true);
-                break;
-        }
         switch (cleanStatus) {
             case 0:
                 contextMenu.findItem(R.id.set_dirty).setChecked(true);
@@ -115,12 +116,15 @@ public class Master extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
         switch (item.getItemId()) {
-            case R.id.set_due_out:
-                pObject.put("status", 0);
-                pObject.saveInBackground();
+            case R.id.check_in_date:
+                showDatePicker("in");
                 return true;
-            case R.id.set_stay_over:
-                pObject.put("status", 1);
+            case R.id.check_out_date:
+                showDatePicker("out");
+                return true;
+            case R.id.clear_duration:
+                pObject.remove("checkindate");
+                pObject.remove("checkoutdate");
                 pObject.saveInBackground();
                 return true;
             case R.id.set_dirty:
@@ -142,6 +146,52 @@ public class Master extends AppCompatActivity {
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+        String inout;
+        String objectID;
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            Bundle args = getArguments();
+            inout = args.getString("inout");
+            objectID = args.getString("id");
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day){
+            final String date = Integer.toString(month+1) + "/" + Integer.toString(day) + "/" + Integer.toString(year);
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("RoomList");
+            query.getInBackground(objectID, new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject object, ParseException e) {
+                    switch(inout){
+                        case "in":
+                            object.put("checkindate", date);
+                            break;
+                        case "out":
+                            object.put("checkoutdate", date);
+                            break;
+                    }
+                    object.saveInBackground();
+                }
+            });
+        }
+
+    }
+
+    public void showDatePicker(String inout) {
+        DialogFragment datePickerFragment = new DatePickerFragment();
+        Bundle args = new Bundle();
+        args.putString("inout", inout);
+        args.putString("id",pObjectID);
+        datePickerFragment.setArguments(args);
+        datePickerFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
     @Override

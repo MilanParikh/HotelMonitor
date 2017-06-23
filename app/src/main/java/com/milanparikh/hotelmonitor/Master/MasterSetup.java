@@ -38,8 +38,7 @@ public class MasterSetup extends AppCompatActivity {
                 for (int i=1; i<13; i++) {
                     ParseObject roomList = new ParseObject("RoomList");
                     roomList.put("room","R"+ Integer.toString(100+i));
-                    roomList.put("clean",0);
-                    roomList.put("status",0);
+                    roomList.put("clean",2);
                     roomList.saveInBackground();
                 }
             }
@@ -51,8 +50,7 @@ public class MasterSetup extends AppCompatActivity {
                 for (int i=1; i<25; i++) {
                     ParseObject roomList = new ParseObject("RoomList");
                     roomList.put("room","R"+ Integer.toString(200+i));
-                    roomList.put("clean",0);
-                    roomList.put("status",0);
+                    roomList.put("clean",2);
                     roomList.saveInBackground();
                 }
             }
@@ -64,8 +62,7 @@ public class MasterSetup extends AppCompatActivity {
                 for (int i=1; i<25; i++) {
                     ParseObject roomList = new ParseObject("RoomList");
                     roomList.put("room","R"+ Integer.toString(300+i));
-                    roomList.put("clean",0);
-                    roomList.put("status",0);
+                    roomList.put("clean",2);
                     roomList.saveInBackground();
                 }
             }

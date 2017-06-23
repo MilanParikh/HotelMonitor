@@ -3,21 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group
-        android:id="@+id/guest_status_group"
-        android:checkableBehavior="single">
+        android:id="@+id/guest_duration">
         <item
-            android:id="@+id/set_due_out"
-            android:title="Set Due Out" />
+            android:id="@+id/check_in_date"
+            android:title="Set Check In Date"/>
         <item
-            android:id="@+id/set_stay_over"
-            android:title="Set Stay Over" />
+            android:id="@+id/check_out_date"
+            android:title="Set Check Out Date"/>
+        <item
+            android:id="@+id/clear_duration"
+            android:title="Clear Dates"/>
     </group>
-    <item
-        android:id="@+id/divider_item"
-        android:title=""
-        android:enabled="false"/>
     <group
-        android:id="@+id/room_status_group"
+        android:id="@+id/clean_status_group"
         android:checkableBehavior="single">
         <item
             android:id="@+id/set_dirty"
