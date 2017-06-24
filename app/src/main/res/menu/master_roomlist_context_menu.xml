@@ -14,6 +14,9 @@
             android:id="@+id/clear_duration"
             android:title="Clear Dates"/>
     </group>
+    <item
+        android:id="@+id/add_membership"
+        android:title="Change Membership"/>
     <group
         android:id="@+id/clean_status_group"
         android:checkableBehavior="single">

@@ -42,13 +42,18 @@ public class ClientRoomListAdapter extends ParseQueryAdapter {
         TextView roomNum = (TextView)v.findViewById(R.id.room_num);
         roomNum.setText(object.getString("room"));
 
+        String[] membershiplist = getContext().getResources().getStringArray(R.array.membership_array);
+        int membershipPos = object.getInt("membership");
+        TextView membershipText = (TextView)v.findViewById(R.id.membership_client);
+        membershipText.setText(membershiplist[membershipPos]);
+
         TextView roomStatus = (TextView)v.findViewById(R.id.room_status);
 
         String checkin = object.getString("checkindate");
         String checkout = object.getString("checkoutdate");
 
         if(checkin==null || checkout==null) {
-            roomStatus.setText("Vacant");
+            roomStatus.setText(R.string.due_out);
         }else{
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
             try{

@@ -23,6 +23,15 @@
     <string name="due_out">Due Out</string>
     <string name="overstayed">Overstayed</string>
 
+    <string name="select_membership">Select Membership Type</string>
+    <string-array name="membership_array">
+        <item>Not Member</item>
+        <item>Member</item>
+        <item>Silver</item>
+        <item>Gold</item>
+        <item>Diamond</item>
+    </string-array>
+
     <string-array name="floor_list">
         <item>Floor 1</item>
         <item>Floor 2</item>

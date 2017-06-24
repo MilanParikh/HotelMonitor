@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.icu.util.Output;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
+
+import com.milanparikh.hotelmonitor.BuildConfig;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -73,9 +77,18 @@ public class DownloadUpdate extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/update.apk");
-        Intent install = new Intent(Intent.ACTION_VIEW).setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
-        install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(install);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Uri updateURI = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file);
+            Intent install = new Intent(Intent.ACTION_INSTALL_PACKAGE).setData(updateURI);
+            install.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            context.startActivity(install);
+        }else {
+            Uri updateURI = Uri.fromFile(file);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(updateURI, "application/vnd.android.package-archive");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
         super.onPostExecute(o);
     }
 

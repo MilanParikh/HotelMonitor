@@ -2,13 +2,16 @@ package com.milanparikh.hotelmonitor.Master;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -127,6 +130,9 @@ public class Master extends AppCompatActivity {
                 pObject.remove("checkoutdate");
                 pObject.saveInBackground();
                 return true;
+            case R.id.add_membership:
+                showMembershipDialog();
+                return true;
             case R.id.set_dirty:
                 pObject.put("clean", 0);
                 pObject.saveInBackground();
@@ -146,6 +152,21 @@ public class Master extends AppCompatActivity {
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    public void showMembershipDialog() {
+        AlertDialog.Builder membershipBuilder = new AlertDialog.Builder(this);
+        membershipBuilder.setTitle(R.string.select_membership);
+        membershipBuilder.setItems(R.array.membership_array, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                pObject.put("membership",which);
+                pObject.saveInBackground();
+            }
+        });
+
+        AlertDialog dialog = membershipBuilder.create();
+        dialog.show();
     }
 
     public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
