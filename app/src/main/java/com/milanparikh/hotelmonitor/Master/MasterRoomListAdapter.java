@@ -56,6 +56,10 @@ public class MasterRoomListAdapter<T extends ParseObject> extends ParseQueryAdap
         TextView membershipText = (TextView)v.findViewById(R.id.membership_master);
         membershipText.setText(membershiplist[membershipPos]);
 
+        String currentName = object.getString("current_name");
+        TextView currentNameText = (TextView)v.findViewById(R.id.current_name);
+        currentNameText.setText(currentName);
+
         TextView guestStatusText = (TextView)v.findViewById(R.id.guest_status_text);
 
         TextView guestDuration = (TextView)v.findViewById(R.id.guest_duration_text);

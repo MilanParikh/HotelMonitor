@@ -55,7 +55,7 @@ public class ClientCheckList extends AppCompatActivity
 
     String objectID;
     String title;
-    ParseObject parseObject;
+    ParseObject roomListObject;
     String username;
     TextView backButton;
     TextView nextButton;
@@ -91,7 +91,7 @@ public class ClientCheckList extends AppCompatActivity
             @Override
             public void done(ParseObject object, ParseException e) {
                 if (e==null) {
-                    parseObject = object;
+                    roomListObject = object;
                     title = "Room Checklist: " + object.getString("room");
                     getSupportActionBar().setTitle(title);
                 }
@@ -217,14 +217,16 @@ public class ClientCheckList extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(privacy==true){
-                    parseObject.put("clean",3);
+                    roomListObject.put("clean",3);
+                    roomListObject.remove("current_name");
                     roomDataObject.put("privacy", 1);
                 }
                 else if (privacy==false){
-                    parseObject.put("clean",2);
+                    roomListObject.put("clean",2);
+                    roomListObject.remove("current_name");
                     roomDataObject.put("privacy", 0);
                 }
-                parseObject.saveInBackground();
+                roomListObject.saveInBackground();
                 getClosetFragmentValues();
                 getBedroomFragmentValues();
                 getBathroomFragmentValues();
@@ -232,7 +234,7 @@ public class ClientCheckList extends AppCompatActivity
                 getElapsedTime();
                 roomDataObject.put("user", user);
                 roomDataObject.put("username",username);
-                roomDataObject.put("room",parseObject.getString("room"));
+                roomDataObject.put("room", roomListObject.getString("room"));
                 roomDataObject.saveInBackground();
                 finish();
             }
@@ -402,8 +404,9 @@ public class ClientCheckList extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        parseObject.put("clean", 0);
-        parseObject.saveInBackground(new SaveCallback() {
+        roomListObject.put("clean", 0);
+        roomListObject.put("current_name", "");
+        roomListObject.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 finish();

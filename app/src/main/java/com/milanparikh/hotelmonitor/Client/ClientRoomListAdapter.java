@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.milanparikh.hotelmonitor.R;
 import com.parse.ParseObject;
 import com.parse.ParseQueryAdapter;
+import com.parse.ParseUser;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,6 +39,8 @@ public class ClientRoomListAdapter extends ParseQueryAdapter {
         }
 
         super.getItemView(object, v, parent);
+
+        final ParseUser user = ParseUser.getCurrentUser();
 
         TextView roomNum = (TextView)v.findViewById(R.id.room_num);
         roomNum.setText(object.getString("room"));
@@ -76,6 +79,7 @@ public class ClientRoomListAdapter extends ParseQueryAdapter {
             @Override
             public void onClick(View v) {
                 object.put("clean",1);
+                object.put("current_name", user.getUsername());
                 object.saveInBackground();
                 Intent checklistIntent = new Intent(getContext(),ClientCheckList.class);
                 Bundle extras = new Bundle();
