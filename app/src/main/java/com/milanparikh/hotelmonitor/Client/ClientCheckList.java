@@ -343,6 +343,9 @@ public class ClientCheckList extends AppCompatActivity
         roomDataObject.put("bedroom_phones", bedroomValues.getBedroomPhonesInt());
         roomDataObject.put("bedroom_pictures_mirrors", bedroomValues.getBedroomPicturesMirrorsInt());
         roomDataObject.put("bedroom_entrance_door", bedroomValues.getBedroomEntranceDoorInt());
+        roomDataObject.put("bedroom_fridge", bedroomValues.getBedroomFridgeInt());
+        roomDataObject.put("bedroom_ptac", bedroomValues.getBedroomPtacInt());
+        roomDataObject.put("bedroom_lamp_shades", bedroomValues.getBedroomLampShadesInt());
     }
 
     public void getBathroomFragmentValues() {
@@ -356,6 +359,8 @@ public class ClientCheckList extends AppCompatActivity
         roomDataObject.put("bathroom_tub_walls", bathroomValues.getBathroomTubWallsInt());
         roomDataObject.put("bathroom_tub_base", bathroomValues.getBathroomTubBaseInt());
         roomDataObject.put("bathroom_shower_head", bathroomValues.getBathroomShowerHeadInt());
+        roomDataObject.put("bathroom_towels", bathroomValues.getBathroomTowelsInt());
+        roomDataObject.put("bathroom_floor", bathroomValues.getBathroomFloorInt());
     }
 
     public void getMaintenanceFragmentValues() {
@@ -370,6 +375,10 @@ public class ClientCheckList extends AppCompatActivity
         roomDataObject.put("maintenance_window_curtain", maintenanceValues.getMaintenanceWindowCurtainInt());
         roomDataObject.put("maintenance_carpet", maintenanceValues.getMaintenanceCarpetInt());
         roomDataObject.put("maintenance_room_lock", maintenanceValues.getMaintenanceRoomLockInt());
+        roomDataObject.put("maintenance_light_bulbs", maintenanceValues.getMaintenanceLightBulbsInt());
+        roomDataObject.put("maintenance_thermostat", maintenanceValues.getMaintenanceThermostatInt());
+        roomDataObject.put("maintenance_hair_dryer", maintenanceValues.getMaintenanceHairDryerInt());
+        roomDataObject.put("maintenance_bible", maintenanceValues.getMaintenanceBibleInt());
     }
 
     public void getElapsedTime() {

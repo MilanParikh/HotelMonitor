@@ -104,8 +104,38 @@
         android:text="@string/entrance_door"
         android:id="@+id/bedroom_entrance_door"
         android:textSize="25sp"
-        card_view:layout_constraintBottom_toBottomOf="parent"
+        card_view:layout_constraintBottom_toTopOf="@+id/bedroom_fridge"
         card_view:layout_constraintTop_toBottomOf="@+id/bedroom_pictures_mirrors"
         card_view:layout_constraintLeft_toLeftOf="@+id/bedroom_pictures_mirrors" />
+
+    <CheckBox
+        android:id="@+id/bedroom_fridge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fridge"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toTopOf="@+id/bedroom_ptac"
+        card_view:layout_constraintTop_toBottomOf="@+id/bedroom_entrance_door"
+        card_view:layout_constraintLeft_toLeftOf="@+id/bedroom_entrance_door" />
+
+    <CheckBox
+        android:id="@+id/bedroom_ptac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/PTAC"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toTopOf="@+id/bedroom_lamp_shades"
+        card_view:layout_constraintTop_toBottomOf="@+id/bedroom_fridge"
+        card_view:layout_constraintLeft_toLeftOf="@+id/bedroom_fridge" />
+
+    <CheckBox
+        android:id="@+id/bedroom_lamp_shades"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lamp_shades"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toBottomOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@+id/bedroom_ptac"
+        card_view:layout_constraintLeft_toLeftOf="@+id/bedroom_ptac" />
 
 </android.support.constraint.ConstraintLayout>

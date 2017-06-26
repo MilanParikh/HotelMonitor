@@ -32,6 +32,10 @@ public class MaintenanceFragment extends android.support.v4.app.Fragment {
     CheckBox maintenanceWindowCurtain;
     CheckBox maintenanceCarpet;
     CheckBox maintenanceRoomLock;
+    CheckBox maintenanceLightBulbs;
+    CheckBox maintenanceThermostat;
+    CheckBox maintenanceHairDryer;
+    CheckBox maintenanceBible;
 
     public MaintenanceFragment() {
         // Required empty public constructor
@@ -63,6 +67,10 @@ public class MaintenanceFragment extends android.support.v4.app.Fragment {
         maintenanceWindowCurtain = (CheckBox)view.findViewById(R.id.maintenance_window_curtain);
         maintenanceCarpet = (CheckBox)view.findViewById(R.id.maintenance_carpet);
         maintenanceRoomLock = (CheckBox)view.findViewById(R.id.maintenance_room_lock);
+        maintenanceLightBulbs = (CheckBox)view.findViewById(R.id.maintenance_light_bulbs);
+        maintenanceThermostat = (CheckBox)view.findViewById(R.id.maintenance_thermostat);
+        maintenanceHairDryer = (CheckBox)view.findViewById(R.id.maintenance_hairdryer);
+        maintenanceBible = (CheckBox)view.findViewById(R.id.maintenance_bible);
         return view;
     }
 
@@ -77,6 +85,10 @@ public class MaintenanceFragment extends android.support.v4.app.Fragment {
         maintenanceValues.setMaintenanceWindowCurtainInt(maintenanceWindowCurtain.isChecked() ? 1 : 0);
         maintenanceValues.setMaintenanceCarpetInt(maintenanceCarpet.isChecked() ? 1 : 0);
         maintenanceValues.setMaintenanceRoomLockInt(maintenanceRoomLock.isChecked() ? 1 : 0);
+        maintenanceValues.setMaintenanceLightBulbsInt(maintenanceLightBulbs.isChecked() ? 1 : 0);
+        maintenanceValues.setMaintenanceThermostatInt(maintenanceThermostat.isChecked() ? 1 : 0);
+        maintenanceValues.setMaintenanceHairDryerInt(maintenanceHairDryer.isChecked() ? 1 : 0);
+        maintenanceValues.setMaintenanceBibleInt(maintenanceBible.isChecked() ? 1 : 0);
         return maintenanceValues;
     }
 

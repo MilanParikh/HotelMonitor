@@ -65,6 +65,33 @@ public class FragmentData {
         int bedroomPhonesInt;
         int bedroomPicturesMirrorsInt;
         int bedroomEntranceDoorInt;
+        int bedroomFridgeInt;
+        int bedroomPtacInt;
+        int bedroomLampShadesInt;
+
+        public int getBedroomFridgeInt() {
+            return bedroomFridgeInt;
+        }
+
+        public void setBedroomFridgeInt(int bedroomFridgeInt) {
+            this.bedroomFridgeInt = bedroomFridgeInt;
+        }
+
+        public int getBedroomPtacInt() {
+            return bedroomPtacInt;
+        }
+
+        public void setBedroomPtacInt(int bedroomPtacInt) {
+            this.bedroomPtacInt = bedroomPtacInt;
+        }
+
+        public int getBedroomLampShadesInt() {
+            return bedroomLampShadesInt;
+        }
+
+        public void setBedroomLampShadesInt(int bedroomLampShadesInt) {
+            this.bedroomLampShadesInt = bedroomLampShadesInt;
+        }
 
         public int getBedroomDresserInt() {
             return bedroomDresserInt;
@@ -157,6 +184,24 @@ public class FragmentData {
         int bathroomTubWallsInt;
         int bathroomTubBaseInt;
         int bathroomShowerHeadInt;
+        int bathroomTowelsInt;
+        int bathroomFloorInt;
+
+        public int getBathroomTowelsInt() {
+            return bathroomTowelsInt;
+        }
+
+        public void setBathroomTowelsInt(int bathroomTowelsInt) {
+            this.bathroomTowelsInt = bathroomTowelsInt;
+        }
+
+        public int getBathroomFloorInt() {
+            return bathroomFloorInt;
+        }
+
+        public void setBathroomFloorInt(int bathroomFloorInt) {
+            this.bathroomFloorInt = bathroomFloorInt;
+        }
 
         public int getBathroomLightFixturesInt() {
             return bathroomLightFixturesInt;
@@ -234,6 +279,42 @@ public class FragmentData {
         int maintenanceWindowCurtainInt;
         int maintenanceCarpetInt;
         int maintenanceRoomLockInt;
+        int maintenanceLightBulbsInt;
+        int maintenanceThermostatInt;
+        int maintenanceHairDryerInt;
+        int maintenanceBibleInt;
+
+        public int getMaintenanceLightBulbsInt() {
+            return maintenanceLightBulbsInt;
+        }
+
+        public void setMaintenanceLightBulbsInt(int maintenanceLightBulbsInt) {
+            this.maintenanceLightBulbsInt = maintenanceLightBulbsInt;
+        }
+
+        public int getMaintenanceThermostatInt() {
+            return maintenanceThermostatInt;
+        }
+
+        public void setMaintenanceThermostatInt(int maintenanceThermostatInt) {
+            this.maintenanceThermostatInt = maintenanceThermostatInt;
+        }
+
+        public int getMaintenanceHairDryerInt() {
+            return maintenanceHairDryerInt;
+        }
+
+        public void setMaintenanceHairDryerInt(int maintenanceHairDryerInt) {
+            this.maintenanceHairDryerInt = maintenanceHairDryerInt;
+        }
+
+        public int getMaintenanceBibleInt() {
+            return maintenanceBibleInt;
+        }
+
+        public void setMaintenanceBibleInt(int maintenanceBibleInt) {
+            this.maintenanceBibleInt = maintenanceBibleInt;
+        }
 
         public int getMaintenanceToiletInt() {
             return maintenanceToiletInt;

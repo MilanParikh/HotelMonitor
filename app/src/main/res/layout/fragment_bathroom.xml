@@ -84,7 +84,27 @@
         android:text="@string/shower_head"
         android:id="@+id/bathroom_shower_head"
         android:textSize="25sp"
-        card_view:layout_constraintBottom_toBottomOf="parent"
+        card_view:layout_constraintBottom_toTopOf="@+id/bathroom_towels"
         card_view:layout_constraintTop_toBottomOf="@+id/bathroom_tub_base"
         card_view:layout_constraintLeft_toLeftOf="@+id/bathroom_tub_base" />
+
+    <CheckBox
+        android:id="@+id/bathroom_towels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/towels"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toTopOf="@+id/bathroom_floor"
+        card_view:layout_constraintTop_toBottomOf="@+id/bathroom_shower_head"
+        card_view:layout_constraintLeft_toLeftOf="@+id/bathroom_shower_head" />
+
+    <CheckBox
+        android:id="@+id/bathroom_floor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/floor"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toBottomOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@+id/bathroom_towels"
+        card_view:layout_constraintLeft_toLeftOf="@+id/bathroom_towels" />
 </android.support.constraint.ConstraintLayout>

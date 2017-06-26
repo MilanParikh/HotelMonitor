@@ -16,8 +16,7 @@
         android:checked="false"
         card_view:layout_constraintBottom_toTopOf="@+id/maintenance_shower_drain"
         card_view:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="8dp"
-        card_view:layout_constraintLeft_toLeftOf="parent" />
+        card_view:layout_constraintLeft_toLeftOf="@+id/maintenance_shower_drain" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -27,7 +26,7 @@
         android:textSize="25sp"
         card_view:layout_constraintBottom_toTopOf="@+id/maintenance_shower_curtain"
         card_view:layout_constraintTop_toBottomOf="@+id/maintenance_toilet"
-        card_view:layout_constraintLeft_toLeftOf="@+id/maintenance_toilet" />
+        card_view:layout_constraintLeft_toLeftOf="@+id/maintenance_shower_curtain" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -37,7 +36,7 @@
         android:textSize="25sp"
         card_view:layout_constraintBottom_toTopOf="@+id/maintenance_air_conditioning"
         card_view:layout_constraintTop_toBottomOf="@+id/maintenance_shower_drain"
-        card_view:layout_constraintLeft_toLeftOf="@+id/maintenance_shower_drain" />
+        card_view:layout_constraintLeft_toLeftOf="@+id/maintenance_air_conditioning" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -47,7 +46,7 @@
         android:textSize="25sp"
         card_view:layout_constraintBottom_toTopOf="@+id/maintenance_television"
         card_view:layout_constraintTop_toBottomOf="@+id/maintenance_shower_curtain"
-        card_view:layout_constraintLeft_toLeftOf="@+id/maintenance_shower_curtain" />
+        card_view:layout_constraintLeft_toLeftOf="@+id/maintenance_television" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -57,7 +56,7 @@
         android:textSize="25sp"
         card_view:layout_constraintBottom_toTopOf="@+id/maintenance_remote"
         card_view:layout_constraintTop_toBottomOf="@+id/maintenance_air_conditioning"
-        card_view:layout_constraintLeft_toLeftOf="@+id/maintenance_air_conditioning" />
+        card_view:layout_constraintLeft_toLeftOf="@+id/maintenance_remote" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -67,7 +66,7 @@
         android:textSize="25sp"
         card_view:layout_constraintBottom_toTopOf="@+id/maintenance_window_curtain"
         card_view:layout_constraintTop_toBottomOf="@+id/maintenance_television"
-        card_view:layout_constraintLeft_toLeftOf="@+id/maintenance_television" />
+        card_view:layout_constraintLeft_toLeftOf="@+id/maintenance_window_curtain" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -77,7 +76,7 @@
         android:textSize="25sp"
         card_view:layout_constraintBottom_toTopOf="@+id/maintenance_carpet"
         card_view:layout_constraintTop_toBottomOf="@+id/maintenance_remote"
-        card_view:layout_constraintLeft_toLeftOf="@+id/maintenance_remote" />
+        card_view:layout_constraintLeft_toLeftOf="@+id/maintenance_carpet" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -87,7 +86,7 @@
         android:textSize="25sp"
         card_view:layout_constraintBottom_toTopOf="@+id/maintenance_room_lock"
         card_view:layout_constraintTop_toBottomOf="@+id/maintenance_window_curtain"
-        card_view:layout_constraintLeft_toLeftOf="@+id/maintenance_window_curtain" />
+        card_view:layout_constraintLeft_toLeftOf="@+id/maintenance_room_lock" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -95,7 +94,48 @@
         android:text="@string/maintenance_room_lock"
         android:id="@+id/maintenance_room_lock"
         android:textSize="25sp"
-        card_view:layout_constraintBottom_toBottomOf="parent"
+        card_view:layout_constraintBottom_toTopOf="@+id/maintenance_light_bulbs"
         card_view:layout_constraintTop_toBottomOf="@+id/maintenance_carpet"
-        card_view:layout_constraintLeft_toLeftOf="@+id/maintenance_carpet" />
+        card_view:layout_constraintLeft_toLeftOf="@+id/maintenance_light_bulbs" />
+
+    <CheckBox
+        android:id="@+id/maintenance_light_bulbs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/maintenance_light_bulbs"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toTopOf="@+id/maintenance_thermostat"
+        card_view:layout_constraintTop_toBottomOf="@+id/maintenance_room_lock"
+        card_view:layout_constraintLeft_toLeftOf="@+id/maintenance_thermostat" />
+
+    <CheckBox
+        android:id="@+id/maintenance_thermostat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/maintenance_thermostat"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toTopOf="@+id/maintenance_hairdryer"
+        card_view:layout_constraintTop_toBottomOf="@+id/maintenance_light_bulbs"
+        card_view:layout_constraintLeft_toLeftOf="@+id/maintenance_hairdryer" />
+
+    <CheckBox
+        android:id="@+id/maintenance_hairdryer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/maintenance_hairdryer"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toTopOf="@+id/maintenance_bible"
+        card_view:layout_constraintTop_toBottomOf="@+id/maintenance_thermostat"
+        card_view:layout_constraintLeft_toLeftOf="@+id/maintenance_bible" />
+
+    <CheckBox
+        android:id="@+id/maintenance_bible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/maintenance_bible"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toBottomOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@+id/maintenance_hairdryer"
+        android:layout_marginLeft="8dp"
+        card_view:layout_constraintLeft_toLeftOf="parent" />
 </android.support.constraint.ConstraintLayout>

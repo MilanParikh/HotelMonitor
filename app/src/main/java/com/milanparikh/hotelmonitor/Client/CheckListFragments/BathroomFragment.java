@@ -31,6 +31,8 @@ public class BathroomFragment extends android.support.v4.app.Fragment {
     CheckBox bathroomTubWalls;
     CheckBox bathroomTubBase;
     CheckBox bathroomShowerHead;
+    CheckBox bathroomTowels;
+    CheckBox bathroomFloor;
 
     public BathroomFragment() {
         // Required empty public constructor
@@ -62,6 +64,8 @@ public class BathroomFragment extends android.support.v4.app.Fragment {
         bathroomTubWalls = (CheckBox)view.findViewById(R.id.bathroom_tub_walls);
         bathroomTubBase = (CheckBox)view.findViewById(R.id.bathroom_tub_base);
         bathroomShowerHead = (CheckBox)view.findViewById(R.id.bathroom_shower_head);
+        bathroomTowels = (CheckBox)view.findViewById(R.id.bathroom_towels);
+        bathroomFloor = (CheckBox)view.findViewById(R.id.bathroom_floor);
         return view;
     }
 
@@ -75,6 +79,8 @@ public class BathroomFragment extends android.support.v4.app.Fragment {
         bathroomValues.setBathroomTubWallsInt(bathroomTubWalls.isChecked() ? 1 : 0);
         bathroomValues.setBathroomTubBaseInt(bathroomTubBase.isChecked() ? 1 : 0);
         bathroomValues.setBathroomShowerHeadInt(bathroomShowerHead.isChecked() ? 1 : 0);
+        bathroomValues.setBathroomTowelsInt(bathroomTowels.isChecked() ? 1 : 0);
+        bathroomValues.setBathroomFloorInt(bathroomFloor.isChecked() ? 1 : 0);
         return bathroomValues;
     }
 

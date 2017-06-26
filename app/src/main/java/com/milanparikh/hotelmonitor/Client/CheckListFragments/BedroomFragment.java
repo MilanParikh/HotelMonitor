@@ -33,6 +33,9 @@ public class BedroomFragment extends android.support.v4.app.Fragment {
     CheckBox bedroomPhones;
     CheckBox bedroomPicturesMirrors;
     CheckBox bedroomEntranceDoor;
+    CheckBox bedroomFridge;
+    CheckBox bedroomPtac;
+    CheckBox bedroomLampShades;
 
     public BedroomFragment() {
         // Required empty public constructor
@@ -65,6 +68,9 @@ public class BedroomFragment extends android.support.v4.app.Fragment {
         bedroomPhones = (CheckBox)view.findViewById(R.id.bedroom_phones);
         bedroomPicturesMirrors = (CheckBox)view.findViewById(R.id.bedroom_pictures_mirrors);
         bedroomEntranceDoor = (CheckBox)view.findViewById(R.id.bedroom_entrance_door);
+        bedroomFridge = (CheckBox)view.findViewById(R.id.bedroom_fridge);
+        bedroomPtac = (CheckBox)view.findViewById(R.id.bedroom_ptac);
+        bedroomLampShades = (CheckBox)view.findViewById(R.id.bedroom_lamp_shades);
         return view;
     }
 
@@ -80,6 +86,9 @@ public class BedroomFragment extends android.support.v4.app.Fragment {
         bedroomValues.setBedroomPhonesInt(bedroomPhones.isChecked() ? 1 : 0);
         bedroomValues.setBedroomPicturesMirrorsInt(bedroomPicturesMirrors.isChecked() ? 1 : 0);
         bedroomValues.setBedroomEntranceDoorInt(bedroomEntranceDoor.isChecked() ? 1 : 0);
+        bedroomValues.setBedroomFridgeInt(bedroomFridge.isChecked() ? 1 : 0);
+        bedroomValues.setBedroomPtacInt(bedroomPtac.isChecked() ? 1 : 0);
+        bedroomValues.setBedroomLampShadesInt(bedroomLampShades.isChecked() ? 1 : 0);
         return bedroomValues;
     }
 
