@@ -1,14 +1,16 @@
-package com.milanparikh.hotelmonitor.Master;
+package com.milanparikh.hotelmonitor.Master.DrawerFragments;
+
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -16,14 +18,17 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.Toast;
 
+import com.milanparikh.hotelmonitor.Master.Master;
+import com.milanparikh.hotelmonitor.Master.MasterExport;
+import com.milanparikh.hotelmonitor.Master.MasterRoomListAdapter;
+import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.milanparikh.hotelmonitor.R;
 import com.milanparikh.hotelmonitor.SettingsActivity;
 import com.parse.GetCallback;
@@ -36,10 +41,11 @@ import com.parse.ParseUser;
 import com.parse.SubscriptionHandling;
 
 import java.util.Calendar;
-import java.util.List;
-import java.util.Objects;
 
-public class Master extends AppCompatActivity {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class MasterRoomList extends Fragment {
     ParseQuery query;
     Spinner spinner;
     MasterRoomListAdapter<ParseObject> adapter;
@@ -49,23 +55,32 @@ public class Master extends AppCompatActivity {
     ListView listView;
     ParseObject pObject;
     String pObjectID;
+    AppCompatActivity activity;
+
+
+    public MasterRoomList() {
+        // Required empty public constructor
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
         if (savedInstanceState != null) {
             this.mBundle = savedInstanceState;
         }
 
-        setContentView(R.layout.activity_master);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.master_toolbar);
-        setSupportActionBar(toolbar);
-        listView = (ListView) findViewById(R.id.master_room_list);
+        View view = inflater.inflate(R.layout.fragment_master_room_list, container, false);
+
+        activity = (AppCompatActivity) getActivity();
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.master_toolbar);
+        activity.setSupportActionBar(toolbar);
+        setHasOptionsMenu(true);
+        listView = (ListView) view.findViewById(R.id.master_room_list);
 
         parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
 
-        adapter = new MasterRoomListAdapter<ParseObject>(this, new ParseQueryAdapter.QueryFactory<ParseObject>() {
+        adapter = new MasterRoomListAdapter<ParseObject>(getContext(), new ParseQueryAdapter.QueryFactory<ParseObject>() {
             @Override
             public ParseQuery<ParseObject> create() {
                 query = new ParseQuery("RoomList");
@@ -86,12 +101,75 @@ public class Master extends AppCompatActivity {
                 view.showContextMenu();
             }
         });
+
+        return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.master_menu, menu);
+
+        MenuItem menuSpinner = menu.findItem(R.id.floor_spinner);
+        spinner = (Spinner) MenuItemCompat.getActionView(menuSpinner);
+        spinner.setBackgroundTintList(activity.getColorStateList(R.color.white));
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getContext(), R.array.floor_list, R.layout.custom_simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
+        if (this.mBundle != null) {
+            spinner.setSelection(mBundle.getInt("spinner_position"));
+        }
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                parseLiveQueryClient.unsubscribe(query);
+                query.whereContains("room","R"+Integer.toString(position+1));
+                adapter.loadObjects();
+                subscriptionHandling = parseLiveQueryClient.subscribe(query);
+                subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseObject>() {
+                    @Override
+                    public void onEvents(ParseQuery<ParseObject> query, SubscriptionHandling.Event event, ParseObject object) {
+                        adapter.loadObjects();
+                    }
+                });
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_settings:
+                Intent settingsIntent = new Intent(getContext(), SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+            case R.id.master_setup:
+                Intent masterSetupIntent = new Intent(getContext(), MasterSetup.class);
+                startActivity(masterSetupIntent);
+                return true;
+            case R.id.master_export:
+                Intent masterExportIntent = new Intent(getContext(), MasterExport.class);
+                startActivity(masterExportIntent);
+                return true;
+            case R.id.logout_item:
+                ParseUser.logOut();
+                activity.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu contextMenu, View v, ContextMenu.ContextMenuInfo contextMenuInfo) {
         super.onCreateContextMenu(contextMenu, v, contextMenuInfo);
-        MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.master_roomlist_context_menu, contextMenu);
         ListView lv = (ListView) v;
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) contextMenuInfo;
@@ -155,7 +233,7 @@ public class Master extends AppCompatActivity {
     }
 
     public void showMembershipDialog() {
-        AlertDialog.Builder membershipBuilder = new AlertDialog.Builder(this);
+        AlertDialog.Builder membershipBuilder = new AlertDialog.Builder(getContext());
         membershipBuilder.setTitle(R.string.select_membership);
         membershipBuilder.setItems(R.array.membership_array, new DialogInterface.OnClickListener() {
             @Override
@@ -212,67 +290,7 @@ public class Master extends AppCompatActivity {
         args.putString("inout", inout);
         args.putString("id",pObjectID);
         datePickerFragment.setArguments(args);
-        datePickerFragment.show(getSupportFragmentManager(), "datePicker");
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.master_menu, menu);
-        MenuItem menuSpinner = menu.findItem(R.id.floor_spinner);
-        spinner = (Spinner) MenuItemCompat.getActionView(menuSpinner);
-        spinner.setBackgroundTintList(getColorStateList(R.color.white));
-        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.floor_list, R.layout.custom_simple_spinner_item);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(spinnerAdapter);
-        if (this.mBundle != null) {
-            spinner.setSelection(mBundle.getInt("spinner_position"));
-        }
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                parseLiveQueryClient.unsubscribe(query);
-                query.whereContains("room","R"+Integer.toString(position+1));
-                adapter.loadObjects();
-                subscriptionHandling = parseLiveQueryClient.subscribe(query);
-                subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseObject>() {
-                    @Override
-                    public void onEvents(ParseQuery<ParseObject> query, SubscriptionHandling.Event event, ParseObject object) {
-                        adapter.loadObjects();
-                    }
-                });
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.action_settings:
-                Intent settingsIntent = new Intent(this, SettingsActivity.class);
-                startActivity(settingsIntent);
-                return true;
-            case R.id.master_setup:
-                Intent masterSetupIntent = new Intent(this, MasterSetup.class);
-                startActivity(masterSetupIntent);
-                return true;
-            case R.id.master_export:
-                Intent masterExportIntent = new Intent(this, MasterExport.class);
-                startActivity(masterExportIntent);
-                return true;
-            case R.id.logout_item:
-                ParseUser.logOut();
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        datePickerFragment.show(getFragmentManager(), "datePicker");
     }
 
     @Override
@@ -280,12 +298,4 @@ public class Master extends AppCompatActivity {
         outState.putInt("spinner_position",spinner.getSelectedItemPosition());
     }
 
-    @Override
-    public void onBackPressed() {
-        ParseUser user = ParseUser.getCurrentUser();
-        if (user!=null) {
-            user.logOutInBackground();
-        }
-        finish();
-    }
 }
