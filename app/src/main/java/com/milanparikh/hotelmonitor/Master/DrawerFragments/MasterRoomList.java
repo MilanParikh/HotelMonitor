@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,7 +27,6 @@ import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import com.milanparikh.hotelmonitor.Master.Master;
 import com.milanparikh.hotelmonitor.Master.MasterExport;
 import com.milanparikh.hotelmonitor.Master.MasterRoomListAdapter;
 import com.milanparikh.hotelmonitor.Master.MasterSetup;
@@ -66,16 +67,18 @@ public class MasterRoomList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        if (savedInstanceState != null) {
-            this.mBundle = savedInstanceState;
-        }
-
         View view = inflater.inflate(R.layout.fragment_master_room_list, container, false);
 
         activity = (AppCompatActivity) getActivity();
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.master_toolbar);
         activity.setSupportActionBar(toolbar);
         setHasOptionsMenu(true);
+
+        DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(activity, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
         listView = (ListView) view.findViewById(R.id.master_room_list);
 
         parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
@@ -294,7 +297,17 @@ public class MasterRoomList extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            this.mBundle=savedInstanceState;
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
         outState.putInt("spinner_position",spinner.getSelectedItemPosition());
     }
 
