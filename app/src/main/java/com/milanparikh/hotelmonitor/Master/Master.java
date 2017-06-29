@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.milanparikh.hotelmonitor.Master.DrawerFragments.MasterEmployeeList;
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.MasterRoomList;
 import com.milanparikh.hotelmonitor.R;
 import com.parse.ParseUser;
@@ -20,6 +21,7 @@ public class Master extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Fragment currentFragment;
+    String fragmentTag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +36,9 @@ public class Master extends AppCompatActivity
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         if(savedInstanceState!=null){
-            currentFragment = getSupportFragmentManager().getFragment(savedInstanceState, "MasterRoomList");
-            fragmentTransaction.replace(R.id.master_container, currentFragment, "MasterRoomList");
+            fragmentTag = savedInstanceState.getString("fragment_tag");
+            currentFragment = getSupportFragmentManager().getFragment(savedInstanceState, fragmentTag);
+            fragmentTransaction.replace(R.id.master_container, currentFragment, fragmentTag);
             fragmentTransaction.commit();
         }else{
             currentFragment = new MasterRoomList();
@@ -73,8 +76,10 @@ public class Master extends AppCompatActivity
 
         if (id == R.id.nav_dashboard) {
             currentFragment = new MasterRoomList();
+            fragmentTag = "MasterRoomList";
         } else if (id == R.id.nav_employee_list) {
-
+            currentFragment = new MasterEmployeeList();
+            fragmentTag = "MasterEmployeeList";
         } else if (id == R.id.nav_room_types) {
 
         } else if (id == R.id.nav_room_setup) {
@@ -83,7 +88,7 @@ public class Master extends AppCompatActivity
 
         if(currentFragment!=null){
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.master_container, currentFragment);
+            fragmentTransaction.replace(R.id.master_container, currentFragment,fragmentTag);
             fragmentTransaction.commit();
         }
 
@@ -95,7 +100,7 @@ public class Master extends AppCompatActivity
     @Override
     protected void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
-
-        getSupportFragmentManager().putFragment(outState, "MasterRoomList", currentFragment);
+        outState.putString("fragment_tag", fragmentTag);
+        getSupportFragmentManager().putFragment(outState, fragmentTag, currentFragment);
     }
 }

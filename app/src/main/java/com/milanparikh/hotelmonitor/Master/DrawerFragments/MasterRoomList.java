@@ -28,7 +28,6 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.milanparikh.hotelmonitor.Master.MasterExport;
-import com.milanparikh.hotelmonitor.Master.MasterRoomListAdapter;
 import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.milanparikh.hotelmonitor.R;
 import com.milanparikh.hotelmonitor.SettingsActivity;
@@ -110,7 +109,7 @@ public class MasterRoomList extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.master_menu, menu);
+        inflater.inflate(R.menu.master_dashboard_menu, menu);
 
         MenuItem menuSpinner = menu.findItem(R.id.floor_spinner);
         spinner = (Spinner) MenuItemCompat.getActionView(menuSpinner);

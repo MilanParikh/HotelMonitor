@@ -79,7 +79,6 @@ public class ClientRoomListAdapter extends ParseQueryAdapter {
             @Override
             public void onClick(View v) {
                 object.put("clean",1);
-                object.put("current_name", user.getUsername());
                 object.saveInBackground();
                 Intent checklistIntent = new Intent(getContext(),ClientCheckList.class);
                 Bundle extras = new Bundle();

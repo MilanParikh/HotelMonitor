@@ -1,43 +1,30 @@
-package com.milanparikh.hotelmonitor.Master;
+package com.milanparikh.hotelmonitor.Master.DrawerFragments;
 
 import android.content.Context;
-import android.graphics.Color;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
-import android.provider.MediaStore;
-import android.support.annotation.IdRes;
-import android.support.annotation.IntegerRes;
-import android.view.ContextMenu;
-import android.view.MenuItem;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.milanparikh.hotelmonitor.R;
-import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
-import com.parse.SaveCallback;
 
-import org.w3c.dom.Text;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
- * Created by milan on 6/6/2017.
+ * Created by milan on 6/28/2017.
  */
 
-public class MasterRoomListAdapter<T extends ParseObject> extends ParseQueryAdapter {
+public class MasterEmployeeRoomListAdapter<T extends ParseObject> extends ParseQueryAdapter {
     Date outDate;
     Date currentDate;
+    ParseObject roomObject;
+    String currentName;
 
-    public MasterRoomListAdapter(Context context, QueryFactory<T> queryFactory) {
+    public MasterEmployeeRoomListAdapter(Context context, QueryFactory<T> queryFactory) {
         super(context, queryFactory);
-
     }
 
     @Override
@@ -47,40 +34,26 @@ public class MasterRoomListAdapter<T extends ParseObject> extends ParseQueryAdap
         }
 
         super.getItemView(object, v, parent);
+        roomObject = object;
 
         TextView roomNum = (TextView)v.findViewById(R.id.room_num);
         roomNum.setText(object.getString("room"));
 
-        String[] membershiplist = getContext().getResources().getStringArray(R.array.membership_array);
-        int membershipPos = object.getInt("membership");
-        TextView membershipText = (TextView)v.findViewById(R.id.membership_master);
-        membershipText.setText(membershiplist[membershipPos]);
-
-        String currentName = object.getString("current_name");
+        currentName = object.getString("current_name");
         TextView currentNameText = (TextView)v.findViewById(R.id.current_name);
         currentNameText.setText(currentName);
 
         TextView guestStatusText = (TextView)v.findViewById(R.id.guest_status_text);
-
-        TextView guestDuration = (TextView)v.findViewById(R.id.guest_duration_text);
         String checkin = object.getString("checkindate");
         String checkout = object.getString("checkoutdate");
 
         if(checkin==null && checkout==null) {
-            guestDuration.setVisibility(View.GONE);
             guestStatusText.setText("Vacant");
         }else if(checkin!=null && checkout==null){
-            guestDuration.setText(checkin + " - ");
-            guestDuration.setVisibility(View.VISIBLE);
             guestStatusText.setText("Vacant");
         }else if(checkin==null && checkout!=null){
-            guestDuration.setText(" - " + checkout);
-            guestDuration.setVisibility(View.VISIBLE);
             guestStatusText.setText("Vacant");
         }else if(checkin!=null && checkout!=null){
-            guestDuration.setText(checkin + " - " + checkout);
-            guestDuration.setVisibility(View.VISIBLE);
-
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
             try{
                 outDate = sdf.parse(checkout);
@@ -97,6 +70,11 @@ public class MasterRoomListAdapter<T extends ParseObject> extends ParseQueryAdap
             }
 
         }
+
+        TextView guestDuration = (TextView)v.findViewById(R.id.guest_duration_text);
+        guestDuration.setVisibility(View.GONE);
+        TextView membershipText = (TextView)v.findViewById(R.id.membership_master);
+        membershipText.setVisibility(View.GONE);
 
         int clean = object.getInt("clean");
         switch (clean) {
@@ -116,8 +94,4 @@ public class MasterRoomListAdapter<T extends ParseObject> extends ParseQueryAdap
 
         return v;
     }
-
-
-
-
 }

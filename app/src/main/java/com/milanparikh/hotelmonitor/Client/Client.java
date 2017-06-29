@@ -74,6 +74,7 @@ public class Client extends AppCompatActivity {
                 query.orderByAscending("room");
                 query.whereContains("room", "R1");
                 query.whereEqualTo("clean",0);
+                query.whereEqualTo("current_name", username);
                 return query;
             }
         });
