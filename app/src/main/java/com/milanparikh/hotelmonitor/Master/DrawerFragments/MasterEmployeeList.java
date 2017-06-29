@@ -1,6 +1,7 @@
 package com.milanparikh.hotelmonitor.Master.DrawerFragments;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcel;
@@ -9,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -26,6 +28,8 @@ import com.milanparikh.hotelmonitor.Master.MasterExport;
 import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.milanparikh.hotelmonitor.R;
 import com.milanparikh.hotelmonitor.SettingsActivity;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseLiveQueryClient;
 import com.parse.ParseObject;
@@ -34,6 +38,8 @@ import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SubscriptionHandling;
+
+import java.util.HashMap;
 
 
 /**
@@ -71,7 +77,7 @@ public class MasterEmployeeList extends Fragment {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(activity, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
+        
         employeeListView = (ListView)view.findViewById(R.id.employee_listview);
         roomListView = (ListView)view.findViewById(R.id.employee_room_listview);
 
@@ -119,8 +125,48 @@ public class MasterEmployeeList extends Fragment {
                 selectedEmployeeName = employeeUser.getUsername();
             }
         });
+        employeeListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                ParseUser deleteUser = (ParseUser)parent.getItemAtPosition(position);
+                showDeleteConfirmation(deleteUser);
+                return true;
+            }
+        });
 
         return view;
+    }
+
+    public void showDeleteConfirmation(final ParseUser user){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+        dialogBuilder.setTitle("Delete Employee");
+        dialogBuilder.setMessage("Are you sure you want to delete this employee?");
+        dialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String userID = user.getObjectId();
+                HashMap<String, String> params = new HashMap<String, String>();
+                params.put("userId", userID);
+                ParseCloud.callFunctionInBackground("deleteUser", params, new FunctionCallback<Object>() {
+                    @Override
+                    public void done(Object object, ParseException e) {
+                        if(e==null){
+                            employeeListAdapter.loadObjects();
+                        }else{
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
     }
 
     @Override
