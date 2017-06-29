@@ -218,14 +218,13 @@ public class ClientCheckList extends AppCompatActivity
             public void onClick(View v) {
                 if(privacy==true){
                     roomListObject.put("clean",3);
-                    roomListObject.remove("current_name");
                     roomDataObject.put("privacy", 1);
                 }
                 else if (privacy==false){
                     roomListObject.put("clean",2);
-                    roomListObject.remove("current_name");
                     roomDataObject.put("privacy", 0);
                 }
+                roomListObject.remove("current_name");
                 roomListObject.saveInBackground();
                 getClosetFragmentValues();
                 getBedroomFragmentValues();
@@ -405,7 +404,6 @@ public class ClientCheckList extends AppCompatActivity
     @Override
     public void onBackPressed() {
         roomListObject.put("clean", 0);
-        roomListObject.put("current_name", "");
         roomListObject.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

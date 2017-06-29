@@ -35,7 +35,7 @@ public class MasterSetup extends AppCompatActivity {
         floor1button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i=1; i<13; i++) {
+                for (int i=0; i<13; i++) {
                     ParseObject roomList = new ParseObject("RoomList");
                     roomList.put("room","R"+ Integer.toString(100+i));
                     roomList.put("clean",2);
@@ -47,7 +47,7 @@ public class MasterSetup extends AppCompatActivity {
         floor2button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i=1; i<25; i++) {
+                for (int i=0; i<25; i++) {
                     ParseObject roomList = new ParseObject("RoomList");
                     roomList.put("room","R"+ Integer.toString(200+i));
                     roomList.put("clean",2);
@@ -59,7 +59,7 @@ public class MasterSetup extends AppCompatActivity {
         floor3button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i=1; i<25; i++) {
+                for (int i=0; i<25; i++) {
                     ParseObject roomList = new ParseObject("RoomList");
                     roomList.put("room","R"+ Integer.toString(300+i));
                     roomList.put("clean",2);
