@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         ComponentName deviceAdmin = new ComponentName(this, AdminReceiver.class);
         devicePM = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
         if (!devicePM.isAdminActive(deviceAdmin)) {
-            Toast.makeText(this, "Not Device Admin", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Not Device Admin", Toast.LENGTH_SHORT).show();
             kioskModeAvailable=false;
         }
 
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             devicePM.setLockTaskPackages(deviceAdmin, new String[]{getPackageName()});
             kioskModeAvailable=true;
         } else {
-            Toast.makeText(this, "Not Device Owner", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Not Device Owner", Toast.LENGTH_SHORT).show();
             kioskModeAvailable=false;
         }
 
@@ -181,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.login_menu, menu);
         menu.findItem(R.id.action_kiosk).setEnabled(kioskModeAvailable);
+        menu.findItem(R.id.action_disable_admin).setEnabled(kioskModeAvailable);
         menu.findItem(R.id.action_kiosk).setChecked(sharedPref.getBoolean("kiosk_mode",true));
         kioskItem = menu.findItem(R.id.action_kiosk);
         return true;

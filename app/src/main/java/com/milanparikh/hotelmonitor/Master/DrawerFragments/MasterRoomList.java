@@ -208,6 +208,7 @@ public class MasterRoomList extends Fragment {
             case R.id.clear_duration:
                 pObject.remove("checkindate");
                 pObject.remove("checkoutdate");
+                pObject.put("membership", 0);
                 pObject.saveInBackground();
                 return true;
             case R.id.add_membership:
