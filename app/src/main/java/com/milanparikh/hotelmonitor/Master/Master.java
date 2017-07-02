@@ -7,13 +7,13 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.MasterEmployeeList;
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.MasterRoomList;
+import com.milanparikh.hotelmonitor.Master.DrawerFragments.MasterRoomTypes;
 import com.milanparikh.hotelmonitor.R;
 import com.parse.ParseUser;
 
@@ -81,7 +81,8 @@ public class Master extends AppCompatActivity
             currentFragment = new MasterEmployeeList();
             fragmentTag = "MasterEmployeeList";
         } else if (id == R.id.nav_room_types) {
-
+            currentFragment = new MasterRoomTypes();
+            fragmentTag = "MasterRoomType";
         } else if (id == R.id.nav_room_setup) {
 
         }

@@ -1,31 +1,17 @@
 package com.milanparikh.hotelmonitor.Master.DrawerFragments;
 
 import android.content.Context;
-import android.graphics.Color;
+
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
-import android.provider.MediaStore;
-import android.support.annotation.IdRes;
-import android.support.annotation.IntegerRes;
-import android.view.ContextMenu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.milanparikh.hotelmonitor.R;
-import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
-import com.parse.SaveCallback;
-
-import org.w3c.dom.Text;
 
 /**
  * Created by milan on 6/6/2017.
@@ -43,7 +29,7 @@ public class MasterRoomListAdapter<T extends ParseObject> extends ParseQueryAdap
     @Override
     public View getItemView(final ParseObject object, View v, ViewGroup parent) {
         if (v == null) {
-            v = View.inflate(getContext(), R.layout.master_roomlist_item, null);
+            v = View.inflate(getContext(), R.layout.item_master_roomlist, null);
         }
 
         super.getItemView(object, v, parent);

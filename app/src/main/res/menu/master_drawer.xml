@@ -13,8 +13,7 @@
         <item
             android:id="@+id/nav_room_types"
             android:icon="@drawable/ic_weekend_black_24dp"
-            android:title="Room Types"
-            android:enabled="false"/>
+            android:title="Room Types"/>
         <item
             android:id="@+id/nav_room_setup"
             android:icon="@drawable/ic_menu_manage"

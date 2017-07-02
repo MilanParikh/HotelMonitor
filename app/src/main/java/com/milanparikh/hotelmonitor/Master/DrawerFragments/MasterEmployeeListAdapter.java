@@ -10,9 +10,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * Created by milan on 6/28/2017.
  */
@@ -26,7 +23,7 @@ public class MasterEmployeeListAdapter<T extends ParseUser> extends ParseQueryAd
     @Override
     public View getItemView(final ParseObject user, View v, ViewGroup parent) {
         if (v == null) {
-            v = View.inflate(getContext(), R.layout.employee_list_item, null);
+            v = View.inflate(getContext(), R.layout.item_employee_list, null);
         }
 
         TextView employeeName = (TextView)v.findViewById(R.id.employee_name);

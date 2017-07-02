@@ -12,7 +12,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -179,7 +178,7 @@ public class RegistrationActivity extends AppCompatActivity {
         });
         final AlertDialog.Builder passwordBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.password_dialog, null);
+        final View dialogView = inflater.inflate(R.layout.dialog_password, null);
         passwordBuilder.setView(dialogView);
 
         final EditText dialogPasswordEditText = (EditText)dialogView.findViewById(R.id.dialog_password_edittext);

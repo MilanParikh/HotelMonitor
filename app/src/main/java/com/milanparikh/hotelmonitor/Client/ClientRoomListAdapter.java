@@ -2,15 +2,10 @@ package com.milanparikh.hotelmonitor.Client;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.milanparikh.hotelmonitor.R;
 import com.parse.ParseObject;
@@ -35,7 +30,7 @@ public class ClientRoomListAdapter extends ParseQueryAdapter {
     @Override
     public View getItemView(final ParseObject object, View v, ViewGroup parent) {
         if (v == null) {
-            v = View.inflate(getContext(), R.layout.client_roomlist_item, null);
+            v = View.inflate(getContext(), R.layout.item_client_roomlist, null);
         }
 
         super.getItemView(object, v, parent);
