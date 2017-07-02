@@ -4,10 +4,7 @@ package com.milanparikh.hotelmonitor.Master.DrawerFragments;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -20,24 +17,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 
 import com.milanparikh.hotelmonitor.Master.MasterExport;
 import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.milanparikh.hotelmonitor.R;
-import com.milanparikh.hotelmonitor.SettingsActivity;
+import com.milanparikh.hotelmonitor.Other.SettingsActivity;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
-import com.parse.ParseLiveQueryClient;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-import com.parse.SubscriptionHandling;
 
 import java.util.HashMap;
 
@@ -69,7 +62,7 @@ public class MasterEmployeeList extends Fragment {
         View view = inflater.inflate(R.layout.fragment_master_employee_list, container, false);
 
         activity = (AppCompatActivity) getActivity();
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.master_toolbar);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.master_employee_list_toolbar);
         activity.setSupportActionBar(toolbar);
         setHasOptionsMenu(true);
 
