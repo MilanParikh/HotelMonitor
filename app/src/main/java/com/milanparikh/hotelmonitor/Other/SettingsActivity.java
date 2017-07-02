@@ -1,4 +1,4 @@
-package com.milanparikh.hotelmonitor;
+package com.milanparikh.hotelmonitor.Other;
 
 import android.os.Bundle;
 import android.preference.Preference;
@@ -6,6 +6,8 @@ import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+
+import com.milanparikh.hotelmonitor.R;
 
 public class SettingsActivity extends AppCompatActivity {
 

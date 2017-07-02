@@ -30,7 +30,7 @@ import android.widget.Spinner;
 import com.milanparikh.hotelmonitor.Master.MasterExport;
 import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.milanparikh.hotelmonitor.R;
-import com.milanparikh.hotelmonitor.SettingsActivity;
+import com.milanparikh.hotelmonitor.Other.SettingsActivity;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseLiveQueryClient;
@@ -69,7 +69,7 @@ public class MasterRoomList extends Fragment {
         View view = inflater.inflate(R.layout.fragment_master_room_list, container, false);
 
         activity = (AppCompatActivity) getActivity();
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.master_toolbar);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.master_room_list_toolbar);
         activity.setSupportActionBar(toolbar);
         setHasOptionsMenu(true);
 

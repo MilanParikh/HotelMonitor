@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.milanparikh.hotelmonitor.Client.Client;
 import com.milanparikh.hotelmonitor.Master.Master;
 import com.milanparikh.hotelmonitor.Other.DownloadUpdate;
+import com.milanparikh.hotelmonitor.Other.SettingsActivity;
 import com.parse.ConfigCallback;
 import com.parse.LogInCallback;
 import com.parse.Parse;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences.Editor prefEditor;
     String serverURL;
     String appID;
-    String settingsPassword;
+    String adminPassword;
     EditText usernameEditText;
     EditText passwordEditText;
     public ParseUser user;
@@ -138,31 +139,8 @@ public class MainActivity extends AppCompatActivity {
                 if (cUser!=null) {
                     cUser.logOutInBackground();
                 }
-                user = new ParseUser();
-                user.setUsername(usernameEditText.getText().toString());
-                user.setPassword(passwordEditText.getText().toString());
-                user.put("MasterMode", 0);
-
-                user.signUpInBackground(new SignUpCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e==null) {
-                            Toast.makeText(MainActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
-                            int masterMode = user.getInt("MasterMode");
-                            if (masterMode==1) {
-                                Intent launchMaster = new Intent(getApplicationContext(), Master.class);
-                                startActivity(launchMaster);
-                            }
-                            else {
-                                Intent launchClient = new Intent(getApplicationContext(), Client.class);
-                                startActivity(launchClient);
-                            }
-                        }
-                        else {
-                            Toast.makeText(MainActivity.this, "Registration failed: " + e.toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                Intent registerIntent = new Intent(getApplicationContext(), RegistrationActivity.class);
+                startActivity(registerIntent);
             }
         });
         passwordEditText.setOnKeyListener(new View.OnKeyListener() {
@@ -238,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
                 }else {
                     config = ParseConfig.getCurrentConfig();
                 }
-                settingsPassword = config.getString("settings_password");
+                adminPassword = config.getString("admin_password");
             }
         });
         final AlertDialog.Builder passwordBuilder = new AlertDialog.Builder(this);
@@ -253,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String submittedPassword = dialogPasswordEditText.getText().toString();
-                correctPassword = (settingsPassword.equals(submittedPassword));
+                correctPassword = (adminPassword.equals(submittedPassword));
                 if(correctPassword){
                     optionsActions(scenario);
                 }
@@ -326,6 +304,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         passwordEditText.setText("");
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if(currentUser!=null){
+            currentUser.logOutInBackground();
+        }
         super.onResume();
     }
 }

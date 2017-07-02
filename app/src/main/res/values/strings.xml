@@ -22,6 +22,7 @@
     <string name="stay_over">Stay Over</string>
     <string name="due_out">Due Out</string>
     <string name="overstayed">Overstayed</string>
+    <string name="username_label">"Your username is: "</string>
 
     <string name="select_membership">Select Membership Type</string>
     <string-array name="membership_array">
