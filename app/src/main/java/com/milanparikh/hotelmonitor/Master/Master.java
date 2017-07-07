@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.MasterEmployeeList;
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.MasterRoomList;
+import com.milanparikh.hotelmonitor.Master.DrawerFragments.MasterRoomSetup;
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.MasterRoomTypes;
 import com.milanparikh.hotelmonitor.R;
 import com.parse.ParseUser;
@@ -84,6 +85,8 @@ public class Master extends AppCompatActivity
             currentFragment = new MasterRoomTypes();
             fragmentTag = "MasterRoomType";
         } else if (id == R.id.nav_room_setup) {
+            currentFragment = new MasterRoomSetup();
+            fragmentTag = "MasterRoomSetup";
 
         }
 

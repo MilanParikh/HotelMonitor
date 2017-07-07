@@ -68,7 +68,7 @@ public class Client extends AppCompatActivity {
             public ParseQuery<ParseObject> create() {
                 query = new ParseQuery("RoomList");
                 query.orderByAscending("room");
-                query.whereContains("room", "R1");
+                query.whereEqualTo("floor", 1);
                 query.whereEqualTo("clean",0);
                 query.whereEqualTo("current_name", username);
                 return query;
@@ -106,7 +106,7 @@ public class Client extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 parseLiveQueryClient.unsubscribe(query);
-                query.whereContains("room","R"+Integer.toString(position+1));
+                query.whereEqualTo("floor",position+1);
                 adapter.loadObjects();
                 subscriptionHandling = parseLiveQueryClient.subscribe(query);
                 subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseObject>() {

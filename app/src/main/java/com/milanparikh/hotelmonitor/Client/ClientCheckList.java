@@ -92,7 +92,7 @@ public class ClientCheckList extends AppCompatActivity
             public void done(ParseObject object, ParseException e) {
                 if (e==null) {
                     roomListObject = object;
-                    title = "Room Checklist: " + object.getString("room");
+                    title = "Room Checklist: " + Integer.toString(object.getInt("room"));
                     getSupportActionBar().setTitle(title);
                 }
                 else {
@@ -233,7 +233,7 @@ public class ClientCheckList extends AppCompatActivity
                 getElapsedTime();
                 roomDataObject.put("user", user);
                 roomDataObject.put("username",username);
-                roomDataObject.put("room", roomListObject.getString("room"));
+                roomDataObject.put("room", roomListObject.getInt("room"));
                 roomDataObject.saveInBackground();
                 finish();
             }

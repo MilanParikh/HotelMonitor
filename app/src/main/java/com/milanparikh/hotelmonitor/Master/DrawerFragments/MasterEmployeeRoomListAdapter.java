@@ -36,7 +36,7 @@ public class MasterEmployeeRoomListAdapter<T extends ParseObject> extends ParseQ
         roomObject = object;
 
         TextView roomNum = (TextView)v.findViewById(R.id.room_num);
-        roomNum.setText(object.getString("room"));
+        roomNum.setText(Integer.toString(object.getInt("room")));
 
         currentName = object.getString("current_name");
         TextView currentNameText = (TextView)v.findViewById(R.id.current_name);
