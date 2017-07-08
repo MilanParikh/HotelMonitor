@@ -24,6 +24,7 @@ import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.milanparikh.hotelmonitor.R;
 import com.milanparikh.hotelmonitor.Other.SettingsActivity;
 import com.parse.ConfigCallback;
+import com.parse.FindCallback;
 import com.parse.ParseConfig;
 import com.parse.ParseException;
 import com.parse.ParseLiveQueryClient;
@@ -32,6 +33,9 @@ import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.parse.SubscriptionHandling;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Client extends AppCompatActivity {
     ParseQuery query;
@@ -68,7 +72,7 @@ public class Client extends AppCompatActivity {
             public ParseQuery<ParseObject> create() {
                 query = new ParseQuery("RoomList");
                 query.orderByAscending("room");
-                query.whereContains("room", "R1");
+                query.whereEqualTo("floor", 1);
                 query.whereEqualTo("clean",0);
                 query.whereEqualTo("current_name", username);
                 return query;
@@ -94,19 +98,33 @@ public class Client extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.client_menu, menu);
         MenuItem menuSpinner = menu.findItem(R.id.floor_spinner);
         spinner = (Spinner) MenuItemCompat.getActionView(menuSpinner);
-        spinner.setBackgroundTintList(getColorStateList(R.color.white));
-        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.floor_list, R.layout.custom_simple_spinner_item);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(spinnerAdapter);
-        if (this.mBundle != null) {
-            spinner.setSelection(mBundle.getInt("spinner_position"));
-        }
+        spinner.setBackgroundTintList(getApplicationContext().getColorStateList(R.color.white));
+        ParseQuery<ParseObject> floorQuery = new ParseQuery<ParseObject>("Floors");
+        floorQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                if(e==null){
+                    ArrayList<String> floorList = new ArrayList<>();
+                    for(ParseObject object : list){
+                        floorList.add("Floor " + Integer.toString(object.getInt("floor")));
+                    }
+                    ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.custom_simple_spinner_item, floorList);
+                    spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(spinnerAdapter);
+                    if (mBundle != null) {
+                        spinner.setSelection(mBundle.getInt("spinner_position"));
+                    }
+                }else{
+
+                }
+            }
+        });
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 parseLiveQueryClient.unsubscribe(query);
-                query.whereContains("room","R"+Integer.toString(position+1));
+                query.whereEqualTo("floor",position+1);
                 adapter.loadObjects();
                 subscriptionHandling = parseLiveQueryClient.subscribe(query);
                 subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseObject>() {

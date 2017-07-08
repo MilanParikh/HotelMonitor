@@ -100,6 +100,20 @@ public class MasterEmployeeList extends Fragment {
                 }
             }
         });
+        roomListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                ParseObject clearRoomObject = (ParseObject)parent.getItemAtPosition(position);
+                clearRoomObject.remove("current_name");
+                clearRoomObject.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        roomListAdapter.notifyDataSetChanged();
+                    }
+                });
+                return true;
+            }
+        });
 
         employeeListAdapter = new MasterEmployeeListAdapter<>(getContext(), new ParseQueryAdapter.QueryFactory<ParseUser>() {
             @Override

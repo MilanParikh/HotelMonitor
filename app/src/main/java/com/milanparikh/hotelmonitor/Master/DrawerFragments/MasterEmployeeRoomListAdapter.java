@@ -1,7 +1,6 @@
 package com.milanparikh.hotelmonitor.Master.DrawerFragments;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -30,14 +29,14 @@ public class MasterEmployeeRoomListAdapter<T extends ParseObject> extends ParseQ
     @Override
     public View getItemView(final ParseObject object, View v, ViewGroup parent) {
         if (v == null) {
-            v = View.inflate(getContext(), R.layout.master_roomlist_item, null);
+            v = View.inflate(getContext(), R.layout.item_master_roomlist, null);
         }
 
         super.getItemView(object, v, parent);
         roomObject = object;
 
         TextView roomNum = (TextView)v.findViewById(R.id.room_num);
-        roomNum.setText(object.getString("room"));
+        roomNum.setText(Integer.toString(object.getInt("room")));
 
         currentName = object.getString("current_name");
         TextView currentNameText = (TextView)v.findViewById(R.id.current_name);

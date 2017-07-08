@@ -35,7 +35,6 @@ import com.parse.Parse;
 import com.parse.ParseConfig;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.SignUpCallback;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -221,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
         });
         final AlertDialog.Builder passwordBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.password_dialog, null);
+        final View dialogView = inflater.inflate(R.layout.dialog_password, null);
         passwordBuilder.setView(dialogView);
 
         final EditText dialogPasswordEditText = (EditText)dialogView.findViewById(R.id.dialog_password_edittext);
