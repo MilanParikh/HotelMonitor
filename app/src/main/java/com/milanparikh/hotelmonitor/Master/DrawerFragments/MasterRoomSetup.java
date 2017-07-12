@@ -21,6 +21,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterRoomSetupFloorAdapter;
+import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterRoomSetupRoomAdapter;
+import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterRoomSetupTypeAdapter;
 import com.milanparikh.hotelmonitor.Master.MasterExport;
 import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.milanparikh.hotelmonitor.Other.SettingsActivity;

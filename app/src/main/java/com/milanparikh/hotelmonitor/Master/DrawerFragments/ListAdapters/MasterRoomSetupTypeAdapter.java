@@ -1,4 +1,4 @@
-package com.milanparikh.hotelmonitor.Master.DrawerFragments;
+package com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters;
 
 import android.content.Context;
 import android.view.View;

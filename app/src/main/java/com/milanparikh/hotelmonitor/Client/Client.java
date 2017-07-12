@@ -151,7 +151,7 @@ public class Client extends AppCompatActivity {
                 startActivity(settingsIntent);
                 return true;
             case R.id.logout_item:
-                ParseUser.logOut();
+                ParseUser.logOutInBackground();
                 finish();
                 return true;
             default:

@@ -130,6 +130,16 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
 
+        final Switch maintSwitch = (Switch)findViewById(R.id.maintenance_switch);
+        maintSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(maintSwitch.isChecked()){
+                    masterSwitch.setChecked(false);
+                }
+            }
+        });
+
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +148,9 @@ public class RegistrationActivity extends AppCompatActivity {
                 user.setPassword(confirmPasswordText);
                 if(masterSwitch.isChecked()){
                     user.put("MasterMode", 1);
-                }else {
+                }else if(maintSwitch.isChecked()){
+                    user.put("MasterMode", 2);
+                }else{
                     user.put("MasterMode", 0);
                 }
 

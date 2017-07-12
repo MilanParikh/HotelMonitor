@@ -25,12 +25,15 @@ import com.milanparikh.hotelmonitor.Client.CheckListFragments.ClosetFragment;
 import com.milanparikh.hotelmonitor.Client.CheckListFragments.FragmentData;
 import com.milanparikh.hotelmonitor.Client.CheckListFragments.MaintenanceFragment;
 import com.milanparikh.hotelmonitor.R;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import java.util.List;
 
 public class ClientCheckList extends AppCompatActivity
         implements ClosetFragment.OnFragmentInteractionListener,
@@ -63,10 +66,12 @@ public class ClientCheckList extends AppCompatActivity
     TextView privacyButton;
     ProgressBar progressBar;
     ParseObject roomDataObject;
+    ParseObject maintenanceObject;
     ParseUser user;
     Long startTime;
     Long endTime;
     Boolean privacy=false;
+    int room;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,10 +98,19 @@ public class ClientCheckList extends AppCompatActivity
                 if (e==null) {
                     roomListObject = object;
                     title = "Room Checklist: " + Integer.toString(object.getInt("room"));
+                    room = object.getInt("room");
                     getSupportActionBar().setTitle(title);
                 }
-                else {
+            }
+        });
 
+        ParseQuery<ParseObject> maintenanceQuery = ParseQuery.getQuery("Maintenance");
+        query.whereEqualTo("room", room);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if(e==null){
+                    maintenanceObject = objects.get(0);
                 }
             }
         });
@@ -380,6 +394,20 @@ public class ClientCheckList extends AppCompatActivity
         roomDataObject.put("maintenance_thermostat", maintenanceValues.getMaintenanceThermostatInt());
         roomDataObject.put("maintenance_hair_dryer", maintenanceValues.getMaintenanceHairDryerInt());
         roomDataObject.put("maintenance_bible", maintenanceValues.getMaintenanceBibleInt());
+
+        maintenanceObject.put("maintenance_toilet", maintenanceValues.getMaintenanceToiletInt());
+        maintenanceObject.put("maintenance_shower_drain", maintenanceValues.getMaintenanceShowerDrainInt());
+        maintenanceObject.put("maintenance_shower_curtain", maintenanceValues.getMaintenanceShowerCurtainInt());
+        maintenanceObject.put("maintenance_air_conditioning", maintenanceValues.getMaintenanceAirConditioningInt());
+        maintenanceObject.put("maintenance_television", maintenanceValues.getMaintenanceTelevisionInt());
+        maintenanceObject.put("maintenance_remote", maintenanceValues.getMaintenanceRemoteInt());
+        maintenanceObject.put("maintenance_window_curtain", maintenanceValues.getMaintenanceWindowCurtainInt());
+        maintenanceObject.put("maintenance_carpet", maintenanceValues.getMaintenanceCarpetInt());
+        maintenanceObject.put("maintenance_room_lock", maintenanceValues.getMaintenanceRoomLockInt());
+        maintenanceObject.put("maintenance_light_bulbs", maintenanceValues.getMaintenanceLightBulbsInt());
+        maintenanceObject.put("maintenance_thermostat", maintenanceValues.getMaintenanceThermostatInt());
+        maintenanceObject.put("maintenance_hair_dryer", maintenanceValues.getMaintenanceHairDryerInt());
+        maintenanceObject.put("maintenance_bible", maintenanceValues.getMaintenanceBibleInt());
     }
 
     public void getElapsedTime() {
