@@ -248,6 +248,7 @@ public class ClientCheckList extends AppCompatActivity
                 roomDataObject.put("user", user);
                 roomDataObject.put("username",username);
                 roomDataObject.put("room", roomListObject.getInt("room"));
+                roomDataObject.put("checkoutdate", roomListObject.getString("checkoutdate"));
                 roomDataObject.saveInBackground();
                 finish();
             }
