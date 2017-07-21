@@ -181,7 +181,12 @@ public class MainActivity extends AppCompatActivity {
                 checkPassword("update");
                 return true;
             case R.id.action_kiosk:
-                checkPassword("kiosk");
+                //checkPassword("kiosk");
+                if(sharedPref.getBoolean("kiosk_mode", false)){
+                    toggleKiosk(false);
+                }else{
+                    toggleKiosk(true);
+                }
                 return true;
             case R.id.action_disable_admin:
                 checkPassword("admin");
