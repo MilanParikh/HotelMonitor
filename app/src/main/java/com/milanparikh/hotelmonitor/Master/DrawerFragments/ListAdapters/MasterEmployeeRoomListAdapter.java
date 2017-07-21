@@ -78,16 +78,28 @@ public class MasterEmployeeRoomListAdapter<T extends ParseObject> extends ParseQ
         int clean = object.getInt("clean");
         switch (clean) {
             case 0:
+                roomNum.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
                 v.setBackgroundColor(getContext().getColor(R.color.roomListRed));
                 break;
             case 1:
+                roomNum.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
                 v.setBackgroundColor(getContext().getColor(R.color.roomListYellow));
                 break;
             case 2:
+                roomNum.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
                 v.setBackgroundColor(getContext().getColor(R.color.roomListGreen));
                 break;
             case 3:
+                roomNum.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
                 v.setBackgroundColor(getContext().getColor(R.color.roomListBlue));
+                break;
+            case 4:
+                roomNum.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_check_circle_black_24dp, 0);
+                v.setBackgroundColor(getContext().getColor(R.color.roomListGreen));
+                break;
+            case 5:
+                roomNum.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_warning_black_24dp, 0);
+                v.setBackgroundColor(getContext().getColor(R.color.roomListYellow));
                 break;
         }
 

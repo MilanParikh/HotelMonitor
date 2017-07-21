@@ -38,7 +38,7 @@ public class MasterAvailabilityListAdapter<T extends ParseObject> extends ParseQ
 
         final TextView countText = (TextView)v.findViewById(R.id.availability_room_count);
         ParseQuery countQuery = new ParseQuery<T>("RoomList");
-        countQuery.whereEqualTo("clean", 2);
+        countQuery.whereEqualTo("clean", 4);
         countQuery.whereEqualTo("type", object.getString("acronym"));
         countQuery.setLimit(500);
         countQuery.countInBackground(new CountCallback() {

@@ -28,6 +28,7 @@ import com.milanparikh.hotelmonitor.Master.MasterExport;
 import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.milanparikh.hotelmonitor.Other.SettingsActivity;
 import com.milanparikh.hotelmonitor.R;
+import com.parse.DeleteCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -135,6 +136,14 @@ public class MasterRoomSetup extends Fragment {
                 }
             }
         });
+        setupRoomList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                ParseObject selectedRoomObject = (ParseObject)parent.getItemAtPosition(position);
+                showDeleteConfirmation(selectedRoomObject);
+                return true;
+            }
+        });
 
         final TextView addFloorButton = (TextView)view.findViewById(R.id.add_floor_textView);
         addFloorButton.setOnClickListener(new View.OnClickListener() {
@@ -200,6 +209,31 @@ public class MasterRoomSetup extends Fragment {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public void showDeleteConfirmation(final ParseObject object){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+        dialogBuilder.setTitle("Delete Room Type");
+        dialogBuilder.setMessage("Are you sure you want to delete this room type?");
+        dialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                object.deleteInBackground(new DeleteCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        roomAdapter.loadObjects();
+                    }
+                });
+            }
+        });
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
     }
 
     @Override

@@ -28,6 +28,7 @@ import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.milanparikh.hotelmonitor.Client.ClientCheckList;
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterAvailabilityListAdapter;
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterRoomListAdapter;
 import com.milanparikh.hotelmonitor.Master.MasterExport;
@@ -221,6 +222,9 @@ public class MasterRoomList extends Fragment {
         pObject = (ParseObject) lv.getAdapter().getItem(info.position);
         pObjectID = pObject.getObjectId();
         int cleanStatus = pObject.getInt("clean");
+        if(cleanStatus!=2){
+            contextMenu.findItem(R.id.check_room).setEnabled(false);
+        }
         switch (cleanStatus) {
             case 0:
                 contextMenu.findItem(R.id.set_dirty).setChecked(true);
@@ -257,6 +261,15 @@ public class MasterRoomList extends Fragment {
             case R.id.add_membership:
                 showMembershipDialog();
                 return true;
+            case R.id.check_room:
+                Intent checklistIntent = new Intent(getContext(),ClientCheckList.class);
+                Bundle extras = new Bundle();
+                extras.putString("objectID",pObject.getObjectId());
+                extras.putParcelable("roomListObject", pObject);
+                extras.putString("source", "master");
+                checklistIntent.putExtras(extras);
+                startActivityForResult(checklistIntent, 1);
+                return true;
             case R.id.set_dirty:
                 pObject.put("clean", 0);
                 pObject.saveInBackground();
@@ -271,6 +284,10 @@ public class MasterRoomList extends Fragment {
                 return true;
             case R.id.set_private:
                 pObject.put("clean", 3);
+                pObject.saveInBackground();
+                return true;
+            case R.id.set_maintenance:
+                pObject.put("clean", 5);
                 pObject.saveInBackground();
                 return true;
             default:
@@ -345,6 +362,28 @@ public class MasterRoomList extends Fragment {
 
         if (savedInstanceState != null) {
             this.mBundle=savedInstanceState;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode==1){
+            roomListAdapter.loadObjects();
+            int orientation = getResources().getConfiguration().orientation;
+            if(Configuration.ORIENTATION_LANDSCAPE==orientation){
+                availabilityListAdapter.loadObjects();
+            }
+            subscriptionHandling = parseLiveQueryClient.subscribe(roomQuery);
+            subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseObject>() {
+                @Override
+                public void onEvents(ParseQuery<ParseObject> query, SubscriptionHandling.Event event, ParseObject object) {
+                    roomListAdapter.loadObjects();
+                    int orientation = getResources().getConfiguration().orientation;
+                    if(Configuration.ORIENTATION_LANDSCAPE==orientation){
+                        availabilityListAdapter.loadObjects();
+                    }
+                }
+            });
         }
     }
 

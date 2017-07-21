@@ -78,6 +78,8 @@ public class ClientRoomListAdapter extends ParseQueryAdapter {
                 Intent checklistIntent = new Intent(getContext(),ClientCheckList.class);
                 Bundle extras = new Bundle();
                 extras.putString("objectID",object.getObjectId());
+                extras.putString("source", "client");
+                extras.putParcelable("roomListObject", object);
                 checklistIntent.putExtras(extras);
                 getContext().startActivity(checklistIntent);
             }
