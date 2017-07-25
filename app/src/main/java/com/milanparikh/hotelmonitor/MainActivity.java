@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.milanparikh.hotelmonitor.Client.Client;
+import com.milanparikh.hotelmonitor.Maintenance.Maintenance;
 import com.milanparikh.hotelmonitor.Master.Master;
 import com.milanparikh.hotelmonitor.Other.DownloadUpdate;
 import com.milanparikh.hotelmonitor.Other.SettingsActivity;
@@ -114,13 +115,18 @@ public class MainActivity extends AppCompatActivity {
                         if (pUser != null) {
                             Toast.makeText(MainActivity.this, pUser.getUsername()+ " successfully logged In", Toast.LENGTH_SHORT).show();
                             int masterMode = pUser.getInt("MasterMode");
-                            if (masterMode==1) {
-                                Intent launchMaster = new Intent(getApplicationContext(), Master.class);
-                                startActivity(launchMaster);
-                            }
-                            else {
-                                Intent launchClient = new Intent(getApplicationContext(), Client.class);
-                                startActivity(launchClient);
+                            switch(masterMode){
+                                case 0:
+                                    Intent launchClient = new Intent(getApplicationContext(), Client.class);
+                                    startActivity(launchClient);
+                                    break;
+                                case 1:
+                                    Intent launchMaster = new Intent(getApplicationContext(), Master.class);
+                                    startActivity(launchMaster);
+                                    break;
+                                case 2:
+                                    Intent launchMaint = new Intent(getApplicationContext(), Maintenance.class);
+                                    startActivity(launchMaint);
                             }
                         }
                         else {
@@ -175,7 +181,12 @@ public class MainActivity extends AppCompatActivity {
                 checkPassword("update");
                 return true;
             case R.id.action_kiosk:
-                checkPassword("kiosk");
+                //checkPassword("kiosk");
+                if(sharedPref.getBoolean("kiosk_mode", false)){
+                    toggleKiosk(false);
+                }else{
+                    toggleKiosk(true);
+                }
                 return true;
             case R.id.action_disable_admin:
                 checkPassword("admin");

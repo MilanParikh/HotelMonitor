@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterEmployeeListAdapter;
+import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterEmployeeRoomListAdapter;
 import com.milanparikh.hotelmonitor.Master.MasterExport;
 import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.milanparikh.hotelmonitor.R;

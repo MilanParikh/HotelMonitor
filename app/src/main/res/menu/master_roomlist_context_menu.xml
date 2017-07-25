@@ -17,6 +17,9 @@
     <item
         android:id="@+id/add_membership"
         android:title="Change Membership"/>
+    <item
+        android:id="@+id/check_room"
+        android:title="Check Room" />
     <group
         android:id="@+id/clean_status_group"
         android:checkableBehavior="single">
@@ -32,5 +35,9 @@
         <item
             android:id="@+id/set_private"
             android:title="Set Private" />
+        <item
+            android:id="@+id/set_maintenance"
+            android:title="Set Maintenance Required" />
     </group>
+
 </menu>

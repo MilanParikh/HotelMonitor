@@ -79,9 +79,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.milanparikh.hotelmonitor.MainActivity" />
         </activity>
-        <activity android:name=".RegistrationActivity"
-            android:label="Registration">
-        </activity>
+        <activity
+            android:name=".RegistrationActivity"
+            android:label="Registration" />
+        <activity android:name=".Maintenance.Maintenance" />
+        <activity android:name=".Maintenance.MaintenanceCheckList"></activity>
     </application>
 
 </manifest>

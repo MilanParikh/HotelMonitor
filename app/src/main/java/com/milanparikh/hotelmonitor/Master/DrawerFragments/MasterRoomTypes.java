@@ -21,22 +21,18 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterRoomTypeAdapter;
 import com.milanparikh.hotelmonitor.Master.MasterExport;
 import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.milanparikh.hotelmonitor.Other.SettingsActivity;
 import com.milanparikh.hotelmonitor.R;
 import com.parse.DeleteCallback;
-import com.parse.FunctionCallback;
-import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.

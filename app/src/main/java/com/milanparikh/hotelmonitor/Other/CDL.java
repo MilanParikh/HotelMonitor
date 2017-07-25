@@ -1,4 +1,4 @@
-package org.json;
+package com.milanparikh.hotelmonitor.Other;
 
 /*
 Copyright (c) 2002 JSON.org
@@ -23,6 +23,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 /**
  * This provides static methods to convert comma delimited text into a

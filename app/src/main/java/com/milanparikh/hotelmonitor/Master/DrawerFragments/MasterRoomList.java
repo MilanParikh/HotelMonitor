@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.DialogFragment;
@@ -27,6 +28,9 @@ import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.milanparikh.hotelmonitor.Client.ClientCheckList;
+import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterAvailabilityListAdapter;
+import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterRoomListAdapter;
 import com.milanparikh.hotelmonitor.Master.MasterExport;
 import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.milanparikh.hotelmonitor.R;
@@ -49,16 +53,19 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class MasterRoomList extends Fragment {
-    ParseQuery query;
+    ParseQuery roomQuery;
     Spinner spinner;
-    MasterRoomListAdapter<ParseObject> adapter;
+    MasterRoomListAdapter<ParseObject> roomListAdapter;
     ParseLiveQueryClient parseLiveQueryClient;
     SubscriptionHandling<ParseObject> subscriptionHandling;
     Bundle mBundle;
-    ListView listView;
+    ListView roomListView;
     ParseObject pObject;
     String pObjectID;
     AppCompatActivity activity;
+    ListView availableListView;
+    MasterAvailabilityListAdapter<ParseObject> availabilityListAdapter;
+    ParseQuery availabilityQuery;
 
 
     public MasterRoomList() {
@@ -81,31 +88,45 @@ public class MasterRoomList extends Fragment {
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        listView = (ListView) view.findViewById(R.id.master_room_list);
+        roomListView = (ListView) view.findViewById(R.id.master_room_list);
 
         parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
 
-        adapter = new MasterRoomListAdapter<ParseObject>(getContext(), new ParseQueryAdapter.QueryFactory<ParseObject>() {
+        roomListAdapter = new MasterRoomListAdapter<>(getContext(), new ParseQueryAdapter.QueryFactory<ParseObject>() {
             @Override
             public ParseQuery<ParseObject> create() {
-                query = new ParseQuery("RoomList");
-                query.orderByAscending("room");
-                query.whereEqualTo("floor", 1);
-                return query;
+                roomQuery = new ParseQuery("RoomList");
+                roomQuery.orderByAscending("room");
+                roomQuery.whereEqualTo("floor", 1);
+                return roomQuery;
             }
         });
 
-        adapter.setObjectsPerPage(60);
+        roomListAdapter.setObjectsPerPage(60);
 
 
-        listView.setAdapter(adapter);
-        registerForContextMenu(listView);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        roomListView.setAdapter(roomListAdapter);
+        registerForContextMenu(roomListView);
+        roomListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 view.showContextMenu();
             }
         });
+
+        int orientation = getResources().getConfiguration().orientation;
+        if(Configuration.ORIENTATION_LANDSCAPE==orientation){
+            availableListView = (ListView)view.findViewById(R.id.availability_listview);
+            availabilityListAdapter = new MasterAvailabilityListAdapter<>(getContext(), new ParseQueryAdapter.QueryFactory<ParseObject>() {
+                @Override
+                public ParseQuery<ParseObject> create() {
+                    availabilityQuery = new ParseQuery("RoomTypes");
+                    availabilityQuery.orderByAscending("acronym");
+                    return availabilityQuery;
+                }
+            });
+            availableListView.setAdapter(availabilityListAdapter);
+        }
 
         return view;
     }
@@ -143,14 +164,18 @@ public class MasterRoomList extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                parseLiveQueryClient.unsubscribe(query);
-                query.whereEqualTo("floor", position+1);
-                adapter.loadObjects();
-                subscriptionHandling = parseLiveQueryClient.subscribe(query);
+                parseLiveQueryClient.unsubscribe(roomQuery);
+                roomQuery.whereEqualTo("floor", position+1);
+                roomListAdapter.loadObjects();
+                subscriptionHandling = parseLiveQueryClient.subscribe(roomQuery);
                 subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseObject>() {
                     @Override
                     public void onEvents(ParseQuery<ParseObject> query, SubscriptionHandling.Event event, ParseObject object) {
-                        adapter.loadObjects();
+                        roomListAdapter.loadObjects();
+                        int orientation = getResources().getConfiguration().orientation;
+                        if(Configuration.ORIENTATION_LANDSCAPE==orientation){
+                            availabilityListAdapter.loadObjects();
+                        }
                     }
                 });
             }
@@ -197,6 +222,9 @@ public class MasterRoomList extends Fragment {
         pObject = (ParseObject) lv.getAdapter().getItem(info.position);
         pObjectID = pObject.getObjectId();
         int cleanStatus = pObject.getInt("clean");
+        if(cleanStatus!=2){
+            contextMenu.findItem(R.id.check_room).setEnabled(false);
+        }
         switch (cleanStatus) {
             case 0:
                 contextMenu.findItem(R.id.set_dirty).setChecked(true);
@@ -233,6 +261,15 @@ public class MasterRoomList extends Fragment {
             case R.id.add_membership:
                 showMembershipDialog();
                 return true;
+            case R.id.check_room:
+                Intent checklistIntent = new Intent(getContext(),ClientCheckList.class);
+                Bundle extras = new Bundle();
+                extras.putString("objectID",pObject.getObjectId());
+                extras.putParcelable("roomListObject", pObject);
+                extras.putString("source", "master");
+                checklistIntent.putExtras(extras);
+                startActivityForResult(checklistIntent, 1);
+                return true;
             case R.id.set_dirty:
                 pObject.put("clean", 0);
                 pObject.saveInBackground();
@@ -247,6 +284,10 @@ public class MasterRoomList extends Fragment {
                 return true;
             case R.id.set_private:
                 pObject.put("clean", 3);
+                pObject.saveInBackground();
+                return true;
+            case R.id.set_maintenance:
+                pObject.put("clean", 5);
                 pObject.saveInBackground();
                 return true;
             default:
@@ -325,9 +366,32 @@ public class MasterRoomList extends Fragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode==1){
+            roomListAdapter.loadObjects();
+            int orientation = getResources().getConfiguration().orientation;
+            if(Configuration.ORIENTATION_LANDSCAPE==orientation){
+                availabilityListAdapter.loadObjects();
+            }
+            subscriptionHandling = parseLiveQueryClient.subscribe(roomQuery);
+            subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseObject>() {
+                @Override
+                public void onEvents(ParseQuery<ParseObject> query, SubscriptionHandling.Event event, ParseObject object) {
+                    roomListAdapter.loadObjects();
+                    int orientation = getResources().getConfiguration().orientation;
+                    if(Configuration.ORIENTATION_LANDSCAPE==orientation){
+                        availabilityListAdapter.loadObjects();
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("spinner_position",spinner.getSelectedItemPosition());
+        parseLiveQueryClient.unsubscribe(roomQuery);
     }
 
 }
