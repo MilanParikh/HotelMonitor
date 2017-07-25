@@ -30,6 +30,7 @@ import android.widget.Spinner;
 
 import com.milanparikh.hotelmonitor.Client.ClientCheckList;
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterAvailabilityListAdapter;
+import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterAvailabilityRoomListAdapter;
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterRoomListAdapter;
 import com.milanparikh.hotelmonitor.Master.MasterExport;
 import com.milanparikh.hotelmonitor.Master.MasterSetup;
@@ -66,6 +67,10 @@ public class MasterRoomList extends Fragment {
     ListView availableListView;
     MasterAvailabilityListAdapter<ParseObject> availabilityListAdapter;
     ParseQuery availabilityQuery;
+    String availableRoomType="";
+    ListView availableRoomListView;
+    MasterAvailabilityRoomListAdapter<ParseObject> availabilityRoomListAdapter;
+    ParseQuery availableRoomQuery;
 
 
     public MasterRoomList() {
@@ -126,6 +131,28 @@ public class MasterRoomList extends Fragment {
                 }
             });
             availableListView.setAdapter(availabilityListAdapter);
+            availableListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    ParseObject typeObject = (ParseObject)parent.getItemAtPosition(position);
+                    availableRoomType = typeObject.getString("acronym");
+                    availableRoomQuery.whereEqualTo("type", availableRoomType);
+                    availabilityRoomListAdapter.loadObjects();
+                }
+            });
+
+            availableRoomListView = (ListView)view.findViewById(R.id.availability_room_listview);
+            availabilityRoomListAdapter = new MasterAvailabilityRoomListAdapter<>(getContext(), new ParseQueryAdapter.QueryFactory<ParseObject>() {
+                @Override
+                public ParseQuery<ParseObject> create() {
+                    availableRoomQuery = new ParseQuery("RoomList");
+                    availableRoomQuery.orderByAscending("room");
+                    availableRoomQuery.whereEqualTo("type", availableRoomType);
+                    availableRoomQuery.whereEqualTo("clean",4);
+                    return availableRoomQuery;
+                }
+            });
+            availableRoomListView.setAdapter(availabilityRoomListAdapter);
         }
 
         return view;
@@ -158,8 +185,6 @@ public class MasterRoomList extends Fragment {
                 }
             }
         });
-        //ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getContext(), R.array.floor_list, R.layout.custom_simple_spinner_item);
-
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -175,6 +200,7 @@ public class MasterRoomList extends Fragment {
                         int orientation = getResources().getConfiguration().orientation;
                         if(Configuration.ORIENTATION_LANDSCAPE==orientation){
                             availabilityListAdapter.loadObjects();
+                            availabilityRoomListAdapter.loadObjects();
                         }
                     }
                 });
@@ -381,6 +407,7 @@ public class MasterRoomList extends Fragment {
                     int orientation = getResources().getConfiguration().orientation;
                     if(Configuration.ORIENTATION_LANDSCAPE==orientation){
                         availabilityListAdapter.loadObjects();
+                        availabilityRoomListAdapter.loadObjects();
                     }
                 }
             });
