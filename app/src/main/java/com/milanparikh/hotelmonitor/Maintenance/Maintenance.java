@@ -63,7 +63,7 @@ public class Maintenance extends AppCompatActivity {
                 extras.putString("objectID", objID);
                 extras.putParcelable("roomListObject", roomObject);
                 launchCheckList.putExtras(extras);
-                startActivity(launchCheckList);
+                startActivityForResult(launchCheckList, 1);
             }
         });
 
@@ -88,6 +88,20 @@ public class Maintenance extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode==1){
+            maintenanceRoomListAdapter.loadObjects();
+            subscriptionHandling = parseLiveQueryClient.subscribe(maintenanceQuery);
+            subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseObject>() {
+                @Override
+                public void onEvents(ParseQuery<ParseObject> query, SubscriptionHandling.Event event, ParseObject object) {
+                    maintenanceRoomListAdapter.loadObjects();
+                }
+            });
         }
     }
 

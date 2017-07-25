@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.TextView;
 
 import com.milanparikh.hotelmonitor.Client.ChecklistFragment;
 import com.milanparikh.hotelmonitor.R;
@@ -13,6 +15,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 public class MaintenanceCheckList extends AppCompatActivity implements ChecklistFragment.OnFragmentInteractionListener{
     String objectID;
@@ -28,7 +31,7 @@ public class MaintenanceCheckList extends AppCompatActivity implements Checklist
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         objectID = getIntent().getExtras().getString("objectID");
-        ParseQuery<ParseObject> roomListQuery = ParseQuery.getQuery("RoomList");
+        final ParseQuery<ParseObject> roomListQuery = ParseQuery.getQuery("RoomList");
         roomListQuery.getInBackground(objectID, new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject object, ParseException e) {
@@ -46,6 +49,22 @@ public class MaintenanceCheckList extends AppCompatActivity implements Checklist
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(R.id.maintenance_frame, checklistFragment);
         ft.commit();
+
+        TextView submitButton = (TextView)findViewById(R.id.maintenance_submit_button);
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                roomListObject.put("clean", 2);
+                roomListObject.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e==null){
+                            finish();
+                        }
+                    }
+                });
+            }
+        });
 
     }
 

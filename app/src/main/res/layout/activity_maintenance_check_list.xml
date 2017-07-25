@@ -9,8 +9,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/maintenance_checklist_toolbar"
         android:layout_width="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="64dp"
         android:background="?attr/colorPrimary"
         android:theme="@style/AppTheme"
         app:titleTextColor="@android:color/white"
@@ -18,14 +17,48 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/maintenance_checklist_bottom_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/AppTheme"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/maintenance_submit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="right"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:text="Submit"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:visibility="visible" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
     <FrameLayout
         android:id="@+id/maintenance_frame"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/maintenance_checklist_toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/maintenance_checklist_toolbar"
+        app:layout_constraintBottom_toTopOf="@+id/maintenance_checklist_bottom_toolbar">
 
     </FrameLayout>
+
 </android.support.constraint.ConstraintLayout>
