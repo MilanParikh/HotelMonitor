@@ -30,6 +30,11 @@ public class MaintenanceRoomListAdapter<T extends ParseObject> extends ParseQuer
         TextView roomNum = (TextView)v.findViewById(R.id.maintenance_room_num_text);
         roomNum.setText(Integer.toString(object.getInt("room")));
 
+        int status = object.getInt("clean");
+        if(status==6){
+            v.setBackgroundColor(getContext().getColor(R.color.roomListRed));
+        }
+
         return v;
     }
 

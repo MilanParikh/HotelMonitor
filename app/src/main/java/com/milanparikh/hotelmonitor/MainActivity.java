@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -37,12 +38,16 @@ import com.parse.ParseConfig;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class MainActivity extends AppCompatActivity {
 
     SharedPreferences sharedPref;
     SharedPreferences.Editor prefEditor;
     String serverURL;
     String appID;
+    URL serverURLObject;
     String adminPassword;
     EditText usernameEditText;
     EditText passwordEditText;
@@ -55,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
     Boolean kioskModeAvailable;
     Boolean correctPassword;
     MenuItem kioskItem;
+    Button loginButton;
+    Button registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,25 +97,35 @@ public class MainActivity extends AppCompatActivity {
 
         serverURL = sharedPref.getString("server_preference","");
         appID = sharedPref.getString("app_id_preference","");
+        try{
+            serverURLObject = new URL(sharedPref.getString("server_preference",""));
+            serverURL = serverURLObject.toString();
+        }catch (MalformedURLException e){
+            Log.d("ParseServerURL", e.toString());
+            serverURL = "";
+            AlertDialog dialog = new AlertDialog.Builder(this).create();
+            dialog.setMessage("Invalid Server URL, please contact administrator");
+            dialog.setTitle("Unable to Initialize");
+            dialog.show();
+        }
 
-        Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
-                .applicationId(appID)
-                .server(serverURL)
-                .build()
-        );
+        if(!serverURL.equals("")){
+            Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
+                    .applicationId(appID)
+                    .server(serverURL)
+                    .build()
+            );
+
+        }
+
 
         usernameEditText = (EditText)findViewById(R.id.username_edittext);
         passwordEditText = (EditText)findViewById(R.id.password_edittext);
 
-        final Button loginButton = (Button)findViewById(R.id.login_button);
+        loginButton = (Button)findViewById(R.id.login_button);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseUser cUser = ParseUser.getCurrentUser();
-                if (cUser!=null) {
-                    cUser.logOutInBackground();
-                }
-
                 ParseUser.logInInBackground(usernameEditText.getText().toString(), passwordEditText.getText().toString(), new LogInCallback() {
                     @Override
                     public void done(ParseUser pUser, ParseException e) {
@@ -136,14 +153,10 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
-        Button registerbutton = (Button)findViewById(R.id.register_button);
-        registerbutton.setOnClickListener(new View.OnClickListener() {
+        registerButton = (Button)findViewById(R.id.register_button);
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseUser cUser = ParseUser.getCurrentUser();
-                if (cUser!=null) {
-                    cUser.logOutInBackground();
-                }
                 Intent registerIntent = new Intent(getApplicationContext(), RegistrationActivity.class);
                 startActivity(registerIntent);
             }
@@ -314,10 +327,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         passwordEditText.setText("");
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        if(currentUser!=null){
-            currentUser.logOutInBackground();
-        }
         super.onResume();
     }
 }

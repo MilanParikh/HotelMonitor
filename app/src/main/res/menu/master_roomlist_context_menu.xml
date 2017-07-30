@@ -24,20 +24,14 @@
         android:id="@+id/clean_status_group"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/set_dirty"
-            android:title="Set Dirty" />
-        <item
-            android:id="@+id/set_in_progress"
-            android:title="Set In Progress" />
-        <item
             android:id="@+id/set_clean"
             android:title="Set Clean" />
         <item
-            android:id="@+id/set_private"
-            android:title="Set Private" />
-        <item
             android:id="@+id/set_maintenance"
             android:title="Set Maintenance Required" />
+        <item
+            android:id="@+id/set_out_order"
+            android:title="Set Out of Order" />
     </group>
 
 </menu>

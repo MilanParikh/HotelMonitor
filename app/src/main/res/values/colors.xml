@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#002171</color>
     <color name="colorAccent">#b71c1c</color>
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
     <color name="roomListRed">#96d50000</color>
     <color name="roomListGreen">#9664dd17</color>
     <color name="roomListYellow">#96ffea00</color>
