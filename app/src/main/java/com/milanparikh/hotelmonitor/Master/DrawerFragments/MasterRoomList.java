@@ -252,17 +252,14 @@ public class MasterRoomList extends Fragment {
             contextMenu.findItem(R.id.check_room).setEnabled(false);
         }
         switch (cleanStatus) {
-            case 0:
-                contextMenu.findItem(R.id.set_dirty).setChecked(true);
-                break;
-            case 1:
-                contextMenu.findItem(R.id.set_in_progress).setChecked(true);
-                break;
             case 2:
                 contextMenu.findItem(R.id.set_clean).setChecked(true);
                 break;
-            case 3:
-                contextMenu.findItem(R.id.set_private).setChecked(true);
+            case 5:
+                contextMenu.findItem(R.id.set_maintenance).setChecked(true);
+                break;
+            case 6:
+                contextMenu.findItem(R.id.set_out_order).setChecked(true);
                 break;
         }
 
@@ -296,24 +293,16 @@ public class MasterRoomList extends Fragment {
                 checklistIntent.putExtras(extras);
                 startActivityForResult(checklistIntent, 1);
                 return true;
-            case R.id.set_dirty:
-                pObject.put("clean", 0);
-                pObject.saveInBackground();
-                return true;
-            case R.id.set_in_progress:
-                pObject.put("clean", 1);
-                pObject.saveInBackground();
-                return true;
             case R.id.set_clean:
                 pObject.put("clean", 2);
                 pObject.saveInBackground();
                 return true;
-            case R.id.set_private:
-                pObject.put("clean", 3);
-                pObject.saveInBackground();
-                return true;
             case R.id.set_maintenance:
                 pObject.put("clean", 5);
+                pObject.saveInBackground();
+                return true;
+            case R.id.set_out_order:
+                pObject.put("clean", 6);
                 pObject.saveInBackground();
                 return true;
             default:

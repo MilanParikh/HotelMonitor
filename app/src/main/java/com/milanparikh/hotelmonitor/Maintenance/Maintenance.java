@@ -38,7 +38,8 @@ public class Maintenance extends AppCompatActivity {
             public ParseQuery<ParseObject> create() {
                 maintenanceQuery = new ParseQuery<>("RoomList");
                 maintenanceQuery.orderByAscending("room");
-                maintenanceQuery.whereEqualTo("clean", 5);
+                maintenanceQuery.whereGreaterThanOrEqualTo("clean", 5);
+                maintenanceQuery.whereLessThanOrEqualTo("clean", 6);
                 return maintenanceQuery;
             }
         });
