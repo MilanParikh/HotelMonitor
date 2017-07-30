@@ -1,5 +1,6 @@
 package com.milanparikh.hotelmonitor.Other;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.icu.util.Output;
@@ -17,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -28,32 +30,48 @@ import java.net.URLConnection;
 public class DownloadUpdate extends AsyncTask {
     File externalStorage;
     Context context;
+    ProgressDialog progressDialog;
 
-    public DownloadUpdate(Context context){
+    public DownloadUpdate(Context context, ProgressDialog pDialog){
         this.context = context.getApplicationContext();
+        progressDialog = pDialog;
     }
 
     @Override
     protected Object doInBackground(Object[] params) {
         int count;
+        InputStream input = null;
+        OutputStream output = null;
+        HttpURLConnection urlConnection = null;
         try {
             URL url = new URL("http://www.openhouseguest.com/app-release.apk");
-            URLConnection urlConnection = url.openConnection();
+            urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.connect();
+
+            if (urlConnection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                return "Server returned HTTP " + urlConnection.getResponseCode()
+                        + " " + urlConnection.getResponseMessage();
+            }
 
             int fileSize = urlConnection.getContentLength();
             externalStorage = Environment.getExternalStorageDirectory();
 
-            InputStream input = new BufferedInputStream(url.openStream());
-            OutputStream output = new FileOutputStream(externalStorage+"/update.apk");
+            input = new BufferedInputStream(url.openStream());
+            output = new FileOutputStream(externalStorage+"/update.apk");
 
-            byte[] buffer = new byte[1024];
+            byte data[] = new byte[4096];
             float total=0;
 
-            while ((count = input.read(buffer)) != -1) {
+            while ((count = input.read(data)) != -1) {
+                if (isCancelled()){
+                    input.close();
+                    return null;
+                }
+
                 total += count;
-                publishProgress(""+(int)((total*100)/fileSize));
-                output.write(buffer, 0, count);
+                if (fileSize > 0) // only if total length is known
+                    publishProgress((int) (total * 100 / fileSize));
+                output.write(data, 0, count);
             }
 
             output.flush();
@@ -64,6 +82,17 @@ public class DownloadUpdate extends AsyncTask {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (output != null)
+                    output.close();
+                if (input != null)
+                    input.close();
+            } catch (IOException ignored) {
+            }
+
+            if (urlConnection != null)
+                urlConnection.disconnect();
         }
 
         return null;
@@ -72,10 +101,12 @@ public class DownloadUpdate extends AsyncTask {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        progressDialog.show();
     }
 
     @Override
     protected void onPostExecute(Object o) {
+        progressDialog.dismiss();
         File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/update.apk");
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Uri updateURI = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file);
@@ -95,5 +126,8 @@ public class DownloadUpdate extends AsyncTask {
     @Override
     protected void onProgressUpdate(Object[] values) {
         super.onProgressUpdate(values);
+        progressDialog.setIndeterminate(false);
+        progressDialog.setMax(100);
+        progressDialog.setProgress((int)values[0]);
     }
 }

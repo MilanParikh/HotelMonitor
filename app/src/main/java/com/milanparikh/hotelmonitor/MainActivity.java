@@ -2,6 +2,7 @@ package com.milanparikh.hotelmonitor;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     MenuItem kioskItem;
     Button loginButton;
     Button registerButton;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -305,8 +308,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateFunction() {
         verifyStoragePermissions(this);
-        DownloadUpdate downloadUpdate = new DownloadUpdate(getApplicationContext());
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Downloading Update");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setCancelable(true);
+        final DownloadUpdate downloadUpdate = new DownloadUpdate(getApplicationContext(), progressDialog);
         downloadUpdate.execute();
+
+        progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                downloadUpdate.cancel(true);
+            }
+        });
 
     }
 
