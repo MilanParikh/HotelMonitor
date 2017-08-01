@@ -60,12 +60,13 @@ public class ChecklistFragment extends android.support.v4.app.Fragment {
         }
     }
 
-    public static ChecklistFragment newInstance(String roomDataObjectID, String roomListObjectID, ParseObject roomListObject, String tabName, String source){
+    public static ChecklistFragment newInstance(String roomDataObjectID, ParseObject roomDataObject, String roomListObjectID, ParseObject roomListObject, String tabName, String source){
         ChecklistFragment checklistFragment = new ChecklistFragment();
         Bundle args = new Bundle();
         args.putString("roomDataObjectID", roomDataObjectID);
         args.putString("roomListObjectID", roomListObjectID);
         args.putParcelable("roomListObject", roomListObject);
+        args.putParcelable("roomDataObject", roomDataObject);
         args.putString("tabName", tabName);
         args.putString("source", source);
         checklistFragment.setArguments(args);
@@ -80,18 +81,9 @@ public class ChecklistFragment extends android.support.v4.app.Fragment {
         roomDataObjectID = getArguments().getString("roomDataObjectID");
         roomListObjectID = getArguments().getString("roomListObjectID");
         roomListObject = getArguments().getParcelable("roomListObject");
+        roomDataObject = getArguments().getParcelable("roomDataObject");
         tabName = getArguments().getString("tabName");
         source = getArguments().getString("source");
-
-        final ParseQuery<ParseObject> roomDataObjectQuery = ParseQuery.getQuery("RoomData");
-        roomDataObjectQuery.getInBackground(roomDataObjectID, new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject object, ParseException e) {
-                if(e==null){
-                    roomDataObject = object;
-                }
-            }
-        });
 
         if(source.equals("client") && tabName.equals("Maintenance")){
             ParseQuery<ParseObject> maintenanceQuery = ParseQuery.getQuery("Maintenance");

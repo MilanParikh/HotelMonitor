@@ -320,18 +320,18 @@ public class ClientCheckList extends AppCompatActivity
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            maintenanceFragment = ChecklistFragment.newInstance(roomDataObject.getObjectId(), objectID, roomListObject, "Maintenance", source);
+            maintenanceFragment = ChecklistFragment.newInstance(roomDataObject.getObjectId(), roomDataObject, objectID, roomListObject, "Maintenance", source);
             switch (position) {
                 case 0:
-                    return ChecklistFragment.newInstance(roomDataObject.getObjectId(), null, roomListObject, "Closet", source);
+                    return ChecklistFragment.newInstance(roomDataObject.getObjectId(), roomDataObject, null, roomListObject, "Closet", source);
                 case 1:
-                    return ChecklistFragment.newInstance(roomDataObject.getObjectId(), null, roomListObject, "Bedroom", source);
+                    return ChecklistFragment.newInstance(roomDataObject.getObjectId(), roomDataObject, null, roomListObject, "Bedroom", source);
                 case 2:
-                    return ChecklistFragment.newInstance(roomDataObject.getObjectId(), null, roomListObject, "Bathroom", source);
+                    return ChecklistFragment.newInstance(roomDataObject.getObjectId(), roomDataObject, null, roomListObject, "Bathroom", source);
                 case 3:
                     return maintenanceFragment;
                 default:
-                    return ChecklistFragment.newInstance(roomDataObject.getObjectId(), null, roomListObject, "Closet", source);
+                    return ChecklistFragment.newInstance(roomDataObject.getObjectId(), roomDataObject, null, roomListObject, "Closet", source);
             }
 
         }
