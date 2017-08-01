@@ -33,7 +33,6 @@ import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterAv
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterAvailabilityRoomListAdapter;
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterRoomListAdapter;
 import com.milanparikh.hotelmonitor.Master.MasterExport;
-import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.milanparikh.hotelmonitor.R;
 import com.milanparikh.hotelmonitor.Other.SettingsActivity;
 import com.parse.FindCallback;
@@ -221,10 +220,6 @@ public class MasterRoomList extends Fragment {
                 Intent settingsIntent = new Intent(getContext(), SettingsActivity.class);
                 startActivity(settingsIntent);
                 return true;
-            case R.id.master_setup:
-                Intent masterSetupIntent = new Intent(getContext(), MasterSetup.class);
-                startActivity(masterSetupIntent);
-                return true;
             case R.id.master_export:
                 Intent masterExportIntent = new Intent(getContext(), MasterExport.class);
                 startActivity(masterExportIntent);
@@ -295,14 +290,17 @@ public class MasterRoomList extends Fragment {
                 return true;
             case R.id.set_clean:
                 pObject.put("clean", 2);
+                pObject.remove("current_name");
                 pObject.saveInBackground();
                 return true;
             case R.id.set_maintenance:
                 pObject.put("clean", 5);
+                pObject.remove("current_name");
                 pObject.saveInBackground();
                 return true;
             case R.id.set_out_order:
                 pObject.put("clean", 6);
+                pObject.remove("current_name");
                 pObject.saveInBackground();
                 return true;
             default:

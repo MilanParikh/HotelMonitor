@@ -1,31 +1,22 @@
 package com.milanparikh.hotelmonitor.Client;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.milanparikh.hotelmonitor.R;
 import com.milanparikh.hotelmonitor.Other.SettingsActivity;
-import com.parse.ConfigCallback;
 import com.parse.FindCallback;
-import com.parse.ParseConfig;
 import com.parse.ParseException;
 import com.parse.ParseLiveQueryClient;
 import com.parse.ParseObject;

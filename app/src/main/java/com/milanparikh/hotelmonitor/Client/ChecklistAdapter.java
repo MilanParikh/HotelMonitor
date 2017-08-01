@@ -4,12 +4,10 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
-import android.widget.ListView;
+
 import com.milanparikh.hotelmonitor.R;
 import com.parse.ParseObject;
 import com.parse.ParseQueryAdapter;
-
-import org.w3c.dom.Text;
 
 /**
  * Created by milan on 7/14/2017.
@@ -17,18 +15,18 @@ import org.w3c.dom.Text;
 
 public class ChecklistAdapter<T extends ParseObject> extends ParseQueryAdapter {
     String source;
-    ParseObject roomListObject;
+    ParseObject maintenanceListObject;
     CheckedTextView textView;
     String header;
 
-    public ChecklistAdapter(Context context, QueryFactory<T> queryFactory, String from, ParseObject roomObject){
+    public ChecklistAdapter(Context context, QueryFactory<T> queryFactory, String from, ParseObject maintenanceObject){
         super(context, queryFactory);
         if(from!=null){
             source = from;
         }else{
             source="";
         }
-        roomListObject = roomObject;
+        maintenanceListObject = maintenanceObject;
     }
 
     @Override
@@ -44,7 +42,7 @@ public class ChecklistAdapter<T extends ParseObject> extends ParseQueryAdapter {
 
         header = object.getString("header");
         if(source.equals("maintenance")){
-            if(roomListObject.getInt(header)==1){
+            if(maintenanceListObject.getInt(header)==1){
                 textView.setChecked(true);
             }
         }

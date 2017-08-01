@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.milanparikh.hotelmonitor.R;
 import com.parse.DeleteCallback;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -32,6 +33,7 @@ import com.parse.SaveCallback;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class ClientCheckList extends AppCompatActivity
         implements ChecklistFragment.OnFragmentInteractionListener{
@@ -67,6 +69,7 @@ public class ClientCheckList extends AppCompatActivity
     Long endTime;
     Boolean privacy=false;
     int room;
+    ParseObject maintenanceListObject;
 
     Date outDate;
     Date currentDate;
@@ -101,6 +104,15 @@ public class ClientCheckList extends AppCompatActivity
         title = "Room Checklist: " + Integer.toString(roomListObject.getInt("room"));
         room = roomListObject.getInt("room");
         getSupportActionBar().setTitle(title);
+
+        ParseQuery<ParseObject> maintenanceListQuery = ParseQuery.getQuery("MaintenanceList");
+        maintenanceListQuery.whereEqualTo("room", roomListObject.getInt("room"));
+        maintenanceListQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                maintenanceListObject = objects.get(0);
+            }
+        });
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -320,18 +332,18 @@ public class ClientCheckList extends AppCompatActivity
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            maintenanceFragment = ChecklistFragment.newInstance(roomDataObject.getObjectId(), roomDataObject, objectID, roomListObject, "Maintenance", source);
+            maintenanceFragment = ChecklistFragment.newInstance(roomDataObject, roomListObject, maintenanceListObject, "Maintenance", source);
             switch (position) {
                 case 0:
-                    return ChecklistFragment.newInstance(roomDataObject.getObjectId(), roomDataObject, null, roomListObject, "Closet", source);
+                    return ChecklistFragment.newInstance(roomDataObject, roomListObject, null, "Closet", source);
                 case 1:
-                    return ChecklistFragment.newInstance(roomDataObject.getObjectId(), roomDataObject, null, roomListObject, "Bedroom", source);
+                    return ChecklistFragment.newInstance(roomDataObject, roomListObject, null, "Bedroom", source);
                 case 2:
-                    return ChecklistFragment.newInstance(roomDataObject.getObjectId(), roomDataObject, null, roomListObject, "Bathroom", source);
+                    return ChecklistFragment.newInstance(roomDataObject, roomListObject, null, "Bathroom", source);
                 case 3:
                     return maintenanceFragment;
                 default:
-                    return ChecklistFragment.newInstance(roomDataObject.getObjectId(), roomDataObject, null, roomListObject, "Closet", source);
+                    return ChecklistFragment.newInstance(roomDataObject, roomListObject, null, "Closet", source);
             }
 
         }

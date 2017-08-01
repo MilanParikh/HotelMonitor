@@ -25,7 +25,6 @@ import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterRo
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterRoomSetupRoomAdapter;
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterRoomSetupTypeAdapter;
 import com.milanparikh.hotelmonitor.Master.MasterExport;
-import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.milanparikh.hotelmonitor.Other.SettingsActivity;
 import com.milanparikh.hotelmonitor.R;
 import com.parse.DeleteCallback;
@@ -133,6 +132,7 @@ public class MasterRoomSetup extends Fragment {
                             roomAdapter.notifyDataSetChanged();
                         }
                     });
+
                 }
             }
         });
@@ -189,12 +189,11 @@ public class MasterRoomSetup extends Fragment {
                     roomObject.put("floor", floorObject.getInt("floor"));
                     roomObject.put("clean", 2);
                     roomObject.put("type", "N/A");
-                    roomObject.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-
-                        }
-                    });
+                    roomObject.saveInBackground();
+                    ParseObject maintenanceObject = new ParseObject("MaintenanceList");
+                    maintenanceObject.put("room", i);
+                    maintenanceObject.put("floor", floorObject.getInt("floor"));
+                    maintenanceObject.saveInBackground();
                 }
 
 
@@ -213,8 +212,8 @@ public class MasterRoomSetup extends Fragment {
 
     public void showDeleteConfirmation(final ParseObject object){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-        dialogBuilder.setTitle("Delete Room Type");
-        dialogBuilder.setMessage("Are you sure you want to delete this room type?");
+        dialogBuilder.setTitle("Delete Room");
+        dialogBuilder.setMessage("Are you sure you want to delete this room?");
         dialogBuilder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -248,10 +247,6 @@ public class MasterRoomSetup extends Fragment {
             case R.id.action_settings:
                 Intent settingsIntent = new Intent(getContext(), SettingsActivity.class);
                 startActivity(settingsIntent);
-                return true;
-            case R.id.master_setup:
-                Intent masterSetupIntent = new Intent(getContext(), MasterSetup.class);
-                startActivity(masterSetupIntent);
                 return true;
             case R.id.master_export:
                 Intent masterExportIntent = new Intent(getContext(), MasterExport.class);
