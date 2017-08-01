@@ -43,7 +43,7 @@ public class MaintenanceCheckList extends AppCompatActivity implements Checklist
         });
         roomListObject = getIntent().getExtras().getParcelable("roomListObject");
 
-        ChecklistFragment checklistFragment = ChecklistFragment.newInstance(null, objectID, roomListObject, "Maintenance", "maintenance");
+        ChecklistFragment checklistFragment = ChecklistFragment.newInstance(null, null, objectID, roomListObject, "Maintenance", "maintenance");
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
