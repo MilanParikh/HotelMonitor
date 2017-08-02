@@ -37,6 +37,7 @@ import com.milanparikh.hotelmonitor.R;
 import com.milanparikh.hotelmonitor.Other.SettingsActivity;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseLiveQueryClient;
 import com.parse.ParseObject;
@@ -70,6 +71,8 @@ public class MasterRoomList extends Fragment {
     ListView availableRoomListView;
     MasterAvailabilityRoomListAdapter<ParseObject> availabilityRoomListAdapter;
     ParseQuery availableRoomQuery;
+    Intent checklistIntent;
+    Bundle extras;
 
 
     public MasterRoomList() {
@@ -280,13 +283,23 @@ public class MasterRoomList extends Fragment {
                 showMembershipDialog();
                 return true;
             case R.id.check_room:
-                Intent checklistIntent = new Intent(getContext(),ClientCheckList.class);
-                Bundle extras = new Bundle();
+                checklistIntent = new Intent(getContext(),ClientCheckList.class);
+                extras = new Bundle();
                 extras.putString("objectID",pObject.getObjectId());
                 extras.putParcelable("roomListObject", pObject);
                 extras.putString("source", "master");
-                checklistIntent.putExtras(extras);
-                startActivityForResult(checklistIntent, 1);
+                ParseQuery<ParseObject> maintenanceListQuery = ParseQuery.getQuery("MaintenanceList");
+                maintenanceListQuery.whereEqualTo("room", pObject.getInt("room"));
+                maintenanceListQuery.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        ParseObject maintenanceListObject = objects.get(0);
+                        extras.putParcelable("maintenanceListObject", maintenanceListObject);
+                        checklistIntent.putExtras(extras);
+                        startActivityForResult(checklistIntent, 1);
+                    }
+                });
+
                 return true;
             case R.id.set_clean:
                 pObject.put("clean", 2);

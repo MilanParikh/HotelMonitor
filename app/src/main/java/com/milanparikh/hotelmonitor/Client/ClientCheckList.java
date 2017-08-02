@@ -54,7 +54,6 @@ public class ClientCheckList extends AppCompatActivity
     private ViewPager mViewPager;
 
     String source;
-    String objectID;
     String title;
     ParseObject roomListObject;
     String username;
@@ -99,20 +98,20 @@ public class ClientCheckList extends AppCompatActivity
         TextView toolbarUsername = (TextView)findViewById(R.id.toolbar_username);
         toolbarUsername.setText(username);
 
-        objectID = getIntent().getExtras().getString("objectID");
         roomListObject = getIntent().getExtras().getParcelable("roomListObject");
+        maintenanceListObject = getIntent().getExtras().getParcelable("maintenanceListObject");
         title = "Room Checklist: " + Integer.toString(roomListObject.getInt("room"));
         room = roomListObject.getInt("room");
         getSupportActionBar().setTitle(title);
 
-        ParseQuery<ParseObject> maintenanceListQuery = ParseQuery.getQuery("MaintenanceList");
+        /*ParseQuery<ParseObject> maintenanceListQuery = ParseQuery.getQuery("MaintenanceList");
         maintenanceListQuery.whereEqualTo("room", roomListObject.getInt("room"));
         maintenanceListQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 maintenanceListObject = objects.get(0);
             }
-        });
+        });*/
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -275,7 +274,7 @@ public class ClientCheckList extends AppCompatActivity
                         roomListObject.put("clean",3);
                     }
                     else if (!privacy){
-                        roomListObject.put("clean",4);
+                        roomListObject.put("clean",maintenanceFragment.getClean());
                     }
                     roomListObject.saveInBackground();
                     Intent returnIntent = new Intent();

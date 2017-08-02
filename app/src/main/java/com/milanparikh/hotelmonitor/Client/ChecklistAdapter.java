@@ -40,13 +40,6 @@ public class ChecklistAdapter<T extends ParseObject> extends ParseQueryAdapter {
         textView = (CheckedTextView)v.findViewById(R.id.checklist_item_text);
         textView.setText(object.getString("text"));
 
-        header = object.getString("header");
-        if(source.equals("maintenance")){
-            if(maintenanceListObject.getInt(header)==1){
-                textView.setChecked(true);
-            }
-        }
-
         return v;
     }
 }

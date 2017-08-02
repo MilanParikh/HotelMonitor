@@ -62,7 +62,7 @@ public class ChecklistFragment extends android.support.v4.app.Fragment {
     public static ChecklistFragment newInstance(ParseObject roomDataObject, ParseObject roomListObject, ParseObject maintenanceListObject, String tabName, String source){
         ChecklistFragment checklistFragment = new ChecklistFragment();
         Bundle args = new Bundle();
-        args.putParcelable("maintenanceListObject", roomListObject);
+        args.putParcelable("roomListObject", roomListObject);
         args.putParcelable("roomDataObject", roomDataObject);
         args.putParcelable("maintenanceListObject", maintenanceListObject);
         args.putString("tabName", tabName);
@@ -76,7 +76,7 @@ public class ChecklistFragment extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_checklist, container, false);
-        roomListObject = getArguments().getParcelable("maintenanceListObject");
+        roomListObject = getArguments().getParcelable("roomListObject");
         roomDataObject = getArguments().getParcelable("roomDataObject");
         maintenanceListObject = getArguments().getParcelable("maintenanceListObject");
         tabName = getArguments().getString("tabName");
@@ -107,7 +107,7 @@ public class ChecklistFragment extends android.support.v4.app.Fragment {
                     return query;
                 }
             }, null, null);
-        }else if(source.equals("maintenance")){
+        }else if(source.equals("maintenance") || source.equals("master")){
             checklistAdapter = new ChecklistAdapter<>(getContext(), new ParseQueryAdapter.QueryFactory<ParseObject>() {
                 @Override
                 public ParseQuery<ParseObject> create() {
@@ -116,6 +116,15 @@ public class ChecklistFragment extends android.support.v4.app.Fragment {
                     return query;
                 }
             }, source, maintenanceListObject);
+            ParseQuery<ParseObject> maintenanceQuery = ParseQuery.getQuery("Maintenance");
+            maintenanceQuery.countInBackground(new CountCallback() {
+                @Override
+                public void done(int count, ParseException e) {
+                    if(e==null){
+                        total=count;
+                    }
+                }
+            });
         }else{
             checklistAdapter = new ChecklistAdapter<>(getContext(), new ParseQueryAdapter.QueryFactory<ParseObject>() {
                 @Override
@@ -163,12 +172,14 @@ public class ChecklistFragment extends android.support.v4.app.Fragment {
                         maintenanceListObject.saveInBackground();
                         break;
                     case "master":
+                        maintenanceListObject.put(header, checked);
+                        maintenanceListObject.saveInBackground();
                         break;
                 }
             }
         });
 
-        if(source.equals("maintenance")){
+        if(source.equals("maintenance") || source.equals("master") && tabName.equals("Maintenance")){
             ParseQuery<ParseObject> maintenanceQuery = ParseQuery.getQuery("Maintenance");
             maintenanceQuery.orderByAscending("createdAt");
             maintenanceQuery.findInBackground(new FindCallback<ParseObject>() {
@@ -181,9 +192,11 @@ public class ChecklistFragment extends android.support.v4.app.Fragment {
                             while(i<objects.size()){
                                 if(maintenanceListObject.getInt(objects.get(i).getString("header"))==1){
                                     listView.setItemChecked(i, true);
+                                    count++;
                                 }
                                 i++;
                             }
+                            i=count;
                         }
                     });
 
@@ -196,11 +209,18 @@ public class ChecklistFragment extends android.support.v4.app.Fragment {
     }
 
     public int getClean(){
-        int clean;
-        if(count==total){
-            return 2;
+        if (source.equals("master")){
+            if(count==total){
+                return 4;
+            }else{
+                return 5;
+            }
         }else{
-            return 5;
+            if(count==total){
+                return 2;
+            }else{
+                return 5;
+            }
         }
     }
 
