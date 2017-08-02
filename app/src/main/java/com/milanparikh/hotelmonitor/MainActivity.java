@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     String appID;
     URL serverURLObject;
     String adminPassword;
+    String offlinePassword;
     EditText usernameEditText;
     EditText passwordEditText;
     public ParseUser user;
@@ -283,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkOfflinePassword(final String scenario) {
-        adminPassword = "milan123";
+        offlinePassword = "milan123";
         final AlertDialog.Builder passwordBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_password, null);
@@ -296,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String submittedPassword = dialogPasswordEditText.getText().toString();
-                correctPassword = (adminPassword.equals(submittedPassword));
+                correctPassword = (offlinePassword.equals(submittedPassword));
                 if(correctPassword){
                     optionsActions(scenario);
                 }
