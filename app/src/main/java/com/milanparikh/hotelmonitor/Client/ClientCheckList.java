@@ -104,15 +104,6 @@ public class ClientCheckList extends AppCompatActivity
         room = roomListObject.getInt("room");
         getSupportActionBar().setTitle(title);
 
-        /*ParseQuery<ParseObject> maintenanceListQuery = ParseQuery.getQuery("MaintenanceList");
-        maintenanceListQuery.whereEqualTo("room", roomListObject.getInt("room"));
-        maintenanceListQuery.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                maintenanceListObject = objects.get(0);
-            }
-        });*/
-
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
