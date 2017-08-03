@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     String appID;
     URL serverURLObject;
     String adminPassword;
+    String offlinePassword;
     EditText usernameEditText;
     EditText passwordEditText;
     public ParseUser user;
@@ -190,8 +191,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_settings:
-                Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(settingsIntent);
+                checkOfflinePassword("settings");
                 return true;
             case R.id.action_update:
                 checkPassword("update");
@@ -283,6 +283,46 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void checkOfflinePassword(final String scenario) {
+        offlinePassword = "milan123";
+        final AlertDialog.Builder passwordBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_password, null);
+        passwordBuilder.setView(dialogView);
+
+        final EditText dialogPasswordEditText = (EditText)dialogView.findViewById(R.id.dialog_password_edittext);
+
+        passwordBuilder.setTitle("Enter Password");
+        passwordBuilder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String submittedPassword = dialogPasswordEditText.getText().toString();
+                correctPassword = (offlinePassword.equals(submittedPassword));
+                if(correctPassword){
+                    optionsActions(scenario);
+                }
+            }
+        });
+        passwordBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        AlertDialog passwordDialog = passwordBuilder.create();
+        passwordDialog.show();
+        final Button posButton = passwordDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        dialogPasswordEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction()==KeyEvent.ACTION_DOWN) && (keyCode==KeyEvent.KEYCODE_ENTER)) {
+                    posButton.performClick();
+                }
+
+                return false;
+            }
+        });
+    }
+
     public void optionsActions(String scenario){
         switch(scenario) {
             case "update":
@@ -302,6 +342,10 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                     Log.d("TAG","Already disabled");
                 }
+                break;
+            case "settings":
+                Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(settingsIntent);
                 break;
         }
     }

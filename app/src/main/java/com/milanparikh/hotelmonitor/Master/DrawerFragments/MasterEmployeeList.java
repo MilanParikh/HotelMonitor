@@ -22,7 +22,6 @@ import android.widget.ListView;
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterEmployeeListAdapter;
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterEmployeeRoomListAdapter;
 import com.milanparikh.hotelmonitor.Master.MasterExport;
-import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.milanparikh.hotelmonitor.R;
 import com.milanparikh.hotelmonitor.Other.SettingsActivity;
 import com.parse.FunctionCallback;
@@ -190,10 +189,6 @@ public class MasterEmployeeList extends Fragment {
             case R.id.action_settings:
                 Intent settingsIntent = new Intent(getContext(), SettingsActivity.class);
                 startActivity(settingsIntent);
-                return true;
-            case R.id.master_setup:
-                Intent masterSetupIntent = new Intent(getContext(), MasterSetup.class);
-                startActivity(masterSetupIntent);
                 return true;
             case R.id.master_export:
                 Intent masterExportIntent = new Intent(getContext(), MasterExport.class);

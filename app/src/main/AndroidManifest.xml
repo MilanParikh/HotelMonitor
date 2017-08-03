@@ -30,9 +30,6 @@
                 android:value="com.milanparikh.hotelmonitor.MainActivity" />
         </activity>
         <activity
-            android:name=".Master.MasterSetup"
-            android:label="Master Setup" />
-        <activity
             android:name=".Client.Client"
             android:label="Room List" />
         <activity

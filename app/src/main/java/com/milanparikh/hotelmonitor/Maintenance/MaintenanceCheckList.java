@@ -1,5 +1,6 @@
 package com.milanparikh.hotelmonitor.Maintenance;
 
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,15 +12,21 @@ import android.widget.TextView;
 
 import com.milanparikh.hotelmonitor.Client.ChecklistFragment;
 import com.milanparikh.hotelmonitor.R;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
+import java.util.List;
+
 public class MaintenanceCheckList extends AppCompatActivity implements ChecklistFragment.OnFragmentInteractionListener{
     String objectID;
     ParseObject roomListObject;
+    ProgressDialog progressDialog;
+    ParseObject maintenanceListObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +50,30 @@ public class MaintenanceCheckList extends AppCompatActivity implements Checklist
         });
         roomListObject = getIntent().getExtras().getParcelable("roomListObject");
 
-        ChecklistFragment checklistFragment = ChecklistFragment.newInstance(null, null, objectID, roomListObject, "Maintenance", "maintenance");
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
+        ParseQuery<ParseObject> maintenanceObjectQuery = ParseQuery.getQuery("MaintenanceList");
+        maintenanceObjectQuery.whereEqualTo("room", roomListObject.getInt("room"));
+        maintenanceObjectQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                maintenanceListObject = objects.get(0);
+                ChecklistFragment checklistFragment = ChecklistFragment.newInstance(null, roomListObject, maintenanceListObject, "Maintenance", "maintenance");
 
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.maintenance_frame, checklistFragment);
-        ft.commit();
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.add(R.id.maintenance_frame, checklistFragment);
+                ft.commit();
+                progressDialog.dismiss();
+
+            }
+        });
+
+
+
 
         TextView submitButton = (TextView)findViewById(R.id.maintenance_submit_button);
         submitButton.setOnClickListener(new View.OnClickListener() {

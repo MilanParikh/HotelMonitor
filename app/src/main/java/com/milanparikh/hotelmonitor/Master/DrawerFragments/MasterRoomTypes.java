@@ -23,7 +23,6 @@ import android.widget.TextView;
 
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterRoomTypeAdapter;
 import com.milanparikh.hotelmonitor.Master.MasterExport;
-import com.milanparikh.hotelmonitor.Master.MasterSetup;
 import com.milanparikh.hotelmonitor.Other.SettingsActivity;
 import com.milanparikh.hotelmonitor.R;
 import com.parse.DeleteCallback;
@@ -164,10 +163,6 @@ public class MasterRoomTypes extends Fragment {
             case R.id.action_settings:
                 Intent settingsIntent = new Intent(getContext(), SettingsActivity.class);
                 startActivity(settingsIntent);
-                return true;
-            case R.id.master_setup:
-                Intent masterSetupIntent = new Intent(getContext(), MasterSetup.class);
-                startActivity(masterSetupIntent);
                 return true;
             case R.id.master_export:
                 Intent masterExportIntent = new Intent(getContext(), MasterExport.class);

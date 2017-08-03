@@ -38,13 +38,12 @@ public class ChecklistFragment extends android.support.v4.app.Fragment {
     ListView listView;
     ChecklistAdapter<ParseObject> checklistAdapter;
     ParseQuery<ParseObject> query;
-    String roomDataObjectID;
-    String roomListObjectID;
     String tabName;
     int checked;
     String source;
     ParseObject roomDataObject;
     ParseObject roomListObject;
+    ParseObject maintenanceListObject;
     int total;
     int count=0;
 
@@ -60,13 +59,12 @@ public class ChecklistFragment extends android.support.v4.app.Fragment {
         }
     }
 
-    public static ChecklistFragment newInstance(String roomDataObjectID, ParseObject roomDataObject, String roomListObjectID, ParseObject roomListObject, String tabName, String source){
+    public static ChecklistFragment newInstance(ParseObject roomDataObject, ParseObject roomListObject, ParseObject maintenanceListObject, String tabName, String source){
         ChecklistFragment checklistFragment = new ChecklistFragment();
         Bundle args = new Bundle();
-        args.putString("roomDataObjectID", roomDataObjectID);
-        args.putString("roomListObjectID", roomListObjectID);
         args.putParcelable("roomListObject", roomListObject);
         args.putParcelable("roomDataObject", roomDataObject);
+        args.putParcelable("maintenanceListObject", maintenanceListObject);
         args.putString("tabName", tabName);
         args.putString("source", source);
         checklistFragment.setArguments(args);
@@ -78,10 +76,9 @@ public class ChecklistFragment extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_checklist, container, false);
-        roomDataObjectID = getArguments().getString("roomDataObjectID");
-        roomListObjectID = getArguments().getString("roomListObjectID");
         roomListObject = getArguments().getParcelable("roomListObject");
         roomDataObject = getArguments().getParcelable("roomDataObject");
+        maintenanceListObject = getArguments().getParcelable("maintenanceListObject");
         tabName = getArguments().getString("tabName");
         source = getArguments().getString("source");
 
@@ -95,10 +92,10 @@ public class ChecklistFragment extends android.support.v4.app.Fragment {
                         int i=0;
                         while(i<objects.size()){
                             String header = objects.get(i).getString("header");
-                            roomListObject.put(header, 0);
+                            maintenanceListObject.put(header, 0);
                             i++;
                         }
-                        roomListObject.saveInBackground();
+                        maintenanceListObject.saveInBackground();
                     }
                 }
             });
@@ -110,7 +107,7 @@ public class ChecklistFragment extends android.support.v4.app.Fragment {
                     return query;
                 }
             }, null, null);
-        }else if(source.equals("maintenance")){
+        }else if(source.equals("maintenance") || source.equals("master")){
             checklistAdapter = new ChecklistAdapter<>(getContext(), new ParseQueryAdapter.QueryFactory<ParseObject>() {
                 @Override
                 public ParseQuery<ParseObject> create() {
@@ -118,7 +115,16 @@ public class ChecklistFragment extends android.support.v4.app.Fragment {
                     query.orderByAscending("createdAt");
                     return query;
                 }
-            }, source, roomListObject);
+            }, source, maintenanceListObject);
+            ParseQuery<ParseObject> maintenanceQuery = ParseQuery.getQuery("Maintenance");
+            maintenanceQuery.countInBackground(new CountCallback() {
+                @Override
+                public void done(int count, ParseException e) {
+                    if(e==null){
+                        total=count;
+                    }
+                }
+            });
         }else{
             checklistAdapter = new ChecklistAdapter<>(getContext(), new ParseQueryAdapter.QueryFactory<ParseObject>() {
                 @Override
@@ -157,36 +163,40 @@ public class ChecklistFragment extends android.support.v4.app.Fragment {
                         roomDataObject.put(header, checked);
                         roomDataObject.saveInBackground();
                         if(tabName.equals("Maintenance")){
-                            roomListObject.put(header, checked);
-                            roomListObject.saveInBackground();
+                            maintenanceListObject.put(header, checked);
+                            maintenanceListObject.saveInBackground();
                         }
                         break;
                     case "maintenance":
-                        roomListObject.put(header, checked);
-                        roomListObject.saveInBackground();
+                        maintenanceListObject.put(header, checked);
+                        maintenanceListObject.saveInBackground();
                         break;
                     case "master":
+                        maintenanceListObject.put(header, checked);
+                        maintenanceListObject.saveInBackground();
                         break;
                 }
             }
         });
 
-        if(source.equals("maintenance")){
+        if(source.equals("maintenance") || source.equals("master") && tabName.equals("Maintenance")){
             ParseQuery<ParseObject> maintenanceQuery = ParseQuery.getQuery("Maintenance");
             maintenanceQuery.orderByAscending("createdAt");
             maintenanceQuery.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(final List<ParseObject> objects, ParseException e) {
-                    roomListObject.fetchInBackground(new GetCallback<ParseObject>() {
+                    maintenanceListObject.fetchInBackground(new GetCallback<ParseObject>() {
                         @Override
                         public void done(ParseObject object, ParseException e) {
                             int i=0;
                             while(i<objects.size()){
-                                if(roomListObject.getInt(objects.get(i).getString("header"))==1){
+                                if(maintenanceListObject.getInt(objects.get(i).getString("header"))==1){
                                     listView.setItemChecked(i, true);
+                                    count++;
                                 }
                                 i++;
                             }
+                            i=count;
                         }
                     });
 
@@ -199,11 +209,18 @@ public class ChecklistFragment extends android.support.v4.app.Fragment {
     }
 
     public int getClean(){
-        int clean;
-        if(count==total){
-            return 2;
+        if (source.equals("master")){
+            if(count==total){
+                return 4;
+            }else{
+                return 5;
+            }
         }else{
-            return 5;
+            if(count==total){
+                return 2;
+            }else{
+                return 5;
+            }
         }
     }
 
