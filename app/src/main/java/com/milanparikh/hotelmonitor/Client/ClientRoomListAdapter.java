@@ -51,7 +51,7 @@ public class ClientRoomListAdapter extends ParseQueryAdapter {
         String checkout = object.getString("checkoutdate");
 
         if(checkin==null || checkout==null) {
-            roomStatus.setText(R.string.due_out);
+            roomStatus.setText("Vacant");
         }else{
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
             try{
