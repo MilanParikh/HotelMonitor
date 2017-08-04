@@ -38,6 +38,7 @@ import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseConfig;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 import java.net.MalformedURLException;
@@ -119,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
                     .server(serverURL)
                     .build()
             );
+            ParseInstallation.getCurrentInstallation().saveInBackground();
 
         }
 
