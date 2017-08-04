@@ -12,7 +12,7 @@
             android:title="Set Check Out Date"/>
         <item
             android:id="@+id/clear_duration"
-            android:title="Clear Dates"/>
+            android:title="Check Out Guest (Clear Dates)"/>
     </group>
     <item
         android:id="@+id/add_membership"
