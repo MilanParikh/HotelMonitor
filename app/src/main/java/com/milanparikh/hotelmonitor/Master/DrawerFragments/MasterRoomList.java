@@ -219,10 +219,6 @@ public class MasterRoomList extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
-            case R.id.action_settings:
-                Intent settingsIntent = new Intent(getContext(), SettingsActivity.class);
-                startActivity(settingsIntent);
-                return true;
             case R.id.master_export:
                 Intent masterExportIntent = new Intent(getContext(), MasterExport.class);
                 startActivity(masterExportIntent);
@@ -252,9 +248,6 @@ public class MasterRoomList extends Fragment {
         switch (cleanStatus) {
             case 2:
                 contextMenu.findItem(R.id.set_clean).setChecked(true);
-                break;
-            case 5:
-                contextMenu.findItem(R.id.set_maintenance).setChecked(true);
                 break;
             case 6:
                 contextMenu.findItem(R.id.set_out_order).setChecked(true);
@@ -303,11 +296,6 @@ public class MasterRoomList extends Fragment {
                 return true;
             case R.id.set_clean:
                 pObject.put("clean", 2);
-                pObject.remove("current_name");
-                pObject.saveInBackground();
-                return true;
-            case R.id.set_maintenance:
-                pObject.put("clean", 5);
                 pObject.remove("current_name");
                 pObject.saveInBackground();
                 return true;

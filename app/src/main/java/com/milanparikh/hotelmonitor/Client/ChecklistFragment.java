@@ -172,8 +172,10 @@ public class ChecklistFragment extends android.support.v4.app.Fragment {
                         maintenanceListObject.saveInBackground();
                         break;
                     case "master":
-                        maintenanceListObject.put(header, checked);
-                        maintenanceListObject.saveInBackground();
+                        if(tabName.equals("Maintenance")){
+                            maintenanceListObject.put(header, checked);
+                            maintenanceListObject.saveInBackground();
+                        }
                         break;
                 }
             }

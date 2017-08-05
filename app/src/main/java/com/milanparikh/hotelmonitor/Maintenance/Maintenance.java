@@ -3,6 +3,7 @@ package com.milanparikh.hotelmonitor.Maintenance;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +31,9 @@ public class Maintenance extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maintenance);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.maintenance_toolbar);
+        setSupportActionBar(toolbar);
+
         parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
 
         roomList = (ListView)findViewById(R.id.maintenance_listview);
@@ -49,6 +53,8 @@ public class Maintenance extends AppCompatActivity {
         subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<ParseObject>() {
             @Override
             public void onEvents(ParseQuery<ParseObject> query, SubscriptionHandling.Event event, ParseObject object) {
+                maintenanceRoomListAdapter.loadObjects();
+                maintenanceRoomListAdapter.notifyDataSetChanged();
                 maintenanceRoomListAdapter.loadObjects();
             }
         });
@@ -79,10 +85,6 @@ public class Maintenance extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
-            case R.id.action_settings:
-                Intent settingsIntent = new Intent(this, SettingsActivity.class);
-                startActivity(settingsIntent);
-                return true;
             case R.id.logout_item:
                 ParseUser.logOutInBackground();
                 finish();

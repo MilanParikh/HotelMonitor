@@ -27,9 +27,6 @@
             android:id="@+id/set_clean"
             android:title="Set Clean" />
         <item
-            android:id="@+id/set_maintenance"
-            android:title="Set Maintenance Required" />
-        <item
             android:id="@+id/set_out_order"
             android:title="Set Out of Order" />
     </group>

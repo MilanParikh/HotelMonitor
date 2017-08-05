@@ -244,10 +244,6 @@ public class MasterRoomSetup extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
-            case R.id.action_settings:
-                Intent settingsIntent = new Intent(getContext(), SettingsActivity.class);
-                startActivity(settingsIntent);
-                return true;
             case R.id.master_export:
                 Intent masterExportIntent = new Intent(getContext(), MasterExport.class);
                 startActivity(masterExportIntent);

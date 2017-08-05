@@ -8,12 +8,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.milanparikh.hotelmonitor.R;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by milan on 6/7/2017.
@@ -75,13 +79,23 @@ public class ClientRoomListAdapter extends ParseQueryAdapter {
             public void onClick(View v) {
                 object.put("clean",1);
                 object.saveInBackground();
-                Intent checklistIntent = new Intent(getContext(),ClientCheckList.class);
-                Bundle extras = new Bundle();
-                extras.putString("objectID",object.getObjectId());
-                extras.putString("source", "client");
-                extras.putParcelable("roomListObject", object);
-                checklistIntent.putExtras(extras);
-                getContext().startActivity(checklistIntent);
+
+                ParseQuery<ParseObject> maintenanceObjectQuery = ParseQuery.getQuery("MaintenanceList");
+                maintenanceObjectQuery.whereEqualTo("room", object.getInt("room"));
+                maintenanceObjectQuery.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        ParseObject maintenanceListObject = objects.get(0);
+                        Intent checklistIntent = new Intent(getContext(),ClientCheckList.class);
+                        Bundle extras = new Bundle();
+                        extras.putString("objectID",object.getObjectId());
+                        extras.putString("source", "client");
+                        extras.putParcelable("roomListObject", object);
+                        extras.putParcelable("maintenanceListObject", maintenanceListObject);
+                        checklistIntent.putExtras(extras);
+                        getContext().startActivity(checklistIntent);
+                    }
+                });
             }
         });
 

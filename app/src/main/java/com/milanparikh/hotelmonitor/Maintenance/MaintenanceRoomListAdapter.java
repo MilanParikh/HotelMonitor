@@ -31,8 +31,16 @@ public class MaintenanceRoomListAdapter<T extends ParseObject> extends ParseQuer
         roomNum.setText(Integer.toString(object.getInt("room")));
 
         int status = object.getInt("clean");
-        if(status==6){
-            v.setBackgroundColor(getContext().getColor(R.color.roomListRed));
+        switch (status){
+            case 5:
+                v.setBackgroundColor(getContext().getColor(R.color.white));
+                break;
+            case 6:
+                v.setBackgroundColor(getContext().getColor(R.color.roomListRed));
+                break;
+            default:
+                v.setBackgroundColor(getContext().getColor(R.color.white));
+                break;
         }
 
         return v;
