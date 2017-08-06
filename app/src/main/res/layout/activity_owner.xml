@@ -6,4 +6,74 @@
     android:layout_height="match_parent"
     tools:context="com.milanparikh.hotelmonitor.Owner.Owner">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/owner_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/AppTheme"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline2"
+        app:layout_constraintGuide_percent="0.3"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="384dp" />
+
+    <ListView
+        android:id="@+id/owner_employee_listview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/owner_toolbar" />
+
+    <TextView
+        android:id="@+id/owner_90day_avg_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="90 Day Average:"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toRightOf="@+id/owner_employee_listview"
+        app:layout_constraintRight_toLeftOf="@+id/owner_30day_avg_text"
+        app:layout_constraintTop_toBottomOf="@+id/owner_toolbar" />
+
+    <TextView
+        android:id="@+id/owner_30day_avg_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="30 Day Average: "
+        android:textSize="20sp"
+        app:layout_constraintLeft_toRightOf="@+id/owner_90day_avg_text"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/owner_toolbar" />
+
+    <TextView
+        android:id="@+id/select_date_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Date for Employee Data:"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="565dp"
+        tools:layout_editor_absoluteY="222dp" />
+
+    <Button
+        android:id="@+id/owner_date_selector_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        android:text="Date"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="949dp"
+        tools:layout_editor_absoluteY="222dp" />
 </android.support.constraint.ConstraintLayout>
