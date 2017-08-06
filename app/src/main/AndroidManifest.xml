@@ -80,7 +80,8 @@
             android:name=".RegistrationActivity"
             android:label="Registration" />
         <activity android:name=".Maintenance.Maintenance" />
-        <activity android:name=".Maintenance.MaintenanceCheckList"></activity>
+        <activity android:name=".Maintenance.MaintenanceCheckList" />
+        <activity android:name=".Owner.Owner"></activity>
     </application>
 
 </manifest>

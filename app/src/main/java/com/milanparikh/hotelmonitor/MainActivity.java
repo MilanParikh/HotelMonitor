@@ -33,6 +33,7 @@ import com.milanparikh.hotelmonitor.Maintenance.Maintenance;
 import com.milanparikh.hotelmonitor.Master.Master;
 import com.milanparikh.hotelmonitor.Other.DownloadUpdate;
 import com.milanparikh.hotelmonitor.Other.SettingsActivity;
+import com.milanparikh.hotelmonitor.Owner.Owner;
 import com.parse.ConfigCallback;
 import com.parse.LogInCallback;
 import com.parse.Parse;
@@ -148,6 +149,11 @@ public class MainActivity extends AppCompatActivity {
                                 case 2:
                                     Intent launchMaint = new Intent(getApplicationContext(), Maintenance.class);
                                     startActivity(launchMaint);
+                                    break;
+                                case 3:
+                                    Intent launchOwner = new Intent(getApplicationContext(), Owner.class);
+                                    startActivity(launchOwner);
+                                    break;
                             }
                         }
                         else {
