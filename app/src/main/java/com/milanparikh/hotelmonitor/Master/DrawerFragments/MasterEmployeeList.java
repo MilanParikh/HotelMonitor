@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterEmployeeListAdapter;
@@ -27,7 +29,9 @@ import com.milanparikh.hotelmonitor.Other.SettingsActivity;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
@@ -51,6 +55,7 @@ public class MasterEmployeeList extends Fragment {
     ParseUser employeeUser;
     String selectedEmployeeName="";
     ParseObject roomObject;
+    ParseUser contextParseUser;
 
     public MasterEmployeeList() {
         // Required empty public constructor
@@ -133,17 +138,13 @@ public class MasterEmployeeList extends Fragment {
                 selectedEmployeeName = employeeUser.getUsername();
             }
         });
-        employeeListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                ParseUser deleteUser = (ParseUser)parent.getItemAtPosition(position);
-                showDeleteConfirmation(deleteUser);
-                return true;
-            }
-        });
+
+        registerForContextMenu(employeeListView);
 
         return view;
     }
+
+
 
     public void showDeleteConfirmation(final ParseUser user){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
@@ -177,6 +178,37 @@ public class MasterEmployeeList extends Fragment {
         alertDialog.show();
     }
 
+    public void sendMessage(final ParseUser user){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_send_message, null);
+        builder.setView(dialogView);
+
+        final EditText messageEditText = (EditText)dialogView.findViewById(R.id.message_editText);
+
+        builder.setTitle("Send Message");
+        builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ParseQuery pushQuery = ParseInstallation.getQuery();
+                pushQuery.whereEqualTo("user", user);
+                ParsePush push = new ParsePush();
+                push.setQuery(pushQuery);
+                push.setMessage(messageEditText.getText().toString());
+                push.sendInBackground();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.master_employee_list_menu, menu);
@@ -191,11 +223,38 @@ public class MasterEmployeeList extends Fragment {
                 startActivity(masterExportIntent);
                 return true;
             case R.id.logout_item:
+                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                installation.remove("user");
+                installation.saveInBackground();
                 ParseUser.logOut();
                 activity.finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.master_employee_context_menu, menu);
+        ListView lv = (ListView) v;
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        contextParseUser = (ParseUser) lv.getAdapter().getItem(info.position);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.send_message:
+                sendMessage(contextParseUser);
+                return true;
+            case R.id.delete_employee:
+                showDeleteConfirmation(contextParseUser);
+                return true;
+            default:
+                return super.onContextItemSelected(item);
         }
     }
 

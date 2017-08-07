@@ -18,6 +18,7 @@ import com.milanparikh.hotelmonitor.R;
 import com.milanparikh.hotelmonitor.Other.SettingsActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseLiveQueryClient;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -138,6 +139,9 @@ public class Client extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.logout_item:
+                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                installation.remove("user");
+                installation.saveInBackground();
                 ParseUser.logOutInBackground();
                 finish();
                 return true;
@@ -155,6 +159,9 @@ public class Client extends AppCompatActivity {
     public void onBackPressed() {
         ParseUser user = ParseUser.getCurrentUser();
         if (user!=null) {
+            ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+            installation.remove("user");
+            installation.saveInBackground();
             user.logOutInBackground();
         }
         finish();

@@ -137,6 +137,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void done(ParseUser pUser, ParseException e) {
                         if (pUser != null) {
+                            ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                            installation.put("user", pUser);
+                            installation.saveInBackground();
                             Toast.makeText(MainActivity.this, pUser.getUsername()+ " successfully logged In", Toast.LENGTH_SHORT).show();
                             int masterMode = pUser.getInt("MasterMode");
                             switch(masterMode){

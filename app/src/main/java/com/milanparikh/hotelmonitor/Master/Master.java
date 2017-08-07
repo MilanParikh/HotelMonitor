@@ -17,6 +17,7 @@ import com.milanparikh.hotelmonitor.Master.DrawerFragments.MasterRoomList;
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.MasterRoomSetup;
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.MasterRoomTypes;
 import com.milanparikh.hotelmonitor.R;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 public class Master extends AppCompatActivity
@@ -63,6 +64,9 @@ public class Master extends AppCompatActivity
         } else {
             ParseUser user = ParseUser.getCurrentUser();
             if (user!=null) {
+                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                installation.remove("user");
+                installation.saveInBackground();
                 user.logOutInBackground();
             }
             finish();

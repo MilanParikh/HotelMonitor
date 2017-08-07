@@ -39,6 +39,7 @@ import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseLiveQueryClient;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -224,6 +225,9 @@ public class MasterRoomList extends Fragment {
                 startActivity(masterExportIntent);
                 return true;
             case R.id.logout_item:
+                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                installation.remove("user");
+                installation.saveInBackground();
                 ParseUser.logOut();
                 activity.finish();
                 return true;
