@@ -9,6 +9,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,12 +52,14 @@ public class MasterManagmentDashboard extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.master_employee_list_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
-            case R.id.action_settings:
-                Intent settingsIntent = new Intent(getContext(), SettingsActivity.class);
-                startActivity(settingsIntent);
-                return true;
             case R.id.master_export:
                 Intent masterExportIntent = new Intent(getContext(), MasterExport.class);
                 startActivity(masterExportIntent);
