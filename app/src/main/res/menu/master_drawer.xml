@@ -13,7 +13,6 @@
         <item
             android:id="@+id/nav_management_dashboard"
             android:icon="@drawable/ic_trending_up_black_24dp"
-            android:enabled="false"
             android:title="Management Dashboard"/>
         <item
             android:id="@+id/nav_room_types"

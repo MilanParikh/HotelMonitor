@@ -14,17 +14,40 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.milanparikh.hotelmonitor.Master.MasterExport;
-import com.milanparikh.hotelmonitor.Other.SettingsActivity;
 import com.milanparikh.hotelmonitor.R;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MasterManagmentDashboard extends Fragment {
     AppCompatActivity activity;
+    TextView vacantText;
+    TextView dueOutText;
+    TextView stayOverText;
+    TextView privacyText;
+    TextView maintenanceText;
+    TextView outOrderText;
+    int vacant;
+    int dueOut;
+    int stayOver;
+    int privacy;
+    int maintenance;
+    int outOrder;
+
+    Date outDate;
+    Date currentDate;
 
     public MasterManagmentDashboard() {
         // Required empty public constructor
@@ -46,9 +69,78 @@ public class MasterManagmentDashboard extends Fragment {
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        vacantText = (TextView)view.findViewById(R.id.management_vacant_text);
+        dueOutText = (TextView)view.findViewById(R.id.management_due_out_text);
+        stayOverText = (TextView)view.findViewById(R.id.management_stay_over_text);
+        privacyText = (TextView)view.findViewById(R.id.management_private_text);
+        maintenanceText = (TextView)view.findViewById(R.id.management_maintenance_text);
+        outOrderText = (TextView)view.findViewById(R.id.management_out_order_text);
 
+        ParseQuery<ParseObject> roomListQuery = ParseQuery.getQuery("RoomList");
+        roomListQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                for (int i=0; i<objects.size(); i++){
+                    ParseObject roomListObject = objects.get(i);
+                    String checkInDate = roomListObject.getString("checkindate");
+                    String checkOutDate = roomListObject.getString("checkoutdate");
+                    int status = roomListObject.getInt("clean");
+                    switch(status){
+                        case 0:
+                            checkGuestStatus(checkInDate, checkOutDate);
+                            break;
+                        case 1:
+                            checkGuestStatus(checkInDate, checkOutDate);
+                            break;
+                        case 2:
+                            checkGuestStatus(checkInDate, checkOutDate);
+                            break;
+                        case 3:
+                            privacy++;
+                            break;
+                        case 4:
+                            if(checkOutDate==null){
+                                vacant++;
+                            }
+                            break;
+                        case 5:
+                            maintenance++;
+                            break;
+                        case 6:
+                            outOrder++;
+                            break;
+                    }
+                }
+                vacantText.setText(Integer.toString(vacant) + " - Vacant and Checked");
+                dueOutText.setText(Integer.toString(dueOut) + " - Due Out");
+                stayOverText.setText(Integer.toString(stayOver) + " - Stay Over");
+                privacyText.setText(Integer.toString(privacy) + " - Set Private");
+                maintenanceText.setText(Integer.toString(maintenance) + " - Maintenance Required");
+                outOrderText.setText(Integer.toString(outOrder) + " - Out of Order");
+
+            }
+        });
 
         return view;
+    }
+
+    public void checkGuestStatus(String checkInDate, String checkOutDate){
+        if(checkInDate==null || checkOutDate==null) {
+        }else{
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            try{
+                outDate = sdf.parse(checkOutDate);
+                currentDate = sdf.parse(sdf.format(new Date()));
+            }catch (java.text.ParseException e){
+                e.printStackTrace();
+            }
+            if(currentDate.equals(outDate)){
+                dueOut++;
+            }else if(currentDate.before(outDate)){
+                stayOver++;
+            }else if(currentDate.after(outDate)){
+            }
+        }
     }
 
     @Override
