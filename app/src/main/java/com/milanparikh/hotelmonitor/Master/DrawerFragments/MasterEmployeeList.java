@@ -18,8 +18,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterEmployeeListAdapter;
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterEmployeeRoomListAdapter;
@@ -36,6 +39,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 
@@ -141,6 +146,14 @@ public class MasterEmployeeList extends Fragment {
 
         registerForContextMenu(employeeListView);
 
+        TextView broadcastButton = (TextView)view.findViewById(R.id.broadcast_message_textview);
+        broadcastButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                broadcastMessage();
+            }
+        });
+
         return view;
     }
 
@@ -176,6 +189,59 @@ public class MasterEmployeeList extends Fragment {
         });
         AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.show();
+    }
+
+    public void broadcastMessage() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_broadcast_message, null);
+        builder.setView(dialogView);
+
+        final Spinner groupSpinner = (Spinner)dialogView.findViewById(R.id.message_group_spinner);
+        final EditText messageEditText = (EditText)dialogView.findViewById(R.id.broadcast_message_editText);
+
+        String[] spinnerArray = {"Housekeepers", "Maintenance"};
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, spinnerArray);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        groupSpinner.setAdapter(spinnerAdapter);
+
+        builder.setTitle("Send Message");
+        builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int usertype;
+                switch (groupSpinner.getSelectedItemPosition()){
+                    case 0:
+                        usertype=0;
+                        break;
+                    case 1:
+                        usertype=2;
+                        break;
+                    default:
+                        usertype=0;
+                        break;
+                }
+
+                ParseQuery innerQuery = ParseQuery.getQuery("_User");
+                innerQuery.whereEqualTo("MasterMode", usertype);
+
+                ParseQuery<ParseInstallation> pushQuery = ParseInstallation.getQuery();
+                pushQuery.whereMatchesQuery("user", innerQuery);
+                ParsePush push = new ParsePush();
+                push.setQuery(pushQuery);
+                push.setMessage(messageEditText.getText().toString());
+                push.sendInBackground();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     public void sendMessage(final ParseUser user){
