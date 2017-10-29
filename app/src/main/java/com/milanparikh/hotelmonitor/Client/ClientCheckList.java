@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.SystemClock;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +22,7 @@ import android.view.View;
 
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.milanparikh.hotelmonitor.R;
@@ -63,6 +66,7 @@ public class ClientCheckList extends AppCompatActivity
     TextView submitButton;
     TextView privacyButton;
     TextView checkAllButton;
+    TextView dividerText;
     ProgressBar progressBar;
     ParseObject roomDataObject;
     ParseUser user;
@@ -77,6 +81,8 @@ public class ClientCheckList extends AppCompatActivity
     String status;
 
     ChecklistFragment closetFragment, bedroomFragment, bathroomFragment, maintenanceFragment;
+
+    android.widget.RelativeLayout.LayoutParams params;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +130,9 @@ public class ClientCheckList extends AppCompatActivity
         checkAllButton = (TextView)findViewById(R.id.bottom_check_button);
         progressBar = (ProgressBar)findViewById(R.id.checklist_progress_bar);
         progressBar.setProgress(25);
+        dividerText = (TextView)findViewById(R.id.bottom_divider_text);
+
+        params = (RelativeLayout.LayoutParams)dividerText.getLayoutParams();
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -135,24 +144,32 @@ public class ClientCheckList extends AppCompatActivity
                         nextButton.setVisibility(View.VISIBLE);
                         submitButton.setVisibility(View.GONE);
                         privacyButton.setVisibility(View.VISIBLE);
+                        params.addRule(RelativeLayout.LEFT_OF, R.id.bottom_next_button);
+                        dividerText.setLayoutParams(params);
                         break;
                     case 1:
                         backButton.setVisibility(View.VISIBLE);
                         nextButton.setVisibility(View.VISIBLE);
                         submitButton.setVisibility(View.GONE);
                         privacyButton.setVisibility(View.GONE);
+                        params.addRule(RelativeLayout.LEFT_OF, R.id.bottom_next_button);
+                        dividerText.setLayoutParams(params);
                         break;
                     case 2:
                         backButton.setVisibility(View.VISIBLE);
                         nextButton.setVisibility(View.VISIBLE);
                         submitButton.setVisibility(View.GONE);
                         privacyButton.setVisibility(View.GONE);
+                        params.addRule(RelativeLayout.LEFT_OF, R.id.bottom_next_button);
+                        dividerText.setLayoutParams(params);
                         break;
                     case 3:
                         backButton.setVisibility(View.VISIBLE);
                         nextButton.setVisibility(View.GONE);
                         submitButton.setVisibility(View.VISIBLE);
                         privacyButton.setVisibility(View.GONE);
+                        params.addRule(RelativeLayout.LEFT_OF, R.id.bottom_submit_button);
+                        dividerText.setLayoutParams(params);
                         break;
                 }
             }
@@ -166,24 +183,32 @@ public class ClientCheckList extends AppCompatActivity
                         nextButton.setVisibility(View.VISIBLE);
                         submitButton.setVisibility(View.GONE);
                         privacyButton.setVisibility(View.VISIBLE);
+                        params.addRule(RelativeLayout.LEFT_OF, R.id.bottom_next_button);
+                        dividerText.setLayoutParams(params);
                         break;
                     case 1:
                         backButton.setVisibility(View.VISIBLE);
                         nextButton.setVisibility(View.VISIBLE);
                         submitButton.setVisibility(View.GONE);
                         privacyButton.setVisibility(View.GONE);
+                        params.addRule(RelativeLayout.LEFT_OF, R.id.bottom_next_button);
+                        dividerText.setLayoutParams(params);
                         break;
                     case 2:
                         backButton.setVisibility(View.VISIBLE);
                         nextButton.setVisibility(View.VISIBLE);
                         submitButton.setVisibility(View.GONE);
                         privacyButton.setVisibility(View.GONE);
+                        params.addRule(RelativeLayout.LEFT_OF, R.id.bottom_next_button);
+                        dividerText.setLayoutParams(params);
                         break;
                     case 3:
                         backButton.setVisibility(View.VISIBLE);
                         nextButton.setVisibility(View.GONE);
                         submitButton.setVisibility(View.VISIBLE);
                         privacyButton.setVisibility(View.GONE);
+                        params.addRule(RelativeLayout.LEFT_OF, R.id.bottom_submit_button);
+                        dividerText.setLayoutParams(params);
                         break;
                 }
             }
