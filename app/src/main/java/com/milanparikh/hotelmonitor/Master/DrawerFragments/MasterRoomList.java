@@ -266,6 +266,7 @@ public class MasterRoomList extends Fragment {
         switch (item.getItemId()) {
             case R.id.check_in_date:
                 showDatePicker("in");
+                showDatePicker("out");
                 return true;
             case R.id.check_out_date:
                 showDatePicker("out");

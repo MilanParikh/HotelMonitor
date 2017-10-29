@@ -155,10 +155,10 @@ public class MainActivity extends AppCompatActivity {
                                     Intent launchMaint = new Intent(getApplicationContext(), Maintenance.class);
                                     startActivity(launchMaint);
                                     break;
-                                case 3:
+                                /*case 3:
                                     Intent launchOwner = new Intent(getApplicationContext(), Owner.class);
                                     startActivity(launchOwner);
-                                    break;
+                                    break;*/
                             }
                         }
                         else {

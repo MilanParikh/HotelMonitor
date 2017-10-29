@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -208,6 +209,29 @@ public class ChecklistFragment extends android.support.v4.app.Fragment {
 
 
         return view;
+    }
+
+    public void setAllChecked(){
+        ParseQuery<ParseObject> checklistQuery = ParseQuery.getQuery(tabName);
+        checklistQuery.orderByAscending("createdAt");
+        checklistQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(final List<ParseObject> objects, ParseException e) {
+                roomDataObject.fetchInBackground(new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject object, ParseException e) {
+                        int i=0;
+                        while(i<objects.size()){
+                            Log.d("HEADER", objects.get(i).getString("header"));
+                            roomDataObject.put(objects.get(i).getString("header"), 1);
+                            listView.setItemChecked(i, true);
+                            roomDataObject.saveInBackground();
+                            i++;
+                        }
+                    }
+                });
+            }
+        });
     }
 
     public int getClean(){

@@ -35,6 +35,7 @@ public class RegistrationActivity extends AppCompatActivity {
     Boolean correctPassword;
     Switch masterSwitch;
     Button registerButton;
+    String offlinePassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +127,7 @@ public class RegistrationActivity extends AppCompatActivity {
         masterSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkPassword();
+                checkOfflinePassword();
             }
         });
 
@@ -222,6 +223,48 @@ public class RegistrationActivity extends AppCompatActivity {
                 if ((event.getAction()==KeyEvent.ACTION_DOWN) && (keyCode==KeyEvent.KEYCODE_ENTER)) {
                     posButton.performClick();
                 }
+                return false;
+            }
+        });
+    }
+
+    public void checkOfflinePassword() {
+        offlinePassword = "milan123";
+        final AlertDialog.Builder passwordBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_password, null);
+        passwordBuilder.setView(dialogView);
+
+        final EditText dialogPasswordEditText = (EditText)dialogView.findViewById(R.id.dialog_password_edittext);
+
+        passwordBuilder.setTitle("Enter Password");
+        passwordBuilder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String submittedPassword = dialogPasswordEditText.getText().toString();
+                correctPassword = (offlinePassword.equals(submittedPassword));
+                if(correctPassword){
+                    masterSwitch.setChecked(true);
+                }else{
+                    masterSwitch.setChecked(false);
+                }
+            }
+        });
+        passwordBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        AlertDialog passwordDialog = passwordBuilder.create();
+        passwordDialog.show();
+        final Button posButton = passwordDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        dialogPasswordEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction()==KeyEvent.ACTION_DOWN) && (keyCode==KeyEvent.KEYCODE_ENTER)) {
+                    posButton.performClick();
+                }
+
                 return false;
             }
         });

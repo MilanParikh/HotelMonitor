@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -61,6 +62,7 @@ public class ClientCheckList extends AppCompatActivity
     TextView nextButton;
     TextView submitButton;
     TextView privacyButton;
+    TextView checkAllButton;
     ProgressBar progressBar;
     ParseObject roomDataObject;
     ParseUser user;
@@ -74,7 +76,7 @@ public class ClientCheckList extends AppCompatActivity
     Date currentDate;
     String status;
 
-    ChecklistFragment maintenanceFragment;
+    ChecklistFragment closetFragment, bedroomFragment, bathroomFragment, maintenanceFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +121,7 @@ public class ClientCheckList extends AppCompatActivity
         backButton = (TextView) findViewById(R.id.bottom_back_button);
         submitButton = (TextView) findViewById(R.id.bottom_submit_button);
         privacyButton = (TextView)findViewById(R.id.bottom_private_button);
+        checkAllButton = (TextView)findViewById(R.id.bottom_check_button);
         progressBar = (ProgressBar)findViewById(R.id.checklist_progress_bar);
         progressBar.setProgress(25);
 
@@ -277,6 +280,26 @@ public class ClientCheckList extends AppCompatActivity
             }
         });
 
+        checkAllButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int pos = mViewPager.getCurrentItem();
+                switch (pos){
+                    case 0:
+                        closetFragment.setAllChecked();
+                        break;
+                    case 1:
+                        bedroomFragment.setAllChecked();
+                        break;
+                    case 2:
+                        bathroomFragment.setAllChecked();
+                        break;
+                    case 3:
+                        maintenanceFragment.setAllChecked();
+                        break;
+                }
+            }
+        });
 
 
     }
@@ -322,7 +345,6 @@ public class ClientCheckList extends AppCompatActivity
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            maintenanceFragment = ChecklistFragment.newInstance(roomDataObject, roomListObject, maintenanceListObject, "Maintenance", source);
             switch (position) {
                 case 0:
                     return ChecklistFragment.newInstance(roomDataObject, roomListObject, null, "Closet", source);
@@ -331,11 +353,33 @@ public class ClientCheckList extends AppCompatActivity
                 case 2:
                     return ChecklistFragment.newInstance(roomDataObject, roomListObject, null, "Bathroom", source);
                 case 3:
-                    return maintenanceFragment;
+                    return ChecklistFragment.newInstance(roomDataObject, roomListObject, maintenanceListObject, "Maintenance", source);
                 default:
-                    return ChecklistFragment.newInstance(roomDataObject, roomListObject, null, "Closet", source);
+                    return null;
             }
 
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            Fragment createdFragment = (Fragment)super.instantiateItem(container, position);
+            switch (position){
+                case 0:
+                    closetFragment = (ChecklistFragment) createdFragment;
+                    break;
+                case 1:
+                    bedroomFragment = (ChecklistFragment) createdFragment;
+                    break;
+                case 2:
+                    bathroomFragment = (ChecklistFragment) createdFragment;
+                    break;
+                case 3:
+                    maintenanceFragment = (ChecklistFragment)createdFragment;
+                    break;
+
+            }
+
+            return createdFragment;
         }
 
         @Override
