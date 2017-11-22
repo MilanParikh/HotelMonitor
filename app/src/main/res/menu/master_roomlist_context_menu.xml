@@ -5,11 +5,8 @@
     <group
         android:id="@+id/guest_duration">
         <item
-            android:id="@+id/check_in_date"
-            android:title="Set Check In Date"/>
-        <item
-            android:id="@+id/check_out_date"
-            android:title="Set Check Out Date"/>
+            android:id="@+id/check_in_out_date"
+            android:title="Set Check In/Out Dates" />
         <item
             android:id="@+id/clear_duration"
             android:title="Check Out Guest (Clear Dates)"/>
