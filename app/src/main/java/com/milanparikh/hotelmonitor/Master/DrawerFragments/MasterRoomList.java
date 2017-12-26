@@ -27,6 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.milanparikh.hotelmonitor.Client.ClientCheckList;
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.ListAdapters.MasterAvailabilityListAdapter;
@@ -39,6 +40,7 @@ import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseLiveQueryClient;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -49,6 +51,8 @@ import com.parse.SubscriptionHandling;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,7 +77,6 @@ public class MasterRoomList extends Fragment {
     ParseQuery availableRoomQuery;
     Intent checklistIntent;
     Bundle extras;
-
 
     public MasterRoomList() {
         // Required empty public constructor
@@ -224,6 +227,9 @@ public class MasterRoomList extends Fragment {
                 startActivity(masterExportIntent);
                 return true;
             case R.id.logout_item:
+                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                installation.remove("user");
+                installation.saveInBackground();
                 ParseUser.logOut();
                 activity.finish();
                 return true;
@@ -260,11 +266,8 @@ public class MasterRoomList extends Fragment {
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
         switch (item.getItemId()) {
-            case R.id.check_in_date:
+            case R.id.check_in_out_date:
                 showDatePicker("in");
-                return true;
-            case R.id.check_out_date:
-                showDatePicker("out");
                 return true;
             case R.id.clear_duration:
                 pObject.remove("checkindate");
@@ -349,9 +352,11 @@ public class MasterRoomList extends Fragment {
                     switch(inout){
                         case "in":
                             object.put("checkindate", date);
+                            getTargetFragment().onActivityResult(getTargetRequestCode(), 1, null);
                             break;
                         case "out":
                             object.put("checkoutdate", date);
+                            getTargetFragment().onActivityResult(getTargetRequestCode(), 2, null);
                             break;
                     }
                     object.saveInBackground();
@@ -368,6 +373,7 @@ public class MasterRoomList extends Fragment {
         args.putString("id",pObjectID);
         datePickerFragment.setArguments(args);
         datePickerFragment.show(getFragmentManager(), "datePicker");
+        datePickerFragment.setTargetFragment(this, 2);
     }
 
     @Override
@@ -399,6 +405,11 @@ public class MasterRoomList extends Fragment {
                     }
                 }
             });
+        }else if (requestCode==2){
+            if(resultCode==1){
+                showDatePicker("out");
+            }else if (resultCode==2){
+            }
         }
     }
 

@@ -39,6 +39,7 @@ import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseConfig;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 import java.net.MalformedURLException;
@@ -120,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
                     .server(serverURL)
                     .build()
             );
+            ParseInstallation.getCurrentInstallation().saveInBackground();
 
         }
 
@@ -135,6 +137,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void done(ParseUser pUser, ParseException e) {
                         if (pUser != null) {
+                            ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                            installation.put("user", pUser);
+                            installation.saveInBackground();
                             Toast.makeText(MainActivity.this, pUser.getUsername()+ " successfully logged In", Toast.LENGTH_SHORT).show();
                             int masterMode = pUser.getInt("MasterMode");
                             switch(masterMode){
@@ -150,10 +155,10 @@ public class MainActivity extends AppCompatActivity {
                                     Intent launchMaint = new Intent(getApplicationContext(), Maintenance.class);
                                     startActivity(launchMaint);
                                     break;
-                                case 3:
+                                /*case 3:
                                     Intent launchOwner = new Intent(getApplicationContext(), Owner.class);
                                     startActivity(launchOwner);
-                                    break;
+                                    break;*/
                             }
                         }
                         else {
@@ -290,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkOfflinePassword(final String scenario) {
-        offlinePassword = "milan123";
+        offlinePassword = getString(R.string.admin_password);
         final AlertDialog.Builder passwordBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_password, null);

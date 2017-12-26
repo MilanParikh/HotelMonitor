@@ -27,6 +27,7 @@ import com.milanparikh.hotelmonitor.Other.SettingsActivity;
 import com.milanparikh.hotelmonitor.R;
 import com.parse.DeleteCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
@@ -165,6 +166,9 @@ public class MasterRoomTypes extends Fragment {
                 startActivity(masterExportIntent);
                 return true;
             case R.id.logout_item:
+                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                installation.remove("user");
+                installation.saveInBackground();
                 ParseUser.logOut();
                 activity.finish();
                 return true;

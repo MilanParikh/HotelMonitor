@@ -3,6 +3,7 @@
     <string name="default_server_url">https://hotelmonitor-3096.nodechef.com/parse</string>
     <string name="default_app_id">HotelMonitor</string>
     <string name="default_settings_password">password</string>
+    <string name="admin_password">shhampton</string>
     <string name="admin_description">Allows for locking the device into kiosk mode</string>
     <string name="login">Login</string>
     <string name="username">Username</string>

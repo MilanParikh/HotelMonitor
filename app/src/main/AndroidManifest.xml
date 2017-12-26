@@ -6,6 +6,18 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <!-- Parse Push Service related -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <permission
+        android:name="com.milanparikh.hotelmonitor.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.milanparikh.hotelmonitor.permission.C2D_MESSAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -81,7 +93,37 @@
             android:label="Registration" />
         <activity android:name=".Maintenance.Maintenance" />
         <activity android:name=".Maintenance.MaintenanceCheckList" />
-        <activity android:name=".Owner.Owner"></activity>
+
+        <!-- Parse Push Service related -->
+        <service android:name="com.parse.PushService" />
+
+        <receiver
+            android:name="com.milanparikh.hotelmonitor.Other.PushBroadcastReciever"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.parse.push.intent.RECEIVE" />
+                <action android:name="com.parse.push.intent.DELETE" />
+                <action android:name="com.parse.push.intent.OPEN" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.milanparikh.hotelmonitor" />
+            </intent-filter>
+        </receiver>
+
+        <!--         IMPORTANT: Change "YOUR_SENDER_ID" to your GCM Sender Id. -->
+        <meta-data
+            android:name="com.parse.push.gcm_sender_id"
+            android:value="id:294865895845" />
+
+        <activity android:name=".Other.NotificationAlert"
+            android:theme="@style/Theme.AppCompat.Translucent"/>
     </application>
 
 </manifest>
