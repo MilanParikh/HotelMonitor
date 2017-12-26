@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
                 checkOfflinePassword("settings");
                 return true;
             case R.id.action_update:
-                checkPassword("update");
+                checkOfflinePassword("update");
                 return true;
             case R.id.action_kiosk:
                 //checkPassword("kiosk");
@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return true;
             case R.id.action_disable_admin:
-                checkPassword("admin");
+                checkOfflinePassword("admin");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
