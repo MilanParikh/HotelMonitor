@@ -229,7 +229,7 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     public void checkOfflinePassword() {
-        offlinePassword = "milan123";
+        offlinePassword = getString(R.string.admin_password);
         final AlertDialog.Builder passwordBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_password, null);
