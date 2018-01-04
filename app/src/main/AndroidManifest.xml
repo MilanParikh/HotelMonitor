@@ -41,6 +41,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.milanparikh.hotelmonitor.MainActivity" />
         </activity>
+        <activity android:name=".Owner.Owner"
+            android:label="Hotel Reports"/>
         <activity
             android:name=".Client.Client"
             android:label="Room List" />
