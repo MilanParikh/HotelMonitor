@@ -114,6 +114,32 @@
                     android:indeterminate="false" />
 
                 <TextView
+                    android:id="@+id/bottom_check_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@+id/bottom_divider_text"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:text="Check All"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:id="@+id/bottom_divider_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@+id/bottom_next_button"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="false"
+                    android:gravity="center_vertical"
+                    android:paddingRight="8dp"
+                    android:paddingLeft="8dp"
+                    android:text=" | "
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"/>
+
+                <TextView
                     android:id="@+id/bottom_next_button"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"

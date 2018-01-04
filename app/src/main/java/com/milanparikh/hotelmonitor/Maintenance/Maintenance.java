@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import com.milanparikh.hotelmonitor.Other.SettingsActivity;
 import com.milanparikh.hotelmonitor.R;
+import com.parse.ParseInstallation;
 import com.parse.ParseLiveQueryClient;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -86,6 +87,9 @@ public class Maintenance extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.logout_item:
+                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                installation.remove("user");
+                installation.saveInBackground();
                 ParseUser.logOutInBackground();
                 finish();
                 return true;
@@ -118,6 +122,9 @@ public class Maintenance extends AppCompatActivity {
     public void onBackPressed() {
         ParseUser user = ParseUser.getCurrentUser();
         if (user!=null) {
+            ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+            installation.remove("user");
+            installation.saveInBackground();
             user.logOutInBackground();
         }
         parseLiveQueryClient.unsubscribe(maintenanceQuery);

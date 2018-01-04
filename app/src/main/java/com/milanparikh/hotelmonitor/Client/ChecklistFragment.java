@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -208,6 +209,53 @@ public class ChecklistFragment extends android.support.v4.app.Fragment {
 
 
         return view;
+    }
+
+    public void setAllChecked(){
+        final ParseQuery<ParseObject> checklistQuery = ParseQuery.getQuery(tabName);
+        checklistQuery.orderByAscending("createdAt");
+        checklistQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(final List<ParseObject> objects, ParseException e) {
+                roomDataObject.fetchInBackground(new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject object, ParseException e) {
+                        if (source.equals("client")){
+                            int i=0;
+                            while(i<objects.size()){
+                                roomDataObject.put(objects.get(i).getString("header"), 1);
+                                listView.setItemChecked(i, true);
+                                i++;
+                            }
+                            roomDataObject.saveInBackground();
+                        }
+                        else {
+                            int i=0;
+                            while(i<objects.size()){
+                                listView.setItemChecked(i, true);
+                                i++;
+                            }
+                        }
+                    }
+                });
+                if(tabName.equals("Maintenance")){
+                    Log.d("MAINTENANCE", "IT WORKED");
+                    maintenanceListObject.fetchInBackground(new GetCallback<ParseObject>() {
+                        @Override
+                        public void done(ParseObject object, ParseException e) {
+                            int i=0;
+                            while(i<objects.size()){
+                                Log.d("HEADER", objects.get(i).getString("header"));
+                                maintenanceListObject.put(objects.get(i).getString("header"), 1);
+                                i++;
+                            }
+                            maintenanceListObject.saveInBackground();
+                            count=total;
+                        }
+                    });
+                }
+            }
+        });
     }
 
     public int getClean(){

@@ -12,10 +12,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.MasterEmployeeList;
+import com.milanparikh.hotelmonitor.Master.DrawerFragments.MasterManagmentDashboard;
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.MasterRoomList;
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.MasterRoomSetup;
 import com.milanparikh.hotelmonitor.Master.DrawerFragments.MasterRoomTypes;
 import com.milanparikh.hotelmonitor.R;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 public class Master extends AppCompatActivity
@@ -62,6 +64,9 @@ public class Master extends AppCompatActivity
         } else {
             ParseUser user = ParseUser.getCurrentUser();
             if (user!=null) {
+                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                installation.remove("user");
+                installation.saveInBackground();
                 user.logOutInBackground();
             }
             finish();
@@ -87,7 +92,9 @@ public class Master extends AppCompatActivity
         } else if (id == R.id.nav_room_setup) {
             currentFragment = new MasterRoomSetup();
             fragmentTag = "MasterRoomSetup";
-
+        } else if (id == R.id.nav_management_dashboard) {
+            currentFragment = new MasterManagmentDashboard();
+            fragmentTag = "MasterManagementDashboard";
         }
 
         if(currentFragment!=null){
