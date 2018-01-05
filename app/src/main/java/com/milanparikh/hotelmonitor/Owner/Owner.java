@@ -36,13 +36,9 @@ public class Owner extends AppCompatActivity implements DatePickerDialog.OnDateS
     OwnerDataListAdapter<ParseObject> ownerDataListAdapter;
     ParseQuery<ParseObject> employeeDataQuery;
     String employeeName = "";
-    String createdAt;
     Button dateButton;
-
-    ParseQuery<ParseObject> roomDataQuery;
-
-    Date today;
-    Date tomorrow;
+    Date selectedDate;
+    Date nextDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +64,8 @@ public class Owner extends AppCompatActivity implements DatePickerDialog.OnDateS
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ParseUser employeeUser = (ParseUser)parent.getItemAtPosition(position);
                 employeeName = employeeUser.getUsername();
+                employeeDataQuery.whereEqualTo("username", employeeName);
+                ownerDataListAdapter.loadObjects();
             }
         });
 
@@ -77,9 +75,9 @@ public class Owner extends AppCompatActivity implements DatePickerDialog.OnDateS
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
 
-        today = cal.getTime();
+        selectedDate = cal.getTime();
         cal.add(Calendar.DAY_OF_MONTH, 1);
-        tomorrow = cal.getTime();
+        nextDate = cal.getTime();
 
 
 
@@ -89,34 +87,13 @@ public class Owner extends AppCompatActivity implements DatePickerDialog.OnDateS
             public ParseQuery<ParseObject> create() {
                 employeeDataQuery = ParseQuery.getQuery("RoomData");
                 employeeDataQuery.orderByAscending("createdAt");
-                employeeDataQuery.whereEqualTo("username", "mp2");
-                employeeDataQuery.whereGreaterThanOrEqualTo("createdAt", today);
-                employeeDataQuery.whereLessThan("createdAt", tomorrow);
+                employeeDataQuery.whereEqualTo("username", employeeName);
+                employeeDataQuery.whereGreaterThanOrEqualTo("createdAt", selectedDate);
+                employeeDataQuery.whereLessThan("createdAt", nextDate);
                 return employeeDataQuery;
             }
         });
         employeeTimesListView.setAdapter(ownerDataListAdapter);
-
-        roomDataQuery = ParseQuery.getQuery("RoomData");
-        roomDataQuery.orderByDescending("createdAt");
-        roomDataQuery.setLimit(1000);
-        roomDataQuery.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                ParseObject roomDataObject = (ParseObject)objects.get(0);
-                DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-                createdAt = df.format(roomDataObject.getCreatedAt());
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(roomDataObject.getCreatedAt());
-                cal.add(Calendar.DATE, -30);
-                Date newDate = cal.getTime();
-                String newDateString = df.format(newDate);
-                TextView textView = (TextView)findViewById(R.id.owner_30day_avg_text);
-                textView.setText(newDateString);
-                Button button = (Button)findViewById(R.id.owner_date_selector_button);
-                button.setText(createdAt);
-            }
-        });
 
         dateButton = (Button) findViewById(R.id.owner_date_selector_button);
         dateButton.setOnClickListener(new View.OnClickListener() {
@@ -149,6 +126,22 @@ public class Owner extends AppCompatActivity implements DatePickerDialog.OnDateS
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         dateButton.setText(month+1 + "/" + day +"/" + year);
+        Calendar cal = new GregorianCalendar();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.DAY_OF_MONTH, day);
+        cal.set(Calendar.YEAR, year);
+
+        selectedDate = cal.getTime();
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+        nextDate = cal.getTime();
+
+        employeeDataQuery.whereGreaterThanOrEqualTo("createdAt", selectedDate);
+        employeeDataQuery.whereLessThan("createdAt", nextDate);
+        ownerDataListAdapter.loadObjects();
     }
 
 }
