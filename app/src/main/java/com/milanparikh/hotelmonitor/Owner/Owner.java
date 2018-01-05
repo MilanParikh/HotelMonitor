@@ -6,14 +6,12 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.milanparikh.hotelmonitor.R;
 import com.parse.FindCallback;
@@ -23,8 +21,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -39,6 +35,14 @@ public class Owner extends AppCompatActivity implements DatePickerDialog.OnDateS
     Button dateButton;
     Date selectedDate;
     Date nextDate;
+    Date currentDate;
+    Date past30Date;
+    Date past45Date;
+    Date past90Date;
+    TextView avg30Text;
+    TextView avg90Text;
+    int avg45;
+    int avg90;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,27 @@ public class Owner extends AppCompatActivity implements DatePickerDialog.OnDateS
         Toolbar toolbar = (Toolbar) findViewById(R.id.owner_toolbar);
         setSupportActionBar(toolbar);
 
-        ListView employeeListView = (ListView) findViewById(R.id.owner_employee_listview);
+        avg30Text = (TextView)findViewById(R.id.owner_30day_avg_text);
+        avg90Text = (TextView)findViewById(R.id.owner_90day_avg_text);
+
+        Calendar cal = new GregorianCalendar();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        selectedDate = cal.getTime();
+        currentDate = cal.getTime();
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+        nextDate = cal.getTime();
+        cal.add(Calendar.DAY_OF_MONTH, -31);
+        past30Date = cal.getTime();
+        cal.add(Calendar.DAY_OF_MONTH, -15);
+        past45Date = cal.getTime();
+        cal.add(Calendar.DAY_OF_MONTH, -45);
+        past90Date = cal.getTime();
+
+        final ListView employeeListView = (ListView) findViewById(R.id.owner_employee_listview);
         ownerEmployeeListAdapter = new OwnerEmployeeListAdapter<>(getApplicationContext(), new ParseQueryAdapter.QueryFactory<ParseUser>() {
             @Override
             public ParseQuery<ParseUser> create() {
@@ -66,18 +90,80 @@ public class Owner extends AppCompatActivity implements DatePickerDialog.OnDateS
                 employeeName = employeeUser.getUsername();
                 employeeDataQuery.whereEqualTo("username", employeeName);
                 ownerDataListAdapter.loadObjects();
+                ParseQuery<ParseObject> avg30Query = ParseQuery.getQuery("RoomData");
+                avg30Query.orderByAscending("createdAt");
+                avg30Query.whereEqualTo("username", employeeName);
+                avg30Query.whereGreaterThanOrEqualTo("createdAt", past30Date);
+                avg30Query.whereLessThan("createdAt", currentDate);
+                avg30Query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        int count = objects.size();
+                        int total = 0;
+                        for (int i = 0; i<count; i++) {
+                            total = total + Integer.parseInt(objects.get(i).getString("elapsed_time"));
+                        }
+                        int avg30;
+                        if(count!=0){
+                            avg30 = total/count;
+                        }else{
+                            avg30 = 0;
+                        }
+                        avg30Text.setText("30 Day Average: " + Integer.toString(avg30));
+                    }
+                });
+
+                ParseQuery<ParseObject> avg45Query = ParseQuery.getQuery("RoomData");
+                avg45Query.orderByAscending("createdAt");
+                avg45Query.whereEqualTo("username", employeeName);
+                avg45Query.whereGreaterThanOrEqualTo("createdAt", past45Date);
+                avg45Query.whereLessThan("createdAt", currentDate);
+                avg45Query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        int count = objects.size();
+                        int total = 0;
+                        for (int i = 0; i<count; i++) {
+                            total = total + Integer.parseInt(objects.get(i).getString("elapsed_time"));
+                        }
+                        if(count!=0){
+                            avg45 = total/count;
+                        }else{
+                            avg45 = 0;
+                        }
+                        ParseQuery<ParseObject> avg90Query = ParseQuery.getQuery("RoomData");
+                        avg90Query.orderByAscending("createdAt");
+                        avg90Query.whereEqualTo("username", employeeName);
+                        avg90Query.whereGreaterThanOrEqualTo("createdAt", past90Date);
+                        avg90Query.whereLessThan("createdAt", past45Date);
+                        avg90Query.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> objects, ParseException e) {
+                                int count = objects.size();
+                                int total = 0;
+                                for (int i = 0; i<count; i++) {
+                                    total = total + Integer.parseInt(objects.get(i).getString("elapsed_time"));
+                                }
+                                if(count!=0){
+                                    avg90 = total/count;
+                                }else{
+                                    avg90 = 0;
+                                }
+                                int totalavg = (avg45+avg90)/2;
+                                avg90Text.setText("90 Day Average: " + totalavg);
+                            }
+                        });
+                    }
+                });
+
+
+
             }
         });
 
-        Calendar cal = new GregorianCalendar();
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
 
-        selectedDate = cal.getTime();
-        cal.add(Calendar.DAY_OF_MONTH, 1);
-        nextDate = cal.getTime();
+
+
 
 
 
