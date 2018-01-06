@@ -6,6 +6,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -25,6 +26,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Owner extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     OwnerEmployeeListAdapter<ParseUser> ownerEmployeeListAdapter;
@@ -43,6 +45,7 @@ public class Owner extends AppCompatActivity implements DatePickerDialog.OnDateS
     TextView avg90Text;
     int avg45;
     int avg90;
+    int totalavg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +112,7 @@ public class Owner extends AppCompatActivity implements DatePickerDialog.OnDateS
                         }else{
                             avg30 = 0;
                         }
-                        avg30Text.setText("30 Day Average: " + Integer.toString(avg30));
+                        avg30Text.setText("30 Day Average: " + convertMilliseconds(avg30));
                     }
                 });
 
@@ -149,22 +152,23 @@ public class Owner extends AppCompatActivity implements DatePickerDialog.OnDateS
                                 }else{
                                     avg90 = 0;
                                 }
-                                int totalavg = (avg45+avg90)/2;
-                                avg90Text.setText("90 Day Average: " + totalavg);
+
+                                if((avg45!=0) && (avg90!=0)) {
+                                    totalavg = (avg45+avg90)/2;
+                                }else if(avg45!=0 && avg90==0) {
+                                    totalavg = avg45;
+                                }else if(avg90!=0 && avg45==0){
+                                    totalavg = avg90;
+                                }
+
+                                Log.d("AVG", Integer.toString(totalavg));
+                                avg90Text.setText("90 Day Average: " + convertMilliseconds(totalavg));
                             }
                         });
                     }
                 });
-
-
-
             }
         });
-
-
-
-
-
 
 
         ListView employeeTimesListView =(ListView) findViewById(R.id.owner_times_listview);
@@ -188,8 +192,6 @@ public class Owner extends AppCompatActivity implements DatePickerDialog.OnDateS
                 showDatePickerDialog();
             }
         });
-
-
     }
 
     public static class DatePickerFragment extends DialogFragment {
@@ -228,6 +230,13 @@ public class Owner extends AppCompatActivity implements DatePickerDialog.OnDateS
         employeeDataQuery.whereGreaterThanOrEqualTo("createdAt", selectedDate);
         employeeDataQuery.whereLessThan("createdAt", nextDate);
         ownerDataListAdapter.loadObjects();
+    }
+
+    public String convertMilliseconds(int ms){
+        String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(ms),
+                TimeUnit.MILLISECONDS.toMinutes(ms) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(ms)),
+                TimeUnit.MILLISECONDS.toSeconds(ms) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(ms)));
+        return hms;
     }
 
 }
